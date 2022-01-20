@@ -16,10 +16,13 @@ class CreateKeyResultUsersTable extends Migration
         Schema::create('key_result_users', function (Blueprint $table) {
             $table->id();
             $table->string('username');
+            $table->integer('tahun')->nullable();
+            //$table->integer('id_user');
             $table->string('kode_key');
             $table->string('target_1')->nullable();
             $table->integer('bobot');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -20,6 +20,7 @@ class CreateDivisisTable extends Migration
             $table->string('logo');
             $table->string('deskripsi');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

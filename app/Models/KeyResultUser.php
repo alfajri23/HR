@@ -18,12 +18,18 @@ class KeyResultUser extends Model
         return $this->belongsTo(User::class, 'username', 'username');
     }
 
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'id_user', 'id');
+    // }
+
+
     public function track(){
     	return $this->hasMany(OkrTracking::class, 'id_key_result_user', 'id');
     }
 
     public function keyResult()
     {
-        return $this->hasMany(Keyresult::class, 'kode_key', 'kode');
+        return $this->hasMany(Keyresult::class, 'kode', 'kode_key');
     }
 }

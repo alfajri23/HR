@@ -7,10 +7,14 @@
 @section('content')
 <div class="widget-bg-transparent">
     
-    <a href="#" data-toggle="modal" data-target="#modalShow"
-                                class="mr-3 btn btn-outline-info">Tambah</a>
-    <div class="widget-body">
-        <h5 class="box-title">Cards with Images</h5>
+    
+    <div class="widget-body bg-white py-3">
+        <div class="container d-flex justify-content-between">
+            <h5 class="">Daftar divisi</h5>
+            <a href="#" data-toggle="modal" data-target="#modalShow"
+                                class="ml-4 my-3 btn btn-outline-info">Tambah</a>
+        </div>
+        
         <div class="container d-flex flex-wrap">
             @foreach ($data as $dt)
             <div class="col-md-4 mr-b-30">
@@ -22,9 +26,9 @@
                         <p class="card-text">{{$dt['deskripsi']}}</p>
                     </div>
                     <div class="card-action">
-                        <a href="javascript:void(0)" onclick="modalShow({{$dt['id']}})" class="card-link text-uppercase fw-500"><i class="fas fa-info-circle"></i>Edit</a>
-                        <a href="{{route('divisiDelete',$dt['id'])}}" class="card-link text-uppercase fw-500"><i class="fas fa-trash"></i>Delete</a>
-                        <a href="{{route('divisiDetail',$dt['id'])}}" class="card-link text-uppercase fw-500"><i class="fas fa-trash"></i>Detail</a>
+                        <a href="javascript:void(0)" onclick="modalShow({{$dt['id']}})" class="card-link text-uppercase fw-500"><i class="fas fa-info-circle mr-1"></i>Edit</a>
+                        <a href="{{route('divisiDelete',$dt['id'])}}" class="card-link text-uppercase fw-500"><i class="fas fa-trash mr-1"></i>Delete</a>
+                        <a href="{{route('divisiDetail',$dt['id'])}}" class="card-link text-uppercase fw-500"><i class="fas fa-pencil-alt mr-1"></i>Detail</a>
                     </div>
                 </div>
             </div>  

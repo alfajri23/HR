@@ -11,9 +11,11 @@ use App\Models\OkrTracking;
 use App\Models\KeyResultUser;
 use App\Helpers\Track;
 use PhpParser\Node\Expr\AssignOp\Div;
+use Carbon\Carbon;
 
 class TrackController extends Controller
 {
+    //untuk admin
     public function user($id,$m)
     {
         $user = User::find($id);
@@ -21,13 +23,15 @@ class TrackController extends Controller
         ->where('bulan',$m)
         ->get();
 
+        $bulan = Track::get_bulan($m);
+
         $key = $user->divisi->id;
         
         $key = Objective::where('id_divisi',$key)->pluck('kode');
         
         $key = Keyresult::whereIn('kode_obj',$key)->get();
         
-        return view('content.admin.track.track-user',compact('user','track','key'));
+        return view('content.admin.track.track-user',compact('user','track','key','bulan'));
     }
 
     public function divisi($id)
@@ -35,9 +39,26 @@ class TrackController extends Controller
         $divisi = Divisi::find($id);
         $data = Track::track();
         $data = $data->where('id_divisi',$id);
-    //dd($data);
         
         return view('content.admin.track.track-divisi',compact('data','divisi'));
+    }
+
+    public function list(){
+        $bulan = array('1'=>'Januari', '2'=>'Februari', '3'=>'Maret', '4'=>'April', '5'=>'Mei', '6'=>'Juni', '7'=>'Juli', '8'=>'Agustus', '9'=>'September', '10'=>'Oktober', '11'=>'November', '12'=>'Desember');
+        return view('content.user.okr_list',compact('bulan'));
+
+    }
+
+    //unutk user ( readonly )
+    public function user_track($m){
+        $data = User::find(session('id_user'));
+        $track = OkrTracking::where('id_user',session('id_user'))
+        ->where('bulan',$m)
+        ->get();
+        $bulan = Track::get_bulan($m);
+
+
+        return view('content.user.okr_detail',compact('data','bulan','track'));
     }
 
     
@@ -74,7 +95,6 @@ class TrackController extends Controller
             ]);
 
         }else{
-            //dd($result);
             $result = $result[0];
             $target = $result->target_1;
             $target = explode(",",$target);
@@ -90,21 +110,58 @@ class TrackController extends Controller
     }
 
     public function update(Request $request){
+        //dd($request);
         $track = OkrTracking::find($request->id);
-        //dd($track);
+    
         $data_week = $track->week_1;
-        //dd($data_week);
         $data_week = explode(',',$data_week);
-        
-        $week_no = $request->week_no;
+        $progres = 0;
+        $data_progres = 0;
+        $pekan = 0;
+        for($i = 0; $i < count($request->week_no); $i++){
+            $data_week[$request->week_no[$i]] = $request->week_val[$i];
+        }
 
-        $data_week[$week_no] = $request->week_val;
-        $data_week = implode(",",$data_week);
+        for($y=0 ; $y<count($data_week); $y++){
+            if($data_week[$y] == null){
+                $data_progres = $data_week[$y-1];
+                //$pekan = $data_val[$y-1];
+                break;
+            }else{
+                $data_progres = $data_week[$y];
+            }
+        }
+
         //dd($data_week);
+
+        $data_week = implode(",",$data_week);
+
+        $progres = $data_progres/$track->target * $track->bobot;
 
         $track->week_1 = $data_week;
-        //dd($data_week);
-        $track->save();
+        $track->progres = $progres;
+
+        $track->save();  
+        
+        //key result user
+        $usr = $track->username;
+        $key = $track->kode_key;
+
+        $result = KeyResultUser::where([
+            'username' => $usr,
+            'kode_key' => $key,
+        ])->whereYear('created_at', date('Y'))
+        ->get();
+
+        $result = $result[0];
+
+        $target = $result->target_1;
+        $target = explode(",",$target);
+        $target[date('m')-1] = round($progres);
+        $new_target = implode(",",$target);
+        $result->target_1 = $new_target;
+        $result->save();
+        //}
 
         return redirect()->back();
     }
@@ -126,4 +183,6 @@ class TrackController extends Controller
         return redirect()->back();
 
     }
+
+    
 }

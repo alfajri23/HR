@@ -20,6 +20,7 @@ class CreateObjectivesTable extends Migration
             $table->integer('id_divisi');
             $table->string('deskripsi');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

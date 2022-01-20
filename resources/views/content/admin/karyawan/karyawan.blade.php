@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="container p-5">
+<div class="container p-5 bg-white">
     @if (Session::has('message'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -23,6 +23,7 @@
             <tr>
               <th scope="col">No</th>
               <th scope="col">Nama</th>
+              <th scope="col">Username</th>
               <th scope="col">Divisi</th>
               <th scope="col">Telepon</th>
               <th scope="col">Aksi</th>
@@ -33,8 +34,8 @@
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{$dt->nama}}</td>
+                <td>{{$dt->username}}</td>
                 <td>{{$dt->divisi->nama}}</td>
-                <td>{{$dt->telepon}}</td>
                 <td>{{$dt->telepon}}</td>
                 <td>
                     <a href="{{route('karyawanDetail',$dt->id)}}" class="btn btn-primary btn-sm">Detail</a>

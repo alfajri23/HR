@@ -37,8 +37,9 @@
             <!-- Logo Area -->
             <div class="navbar-header">
                 <a href="index.html" class="navbar-brand">
-                    <img class="logo-expand" alt="" src="assets/demo/logo-expand.png">
-                    <img class="logo-collapse" alt="" src="assets/demo/logo-collapse.png">
+                    <h4 class="logo-expand mx-auto">HR Program</h4>
+                    <h4 class="logo-collapse mx-auto">HR</h4>
+
                     <!-- <p>OSCAR</p> -->
                 </a>
             </div>
@@ -50,31 +51,19 @@
                 </li>
             </ul>
 
-            
-            <!-- Search Form -->
-            <form class="navbar-search d-none d-sm-block" role="search">search</i> 
-                <input type="text" class="search-query" placeholder="Search anything..."> <a href="javascript:void(0);" class="remove-focus"><i class="material-icons">clear</i></a>
-            </form>
-
             <!-- /.navbar-search -->
             <div class="spacer"></div>
             <!-- Button: Create New -->
-            <div class="btn-list dropdown d-none d-md-flex"><a href="javascript:void(0);" class="btn btn-primary dropdown-toggle ripple" data-toggle="dropdown">playlist_add</i> Create New</a>
-                <div class="dropdown-menu dropdown-left animated flipInY"><span class="dropdown-header">Create new ...</span>  
-                    <a class="dropdown-item" href="#">Projects</a>  
-                    <a class="dropdown-item" href="#">User Profile</a>  
-                    <a class="dropdown-item" href="#"><span class="badge badge-pill badge-primary float-right">7</span> To-do Item</a> 
-                    <a class="dropdown-item" href="#"><span class="badge badge-pill badge-color-scheme float-right">23</span> Mail</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('logout') }}"
+            <div class="btn-list dropdown d-none d-md-flex"><a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
                     </a>
+               
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-                </div>
+                
             </div>
             
         </nav>
@@ -85,26 +74,8 @@
             @yield('sidebar')
 
             <main class="main-wrapper clearfix">
-                <!-- Page Title Area -->
-                <div class="row page-title clearfix">
-                    <div class="page-title-left">
-                        <h5 class="mr-0 mr-r-5">Basic Tables</h5>
-                        <p class="mr-0 text-muted d-none d-md-inline-block">statistics, charts, events and reports</p>
-                    </div>
-                    <!-- /.page-title-left -->
-                    <div class="page-title-right d-inline-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active">Basic Tables</li>
-                        </ol>
-                        <div class="d-none d-sm-inline-flex justify-center align-items-center"><a href="javascript: void(0);" class="btn btn-outline-primary mr-l-20 btn-sm btn-rounded hidden-xs hidden-sm ripple" target="_blank">Buy Now</a>
-                        </div>
-                    </div>
-                    <!-- /.page-title-right -->
-                </div>
                 
-                <div class="widget-list">
+                <div class="widget-list mt-0 pt-4">
                     <div class="container-fluid">
                         @yield('content')
                     </div>

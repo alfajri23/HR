@@ -16,5 +16,9 @@ class Divisi extends Model
     public function users(){
     	return $this->hasMany(User::class, 'id_divisi', 'id');
     }
+
+    public function manager(){
+    	return $this->hasOne(User::class, 'id', 'id_manager');
+    }
     
 }

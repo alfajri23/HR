@@ -16,13 +16,12 @@ class OkrTrackingSeeder extends Seeder
     {
         DB::table('okr_trackings')->insert([
             [
-                'username' => 'Admin1',
+                'id_user' => 1,
                 'id_user' => '1',
                 'kode_key' => 'MY-1.1',
-                'id_key_result_user' => 1,
                 'target' => 100,
                 'bobot' => 100,
-                'week_1' => "0,0,0,0,0",
+                'week_1' => "0",
                 'progres' => 0,
                 'bulan' => 1
             ]

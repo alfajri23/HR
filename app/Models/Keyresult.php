@@ -19,7 +19,7 @@ class Keyresult extends Model
 
     public function keyResultUser()
     {
-        return $this->hasMany(KeyResultUser::class, 'kode_key', 'kode');
+        return $this->belongsTo(KeyResultUser::class, 'kode', 'kode_key');
     }
 
     public function track()

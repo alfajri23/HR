@@ -9,50 +9,97 @@
 <style>
     .widget-bg{
         border-radius: 10px;
+        border: 0.5px solid grey !important;
     }
 </style>
 <div class="widget-bg-transparent">
-    
-    <h5>{{$data->nama}}</h5>
-    <p>{{$data->deskripsi}}</p>
-    <a href="#" data-toggle="modal" data-target="#modalObj"
-                                class="ml-4 mb-3 btn btn-success">Tambah OKR</a>
-    <div class="container-fluid d-flex flex-wrap" id="main-obj">
 
-        @foreach ($obj as $bj)
-        <div class="col-lg-6 col-md-12 widget-holder" id="obj-{{$bj->kode}}">
-            <div class="widget-bg">
-                <div class="widget-body">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="box-title">{{$bj->kode}} {{$bj->nama}}</h5>
-                        <span>
-                            
-                            <a href="javascript:void(0)" onclick="keyModalCreate({{$bj->id}})" class="btn btn-info btn-sm"><i class="fas fa-plus"></i></i></a>
-                            <a href="javascript:void(0)" onclick="objModalEdit({{$bj->id}})" class="btn btn-success btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="{{route('objDelete',$bj->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
-                        </span>
-                    </div>
-                    
-                    <div class="todo-widget">
-                        <ol>
-                            @foreach ($bj->keyResult as $key )
-                            <li style="list-style-type:none;" class="my-1" data-checked="true">
-                                <span class="d-flex justify-content-betweend-flex justify-content-between align-items-center">
-                                    <p class="mb-0">{{$key->kode}} {{$key->nama}}</p> 
-                                    <span>
-                                        <a href="javascript:void(0)" onclick="keyModalEdit({{$key->id}})"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="javascript:void(0)" onclick="deleteKey({{$key->id}})"><i class="fas fa-trash-alt"></i></a>
-                                    </span>
-                                </span>
-                            </li>
+    
+    
+
+    <div class="container bg-white p-3">
+        <h4 class="text-uppercase">{{$data->nama}}</h4>
+                        <p>{{$data->deskripsi}}</p>
+        <div class="tabs mr-t-10">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a href="#home-tab-bordered-1" class="nav-link active" data-toggle="tab" aria-expanded="true">OKR</a>
+                </li>
+                <li class="nav-item"><a href="#okr-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Anggota</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="home-tab-bordered-1">
+                    <div class="container">
+                        <a href="#" data-toggle="modal" data-target="#modalObj"
+                                                    class="ml-4 mb-3 btn btn-success">Tambah OKR</a>
+                        <div class="container-fluid d-flex flex-wrap" id="main-obj">
+                            @foreach ($obj as $bj)
+                            <div class="col-lg-6 col-md-12 widget-holder" id="obj-{{$bj->kode}}">
+                                <div class="widget-bg">
+                                    <div class="widget-body">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="box-title">{{$bj->kode}} {{$bj->nama}}</h5>
+                                            <span>
+                                                
+                                                <a href="javascript:void(0)" onclick="keyModalCreate({{$bj->id}})" class="btn btn-info btn-sm"><i class="fas fa-plus"></i></i></a>
+                                                <a href="javascript:void(0)" onclick="objModalEdit({{$bj->id}})" class="btn btn-success btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                                                <a href="{{route('objDelete',$bj->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="todo-widget">
+                                            <ol>
+                                                @foreach ($bj->keyResult as $key )
+                                                <li style="list-style-type:none;" class="my-1" data-checked="true">
+                                                    <span class="d-flex justify-content-betweend-flex justify-content-between align-items-center">
+                                                        <p class="mb-0">{{$key->kode}} {{$key->nama}}</p> 
+                                                        <span>
+                                                            <a href="javascript:void(0)" onclick="keyModalEdit({{$key->id}})"><i class="fas fa-pencil-alt"></i></a>
+                                                            <a href="javascript:void(0)" onclick="deleteKey({{$key->id}})"><i class="fas fa-trash-alt"></i></a>
+                                                        </span>
+                                                    </span>
+                                                </li>
+                                                @endforeach
+                                                
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             @endforeach
-                            
-                        </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="okr-tab-bordered-1">
+                    <div class="widget-body clearfix p-3">
+                        <h5 class="box-title">Daftar anggota</h5>
+                        <ul class="list-unstyled widget-user-list mb-0">
+                            @foreach ($member as $dt)
+                                <li class="media"> 
+                                    <div class="d-flex mr-3">
+                                        <a href="#" class="user--online thumb-xs">
+                                            <img src="{{asset($dt->foto)}}" class="rounded-circle" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            @hasrole('admin')
+                                            <a href="{{route('karyawanDetail',$dt->id)}}">{{$dt->nama}}</a> 
+                                            @endhasrole
+                                            @hasrole('user')
+                                            <a>{{$dt->nama}}</a> 
+                                            @endhasrole
+                                            <small>{{$dt->username}}</small>
+                                        </h5>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <!-- /.widget-user-list -->
                     </div>
                 </div>
             </div>
         </div>
-        @endforeach
     </div>
 
     <!--Modal Obj-->

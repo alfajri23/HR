@@ -17,9 +17,8 @@ class CreateOkrTrackingsTable extends Migration
             $table->id();
             $table->string('username');
             $table->integer('bulan');
-            $table->integer('id_user');
+            //$table->integer('id_user');
             $table->string('kode_key');
-            $table->integer('id_key_result_user');
             $table->integer('target');
             $table->integer('bobot');
             $table->integer('start')->default(0);
@@ -29,6 +28,7 @@ class CreateOkrTrackingsTable extends Migration
             $table->string('status')->nullable();
             $table->string('evaluasi')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -26,10 +26,20 @@ class User extends Authenticatable
         return $this->hasMany(KeyResultUser::class, 'username', 'username');
     }
 
+    // public function keyResult()
+    // {
+    //     return $this->hasMany(KeyResultUser::class, 'id_user', 'id');
+    // }
+
     public function track()
     {
         return $this->hasMany(OkrTracking::class, 'username', 'username');
     }
+
+    // public function track()
+    // {
+    //     return $this->hasMany(OkrTracking::class, 'id_user', 'id');
+    // }
 
 
 

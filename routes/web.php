@@ -29,12 +29,13 @@ Route::middleware(['auth'])->group(function () {
     // });
     //Route::prefix('admin')->group(function(){
 
-        Route::middleware('role:admin')->prefix('dashboard/adm')->group(function(){
-            Route::get('/',[Controllers\Admin\DashboardController::class,'index'])->name('dashboardAdmin');
-        });
+        // Route::middleware('role:admin')->prefix('dashboard/adm')->group(function(){
+        //     Route::get('/',[Controllers\Admin\DashboardController::class,'index'])->name('dashboardAdmin');
+        // });
 
         Route::prefix('karyawan')->group(function(){
             Route::get('/',[Controllers\KaryawanController::class,'index'])->name('karyawanAdmin');
+            Route::get('profile/me',[Controllers\KaryawanController::class,'profile'])->name('karyawanProfile');
             Route::get('/detail/{id}',[Controllers\KaryawanController::class,'show'])->name('karyawanDetail');
             Route::post('/add',[Controllers\KaryawanController::class,'store'])->name('karyawanStore');
             Route::post('/update',[Controllers\KaryawanController::class,'update'])->name('karyawanUpdate');
@@ -62,26 +63,34 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('track')->group(function(){ 
-            Route::get('detail/{id}/{m}',[Controllers\TrackController::class,'user'])->name('trackUser');
+            Route::get('admin/{id}/{m}',[Controllers\TrackController::class,'user'])->name('trackUser');
             Route::get('divisi/{id}',[Controllers\TrackController::class,'divisi'])->name('trackDivisi');
+            
+            Route::get('user/{m}',[Controllers\TrackController::class,'user_track'])->name('trackKaryawan');
+
+            Route::get('list',[Controllers\TrackController::class,'list'])->name('trackList');
             Route::post('/add',[Controllers\TrackController::class,'create'])->name('trackStore');
             Route::post('update',[Controllers\TrackController::class,'update'])->name('trackUpdate');
             Route::get('/get',[Controllers\TrackController::class,'show'])->name('trackShow');
             Route::get('delete/{id}',[Controllers\TrackController::class,'destroy'])->name('trackDelete');   
         });
 
+        Route::prefix('result')->group(function(){ 
+            Route::get('key/{id}',[Controllers\KeyResultUserController::class,'show'])->name('resultDetail');
+            Route::get('list',[Controllers\KeyResultUserController::class,'list'])->name('resultList');
+        });
+
+        Route::prefix('rank')->group(function(){ 
+            Route::get('list',[Controllers\DashboardController::class,'list_histori'])->name('rankList');
+            Route::get('detail/{id}',[Controllers\DashboardController::class,'histori_rank'])->name('rankDetail');
+        });
+
     //});
 
-    Route::get('dashboard',[Controllers\User\DashboardController::class,'index'])->name('dashboardUser');
-    Route::get('saya',[Controllers\KaryawanController::class,'show_me'])->name('detailMe');
+    Route::get('/dashboard',[Controllers\DashboardController::class,'index'])->name('dashboard');
+    Route::get('saya',[Controllers\KaryawanController::class,'input_okr'])->name('detailMe');
     
 
 });
 
-//Route::livewire('/', 'post.index')->name('post.index');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/oscar', function(){
-    return view('layouts.apps');
-})->name('home');

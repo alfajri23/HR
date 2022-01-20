@@ -74,9 +74,11 @@ class DivisiController extends Controller
         $data = Divisi::find($id);
         $obj = Objective::where('id_divisi',$id)->get();
         $divisi = Divisi::all();
-        //dd($obj);
+        //dd($id);
+        $member = User::where('id_divisi',$id)->get();
+        //dd($member);
         //dd($data);
-        return view('content.admin.divisi.divisi-detail',compact('data','obj','divisi'));
+        return view('content.admin.divisi.divisi-detail',compact('data','obj','divisi','member'));
 
     }
 

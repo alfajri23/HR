@@ -11,10 +11,14 @@
 
 @section('content')
     <div class="row flex-wrap">
+        <div class="col-12 mb-2">
+            <h3>{{$bulan}} {{date('Y')}}</h3>
+        </div>
+        
         <div class="col-md-12 widget-holder widget-full-height">
             <div class="widget-bg">
                 <div class="widget-body clearfix">
-                    <h5 class="box-title">Ranking Karyawan Pekan Ini</h5>
+                    <h5 class="box-title">Ranking Karyawan</h5>
                     <ul class="list-unstyled widget-user-list mb-0">
                         @foreach ($data_pekan as $dt)
                         
@@ -35,33 +39,7 @@
                                         @endhasrole
                                         <small>{{$dt['user']->divisi->nama}}</small>
                                     </h5>
-                                    
-                                    <div class="" style="width:80%">
-                                        @switch($dt['user']->divisi->id)
-                                            @case(1)
-                                                <i class="fas fa-male fa-lg mr-2"></i>
-                                                
-                                                @break
-
-                                            @case(2)
-                                                
-                                                @break
-                                            @case(3)
-                                                <i class="fas fa-graduation-cap fa-lg mr-2"></i>
-                                                @break
-                                            
-                                            @case(4)
-                                                <i class="fab fa-monero fa-lg mr-2"></i>
-                                                @break
-
-                                            @case(5)
-                                                <i class="fab fa-dev fa-lg mr-2"></i>
-                                                @break
-
-                                            @default
-                                                Default case...
-                                        @endswitch
-                                        
+                                    <div class="clearfix" style="width: 80%">
                                         <div class="progress progress-md">
                                             <div class="progress-bar bg-{{ ($dt['progres'] >= 70) ? "success" : (($dt['progres'] < 70 && $dt['progres'] >= 40)  ? "warning" : "danger") }}" style="width: {{$dt['progres']}}%" role="progressbar">{{$dt['progres']}}%</div>
                                         </div>
@@ -82,7 +60,7 @@
         <div class="col-md-12 widget-holder widget-full-height">
             <div class="widget-bg">
                 <div class="widget-body clearfix">
-                    <h5 class="box-title">Ranking Divisi Pekan Ini</h5>
+                    <h5 class="box-title">Ranking Divisi</h5>
                     <ul class="list-unstyled widget-user-list mb-0">
                         @foreach ($divisi_data as $dt)
                         <li class="media">

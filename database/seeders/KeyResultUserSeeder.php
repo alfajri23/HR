@@ -16,7 +16,8 @@ class KeyResultUserSeeder extends Seeder
     {
         DB::table('key_result_users')->insert([
             [
-                'username' => 'Admin1',
+                'id_user' => 1,
+                'tahun' => 2021,
                 'kode_key' => 'MY-1.1',
                 'target_1' => "0,0,0,0,0,0,0,0,0,0,0",
                 'bobot' => 100,

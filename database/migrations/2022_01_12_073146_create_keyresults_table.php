@@ -20,6 +20,7 @@ class CreateKeyresultsTable extends Migration
             $table->string('kode_obj');
             $table->string('deskripsi');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

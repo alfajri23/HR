@@ -18209,7 +18209,9 @@ ul.wysihtml5-toolbar {
 .widget-bg {
   padding: 1.42857em;
   background: #fff;
-  border: 1px solid transparent; }
+  border: 1px solid transparent;
+  border-radius: 12px;
+ }
   .widget-heading + .widget-bg {
     border-top: 0; }
 
@@ -18613,7 +18615,7 @@ body .close-jq-toast-single {
   width: 100%;
   font-size: 1.5rem;
   font-weight: 700;
-  background: #51d2b7;
+  background: #fff;
   color: #fff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -19219,13 +19221,16 @@ SIDEBAR
       border-top: 1px solid #ddd;
       margin: 0.76923em 0; }
     .side-menu li a {
-      color: #888;
+      color: #207481 !important;
+    font-size: 16px !important;
       position: relative;
       display: block;
       padding-top: 0;
       padding-bottom: 0; }
       .side-menu li a:hover {
-        color: #51d2b7; }
+        color: #afb2ba; 
+        background-color: #afb2ba !important;
+      }
   .side-menu > li > a {
     padding-left: 1em;
     font-size: 1.15385em;
@@ -19396,11 +19401,12 @@ SIDEBAR
 /* Sidebar Dark
 ========================*/
 .sidebar-dark .content-wrapper {
-  background: #545d73; }
+  background: #fff; }
 
 .sidebar-dark .site-sidebar {
-  background: #545d73;
-  border-color: rgba(255, 255, 255, 0.2); }
+  background: #fff;
+  border-color: rgba(255, 255, 255, 0.2); 
+  box-shadow: 4px -2px 27px 0px rgb(211 211 211 / 75%) !important;}
   .sidebar-dark .site-sidebar .ps-scrollbar-y-rail,
   .sidebar-dark .site-sidebar .ps-scrollbar-x {
     background: transparent !important; }
@@ -19410,7 +19416,7 @@ SIDEBAR
     width: 0.3125rem !important; }
 
 .sidebar-dark .side-menu li:hover, .sidebar-dark .side-menu li.active {
-  background: #4a5368; }
+  background: #fff; }
 
 .sidebar-dark .side-menu li.active > a {
   color: #fff; }
@@ -19590,7 +19596,7 @@ SIDEBAR
       background: #51d2b7;
       padding: 0.71429em 1.07143em;
       color: #fff;
-      border-bottom: 1px solid #eee;
+      /* border-bottom: 1px solid #eee; */
       font-family: "Nunito Sans", sans-serif; }
     .chat-panel .card .card-block {
       padding: 1.07143em; }
