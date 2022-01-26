@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('track')->group(function(){ 
             Route::get('admin/{id}/{m}',[Controllers\TrackController::class,'user'])->name('trackUser');
             Route::get('divisi/{id}',[Controllers\TrackController::class,'divisi'])->name('trackDivisi');
+            Route::get('divisi/{id}/{m}',[Controllers\TrackController::class,'divisiMount'])->name('trackDivisiMount');
             
             Route::get('user/{m}',[Controllers\TrackController::class,'user_track'])->name('trackKaryawan');
 
@@ -75,6 +76,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('delete/{id}',[Controllers\TrackController::class,'destroy'])->name('trackDelete');   
         });
 
+        Route::prefix('absen')->group(function(){ 
+            Route::post('store',[Controllers\AbsensiController::class,'store'])->name('absenStore');
+        });
+
         Route::prefix('result')->group(function(){ 
             Route::get('key/{id}',[Controllers\KeyResultUserController::class,'show'])->name('resultDetail');
             Route::get('list',[Controllers\KeyResultUserController::class,'list'])->name('resultList');
@@ -82,12 +87,33 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('rank')->group(function(){ 
             Route::get('list',[Controllers\DashboardController::class,'list_histori'])->name('rankList');
-            Route::get('detail/{id}',[Controllers\DashboardController::class,'histori_rank'])->name('rankDetail');
+            Route::get('/{id}',[Controllers\DashboardController::class,'histori_rank'])->name('rankDetail');
+            Route::get('detail/{m}',[Controllers\DashboardController::class,'detail'])->name('dashboardDetail');
         });
 
-    //});
+        //notifikasi
+        Route::get('list',[Controllers\NotifikasiController::class,'baca'])->name('notiBaca');
 
-    Route::get('/dashboard',[Controllers\DashboardController::class,'index'])->name('dashboard');
+
+        //ibadah master
+        Route::prefix('ibadah')->group(function(){
+            Route::get('input',[Controllers\ListIbadahUserController::class,'index'])->name('ibadahInput');
+            Route::post('store',[Controllers\ListIbadahUserController::class,'store'])->name('ibadahInputStore');
+
+
+            Route::get('listMaster',[Controllers\ListIbadahController::class,'index'])->name('ibadahList');
+            Route::get('showMaster',[Controllers\ListIbadahController::class,'show'])->name('ibadahShow');
+            Route::post('storeMaster',[Controllers\ListIbadahController::class,'create'])->name('ibadahStore');
+            Route::get('deleteMaster',[Controllers\ListIbadahController::class,'destroy'])->name('ibadahDelete');
+        });
+    //});
+        
+        Route::prefix('dashboard')->group(function(){
+            Route::get('/',[Controllers\DashboardController::class,'index'])->name('dashboard');
+           
+        });
+
+    
     Route::get('saya',[Controllers\KaryawanController::class,'input_okr'])->name('detailMe');
     
 

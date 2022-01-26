@@ -17,7 +17,7 @@ class CreateOkrTrackingsTable extends Migration
             $table->id();
             $table->string('username');
             $table->integer('bulan');
-            //$table->integer('id_user');
+            $table->integer('id_user')->nullable();
             $table->string('kode_key');
             $table->integer('target');
             $table->integer('bobot');

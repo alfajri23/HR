@@ -4,7 +4,7 @@
     @hasrole('admin')
     @include('includes.sidebar.admin')
     @endhasrole
-    @hasrole('user')
+    @hasrole('user|user_manager')
     @include('includes.sidebar.user')
     @endhasrole
 @endsection
@@ -36,44 +36,6 @@
         }
     @endphp
     <h4>{{$user->nama}}<br><small>{{$bulan}}</small></h4>
-    {{-- <div class="row">
-        <div class="col-md-3 col-sm-6 widget-holder widget-full-height">
-            <div class="widget-bg bg-facebook text-inverse">
-                <div class="widget-body">
-                    <div class="widget-counter">
-                        <h6>Key Result</h6>
-                        <h3 class="h3"><span class="counter">{{count($track)}}</span></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 widget-holder widget-full-height">
-            <div class="widget-bg bg-facebook text-inverse">
-                <div class="widget-body">
-                    <div class="widget-counter">
-                        <h6>Selesai</h6>
-                        <h3 class="h3"><span class="counter">{{$done}}</span></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 widget-holder widget-full-height">
-            <div class="widget-bg bg-facebook text-inverse">
-                <div class="widget-body">
-                    <div class="widget-counter">
-                        <h6>Progress</h6>
-                        <h3 class="h3"><span class="counter">{{$progres_tot}}%</span></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    {{-- <span class="row justify-content-between px-3">
-        @hasrole('admin')
-        <a href="#" data-toggle="modal" data-target="#modalTrack"
-                                class="ml-4 mb-3 btn btn-success">Tambah Objective</a>
-        @endhasrole
-    </span> --}}
     
     <div class="container-fluid bg-white p-3">
         @hasrole('admin')
@@ -95,7 +57,6 @@
                     <th>Pekan 4</th>
                     <th>Pekan 5</th>
                     <th>Progres</th>
-                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -136,7 +97,6 @@
                             </div>
                         </div>
                         </td>
-                    <td>{{$tr->status}}</td>
                     <td>
                         <a href="javascript:void(0)" onclick="trackModalEdit({{$tr->id}})" class="btn btn-success btn-sm"><i class="fas fa-pencil-alt"></i></a>
                         <a href="{{route('trackDelete',$tr->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
@@ -173,6 +133,14 @@
                 <div class="modal-body">
                     <form action="{{route('trackStore')}}" method="POST" id="formObj">
                         @csrf
+                        <div class="mb-3" id="inputKey">
+                            <label for="exampleInputPassword1" class="form-label">Key result</label>
+                            <select class="form-control" name="key" id="key">
+                                @foreach ($key as $ky )
+                                    <option value="{{$ky['kode']}}">{{$ky['kode']}} {{$ky['nama']}}</option>
+                                @endforeach
+                            </select>
+                        </div>      
                         <div class="mb-3">
                             <input type="hidden" class="form-control" name="id" id="id" aria-describedby="emailHelp">
                             <input type="hidden" class="form-control" value="{{date('m')}}" name="bulan" id="bulan">
@@ -190,15 +158,8 @@
                             <label for="exampleInputPassword1" class="form-label">Start</label>
                             <input type="number" class="form-control" name="start" id="start">
                         </div>
-                        <div class="mb-3" id="inputKey">
-                            <label for="exampleInputPassword1" class="form-label">Key result</label>
-                            <select class="form-control" name="key" id="key">
-                                @foreach ($key as $ky )
-                                    <option value="{{$ky['kode']}}">{{$ky['kode']}} {{$ky['nama']}}</option>
-                                @endforeach
-                            </select>
-                        </div>      
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        
+                        <button type="submit" id="btnOkr" class="btn btn-primary">Tambah</button>
                     </form>
                 </div>
             </div>
@@ -242,6 +203,7 @@
                 $('#bobot').val(data.data.bobot);
                 $('#start').val(data.data.start);
                 $('#key').val(data.data.kode_key);
+                $('#btnOkr').html("Edit");
                 // $('#inputKey').hide();
             }
         });

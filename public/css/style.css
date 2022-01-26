@@ -17311,6 +17311,7 @@ Contacts
 .contact-list-right td label {
   position: absolute;
   top: 50%;
+  left: 40px;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%); }
 

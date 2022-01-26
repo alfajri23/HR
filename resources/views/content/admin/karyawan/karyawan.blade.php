@@ -14,37 +14,49 @@
             <p class="mb-1">{{ Session::get('message') }}</p>
       </div>
     @endif
-    <a href="#" data-toggle="modal" data-target="#modalShow"
-                                class="mr-3 btn btn-outline-info">Tambah</a><br>
-    <h5>Data karyawan</h5>
+    <span class="d-flex justify-content-between align-items-center">
+        <h5>Data karyawan</h5>
+        <a href="#" data-toggle="modal" data-target="#modalShow"
+        class="mr-3 btn btn-info btn-sm">Tambah</a>
+        
+    </span>
     
-    <table class="table table-striped" style="width: width: 100%">
-        <thead>
-            <tr>
-              <th scope="col">No</th>
-              <th scope="col">Nama</th>
-              <th scope="col">Username</th>
-              <th scope="col">Divisi</th>
-              <th scope="col">Telepon</th>
-              <th scope="col">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
+
+    <table class="mail-list contact-list-right table-responsive">
+        <tbody>
             @foreach ($user as $dt)
             <tr>
-                <th scope="row">{{ $loop->iteration }}</th>
-                <td>{{$dt->nama}}</td>
-                <td>{{$dt->username}}</td>
-                <td>{{$dt->divisi->nama}}</td>
-                <td>{{$dt->telepon}}</td>
-                <td>
-                    <a href="{{route('karyawanDetail',$dt->id)}}" class="btn btn-primary btn-sm">Detail</a>
-                    <a href="{{route('karyawanDelete',$dt->id)}}" class="btn btn-secondary btn-sm">Delete</a>
+                <td class="mail-list-user">
+                    <h6>{{ $loop->iteration }}</h6>
+                    <label>
+                        <input type="checkbox">
+                        <figure>
+                            <img width="45" height="45" class="rounded-circle" src="{{asset($dt->foto)}}" alt="">
+                        </figure>
+                    </label>
                 </td>
-            </tr> 
+                <td class="mail-list-name"><a href="app-inbox-single.html">{{$dt->nama}}</a>  
+                    <span class="text-muted">{{$dt->jabatan}}, 
+                        <a href="#">{{$dt->divisi->nama}}</a>
+                    </span>
+                </td>
+                <td class="mail-list-message"><span class="contact-list-phone">{{$dt->telepon}}</span>
+                    <div class="text-muted">{{$dt->email}}</div>
+                </td>
+                <td class="mail-list-time">
+                    <a href="{{route('karyawanDetail',$dt->id)}}" class="btn btn-success btn-sm">
+                        <i style="color: white" class="fas fa-info-circle"></i>
+                    </a>
+                    <a href="{{route('karyawanDelete',$dt->id)}}" class="btn btn-danger btn-sm">
+                        <i style="color: white" class="fas fa-trash"></i>
+                    </a>
+                </td>
+                </td>
+            </tr>
             @endforeach
-          </tbody>
+        </tbody>
     </table>
+    
 </div>
 
 <!-- /.modal create -->
@@ -53,7 +65,7 @@
         <div class="modal-content">
             <div class="modal-header text-inverse">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h5 class="modal-title" id="myMediumModalLabel">Medium Modal Heading</h5>
+                <h5 class="modal-title" id="myMediumModalLabel">Tambah Karyawan</h5>
             </div>
             <div class="modal-body">
                 <form action="{{route('karyawanStore')}}" method="POST" enctype="multipart/form-data">
@@ -99,6 +111,14 @@
                             @foreach ($divisi as $us )
                                 <option value="{{$us['id']}}">{{$us['nama']}}</option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Role</label>
+                        <select class="form-control" name="role">
+                            <option value="1">Admin</option>
+                            <option value="2">Manager</option>
+                            <option value="3">Officer</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Tambah</button>

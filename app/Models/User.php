@@ -26,20 +26,35 @@ class User extends Authenticatable
         return $this->hasMany(KeyResultUser::class, 'username', 'username');
     }
 
-    // public function keyResult()
-    // {
-    //     return $this->hasMany(KeyResultUser::class, 'id_user', 'id');
-    // }
+    public function ibadah()
+    {
+        return $this->hasMany(ListIbadahUser::class, 'id', 'id_user');
+    }
+
+    public function keyResults()
+    {
+        return $this->hasMany(KeyResultUser::class, 'id_user', 'id');
+    }
 
     public function track()
     {
         return $this->hasMany(OkrTracking::class, 'username', 'username');
     }
 
+    public function absens()
+    {
+        return $this->hasMany(Absensi::class, 'id_user', 'id');
+    }
+
     // public function track()
     // {
     //     return $this->hasMany(OkrTracking::class, 'id_user', 'id');
     // }
+
+    public function top()
+    {
+        return $this->hasMany(TopOfMount::class, 'id_user', 'id');
+    }
 
 
 

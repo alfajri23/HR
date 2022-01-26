@@ -4,7 +4,7 @@
     @hasrole('admin')
     @include('includes.sidebar.admin')
     @endhasrole
-    @hasrole('user')
+    @hasanyrole('user|user_manager')
     @include('includes.sidebar.user')
     @endhasrole
 @endsection

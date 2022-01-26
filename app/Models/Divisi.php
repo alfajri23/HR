@@ -9,12 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Divisi extends Model
 {
     use HasFactory;
-    //use SoftDeletes;
+    use SoftDeletes;
 
     protected $guarded = [];
 
     public function users(){
     	return $this->hasMany(User::class, 'id_divisi', 'id');
+    }
+
+    public function objectives(){
+    	return $this->hasMany(Objective::class, 'id_divisi', 'id');
     }
 
     public function manager(){

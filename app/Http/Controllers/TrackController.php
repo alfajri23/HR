@@ -37,7 +37,16 @@ class TrackController extends Controller
     public function divisi($id)
     {
         $divisi = Divisi::find($id);
-        $data = Track::track();
+        $data = Track::track(date('m'));
+        $data = $data->where('id_divisi',$id);
+        
+        return view('content.admin.track.track-divisi',compact('data','divisi'));
+    }
+
+    public function divisiMount($id,$m)
+    {
+        $divisi = Divisi::find($id);
+        $data = Track::track($m);
         $data = $data->where('id_divisi',$id);
         
         return view('content.admin.track.track-divisi',compact('data','divisi'));
@@ -89,6 +98,7 @@ class TrackController extends Controller
             $new_target = implode(",",$target);
             KeyResultUser::create([
                 'username' => $user,
+                'id_user' => $request->id_user,
                 'kode_key' => $request->key,
                 'bobot' => $request->bobot,
                 'target_1' => $new_target

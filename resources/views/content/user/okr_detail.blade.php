@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 
 @section('sidebar')
-    @hasrole('user')
+    @hasrole('user|user_manager')
         @include('includes.sidebar.user')
     @endhasrole
 

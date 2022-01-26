@@ -16,4 +16,8 @@ class Objective extends Model
     public function keyResult(){
     	return $this->hasMany(Keyresult::class, 'kode_obj', 'kode');
     }
+
+    public function divisi(){
+    	return $this->belongsTo(Divisi::class, 'id_divisi', 'id');
+    }
 }

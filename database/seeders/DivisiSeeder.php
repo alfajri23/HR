@@ -18,31 +18,31 @@ class DivisiSeeder extends Seeder
             [
                 'nama' => 'HR',
                 'id_manager' => 1,
-                'logo' => 'logo.png',
+                'logo' => 'asset/img/divisi/budimark.png',
                 'deskripsi' => 'deskripsi',
             ],
             [
                 'nama' => 'Budimark',
                 'id_manager' => 2,
-                'logo' => 'logo.png',
+                'logo' => 'asset/img/divisi/budimark.png',
                 'deskripsi' => 'deskripsi',
             ],
             [
                 'nama' => 'MySch',
                 'id_manager' => 3,
-                'logo' => 'logo.png',
+                'logo' => 'asset/img/divisi/mysch.png',
                 'deskripsi' => 'deskripsi',
             ],
             [
                 'nama' => 'Makin mahir',
                 'id_manager' => 4,
-                'logo' => 'logo.png',
+                'logo' => 'asset/img/divisi/1642048087_makinmahir.jpg',
                 'deskripsi' => 'deskripsi',
             ],
             [
                 'nama' => 'Tim dev',
                 'id_manager' => 5,
-                'logo' => 'logo.png',
+                'logo' => 'asset/img/divisi/dev.png',
                 'deskripsi' => 'deskripsi',
             ]
             

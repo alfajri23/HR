@@ -17,7 +17,7 @@ class CreateKeyResultUsersTable extends Migration
             $table->id();
             $table->string('username');
             $table->integer('tahun')->nullable();
-            //$table->integer('id_user');
+            $table->integer('id_user')->nullable();;
             $table->string('kode_key');
             $table->string('target_1')->nullable();
             $table->integer('bobot');

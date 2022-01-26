@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 
 @section('sidebar')
-    @hasrole('user')
+    @hasrole('user|user_manager')
         @include('includes.sidebar.user')
     @endhasrole
 
@@ -144,7 +144,17 @@
 
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">status_keluarga</h6>
-                                                <p class="mr-t-0">{{$data->status_keluarga}}</p>
+                                                <p class="mr-t-0">
+                                                    @switch($data->status_keluarga)
+                                                        @case(1)
+                                                            Menikah
+                                                            @break
+                                                        @case(2)
+                                                            Belum menikah
+                                                            @break
+                                                        
+                                                        @default
+                                                    @endswitch
                                             </div>
                                         
                                         <hr class="mr-tb-50">
@@ -192,15 +202,57 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">Pangkat</h6>
-                                                <p class="mr-t-0">{{$data->pangkat}}</p>
+                                                <p class="mr-t-0">
+                                                    @switch($data->pangkat)
+                                                        @case(1)
+                                                            Direktur
+                                                            @break
+                                                        @case(2)
+                                                            Manager
+                                                            @break
+                                                        @case(3)
+                                                            Supervisor
+                                                            @break
+                                                        @case(4)
+                                                            Officer
+                                                            @break
+                                                    
+                                                        @default
+                                                        
+                                                    @endswitch
+                                                    
+                                                </p>
                                             </div>
                                             <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">level</h6>
-                                                <p class="mr-t-0">{{$data->level}}</p>
+                                                <h6 class="text-muted text-uppercase">Level</h6>
+                                                <p class="mr-t-0">{{$data->level}}
+                                                    
+                                                </p>
                                             </div>
                                             <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">divisi</h6>
-                                                <p class="mr-t-0">{{$data->id_divisi}}</p>
+                                                <h6 class="text-muted text-uppercase">Divisi</h6>
+                                                <p class="mr-t-0">
+                                                    @switch($data->id_divisi)
+                                                        @case(1)
+                                                            HR
+                                                            @break
+                                                        @case(2)
+                                                            Budimark
+                                                            @break
+                                                        @case(3)
+                                                            MySch
+                                                            @break
+                                                        @case(4)
+                                                            Makin mahir
+                                                            @break
+                                                        @case(5)
+                                                            Dev
+                                                            @break
+                                                        @default
+                                                    @endswitch
+                                                
+                                                    
+                                                </p>
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">Jabatan</h6>
@@ -208,16 +260,31 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">Status kerja</h6>
-                                                <p class="mr-t-0">{{$data->status_kerja}}</p>
+                                                <p class="mr-t-0">
+                                                    @switch($data->status_kerja)
+                                                        @case(1)
+                                                            Karyawan tetap
+                                                            @break
+                                                        @case(2)
+                                                            Karyawan tidak tetap
+                                                            @break
+                                                        @case(3)
+                                                            Karyawan kontrak
+                                                            @break
+                                                        @case(4)
+                                                            Karyawan freelancer
+                                                            @break
+                                                        @case(5)
+                                                            Training
+                                                            @break
+                                                        @case(6)
+                                                            Magang
+                                                            @break
+                                                        @default
+                                                    @endswitch
+                                                </p>
                                             </div>
-                                            <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">Habis kontrak</h6>
-                                                <p class="mr-t-0">{{$data->habis_kontrak}}</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">Reminder habis kontrak</h6>
-                                                <p class="mr-t-0">{{$data->reminder_habis_kontrak}}</p>
-                                            </div>
+                                            
                                         </div>
                                         <hr class="border-0 mr-tb-50">
                                     </div>
@@ -253,7 +320,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->username}}" name="username" id="usernama" aria-describedby="emailHelp">
+                                                    <input type="text" class="form-control" value="{{$data->username}}" name="username" id="usernama" aria-describedby="emailHelp" readonly>
                                                     <label>Username</label>
                                                 </div>
                                             </div>
@@ -301,7 +368,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <input type="string" placeholder="123 456 7890" name="rekening" value="{{$data->rekening}}" class="form-control form-control-line">
+                                                    <input type="text" placeholder="BCA 123 456 7890" name="rekening" value="{{$data->rekening}}" class="form-control form-control-line">
                                                     <label>Rekening</label>
                                                 </div>
                                             </div>
@@ -356,6 +423,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select id="keluarga" class="form-control" value="{{$data->status_keluarga}}" name="status_keluarga">
+                                                        <option value="{{$data->status_keluarga}}">Pilih</option>
                                                         <option value="1">Menikah</option>
                                                         <option value="2">Belum menikah</option>
                                                     </select>
@@ -365,6 +433,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                 <select id="jk" class="form-control" value="{{$data->jenkel}}" name="jenkel">
+                                                    <option value="{{$data->jenkel}}">Pilih</option>
                                                     <option value="1">Laki-laki</option>
                                                     <option value="2">Perempuan</option>
                                                 </select>
@@ -400,11 +469,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="{{$data->kantor}}" name="kantor" id="usernama" aria-describedby="emailHelp">
-                                            <label>Kantor</label>
-                                        </div>
                                         
                                         <div class="form-group">
                                             <input type="text" class="form-control" value="{{$data->jabatan}}" name="jabatan" id="usernama" aria-describedby="emailHelp">
@@ -415,6 +479,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <select class="form-control" name="status_kerja" value="{{$data->status_kerja}}">
+                                                        <option value="{{$data->status_kerja}}">Pilih</option>
                                                         <option value="1">Karyawan tetap</option>
                                                         <option value="2">Karyawan tidak tetap</option>
                                                         <option value="3">Karyawan kontrak</option>
@@ -428,6 +493,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <select class="form-control" name="pangkat" value="{{$data->pangkat}}">
+                                                        <option value="{{$data->pangkat}}">Pilih</option>
                                                         <option value="1">Direktur</option>
                                                         <option value="2">Manager</option>
                                                         <option value="3">Supervisor</option>
@@ -454,26 +520,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input onfocus="(this.type='date')" type="text" class="form-control" value="{{$data->habis_kontrak}}" name="habis_kontrak" id="email">
-                                                    <label for="example-email">Habis kontrak</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input onfocus="(this.type='date')" type="text" name="remider_habis_kontrak" value="{{$data->remider_habis_kontrak}}" class="form-control form-control-line">
-                                                    <label>Reminder habis kontrak</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         {{-- alamat --}}
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <select class="form-control" name="id_divisi" id="l13">
+                                                        <option value="{{$data->id_divisi}}">Pilih</option>
                                                         @foreach ($divisi as $us )
                                                             <option value="{{$us['id']}}">{{$us['nama']}}</option>
                                                         @endforeach
@@ -484,6 +536,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <select class="form-control" name="level" id="l13">
+                                                        <option value="{{$data->level}}">Pilih</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
@@ -494,6 +547,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select class="form-control" value="{{$data->edukasi_pekanan}}" name="edukasi_pekanan">
+                                                        <option value="{{$data->edukasi_pekanan}}">Pilih</option>
                                                         <option value="1">Aktif</option>
                                                         <option value="2">Tidak aktif</option>
                                                     </select>

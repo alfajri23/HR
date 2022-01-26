@@ -7,6 +7,8 @@
             </li>
             <li><a href="{{route('rankList')}}"><i class="fas fa-medal fa-lg mr-2"></i></i><span class="hide-menu">Ranking</span></a>
             </li>
+            <li><a href="{{route('ibadahInput')}}"><i class="fas fa-pray fa-lg mr-3"></i></i><span class="hide-menu">Ibadah</span></a>
+            </li>
             {{-- <li><a href="{{route('detailMe')}}"><i class="fas fa-user-friends"></i><span class="hide-menu">Saya</span></a>
             </li> --}}
             <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="fas fa-briefcase fa-lg mr-3"></i>OKR</a>
@@ -20,8 +22,8 @@
                    
                 </ul>
             </li>
-            <li><a href="{{route('karyawanProfile')}}"><i class="fas fa-user fa-lg mr-3"></i><span class="hide-menu">Profile</span></a>
-            </li>
+            {{-- <li><a href="{{route('karyawanProfile')}}"><i class="fas fa-user fa-lg mr-3"></i><span class="hide-menu">Profile</span></a>
+            </li> --}}
             
         </ul>
         <!-- /.side-menu -->

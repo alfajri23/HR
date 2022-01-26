@@ -16,7 +16,6 @@ class Track
         ->groupBy('username');
         //dd($track_user);
   
-        
         //per-user
         $data_pekan = [];
         $progres = 0;
@@ -30,33 +29,13 @@ class Track
                 $progres += $tr->progres;
             }
             $data_pekan[]=[
+                'id_user' => $user->user->id,
                 'user' => $user->user,
                 'progres' => $progres,
                 'id_divisi' => $tr->user->id_divisi
             ];
 
         }
-        // foreach($track_user as $tm){
-        //     //dd($tm);
-        //     $progress = 0;
-        //     $progres = 0;
-        //     foreach($tm as $tr){
-        //         $progres = 0;
-        //         $week = explode(",",$tr->week_1);
-        //         foreach($week as $w){
-        //             $progres += (int)$w;
-
-        //         }
-        //         $progres = ($progres/$tr->target)*$tr->bobot;
-        //         $progress += $progres;
-        //     }
-        //     $data_pekan[]=[
-        //         'user' => $tr->user,
-        //         'progres' => round($progress/count($tm)),
-        //         'id_divisi' => $tr->user->id_divisi
-        //     ];
-        //     //dd($data_pekan);
-        // }
 
         $data_pekan = collect($data_pekan);
         $data_pekan = $data_pekan->sortByDesc('progres');

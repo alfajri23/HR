@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/demo/favicon.png">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Basic Tables</title>
@@ -28,48 +29,18 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- Head Libs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
 </head>
 
 <body class="header-light sidebar-dark sidebar-expand">
     <div id="wrapper" class="wrapper">
         <!-- HEADER -->
-        <nav class="navbar">
-            <!-- Logo Area -->
-            <div class="navbar-header">
-                <a href="index.html" class="navbar-brand">
-                    <h4 class="logo-expand mx-auto">HR Program</h4>
-                    <h4 class="logo-collapse mx-auto">HR</h4>
-
-                    <!-- <p>OSCAR</p> -->
-                </a>
-            </div>
-            <!-- /.navbar-header -->
-            
-            {{-- MENU --}}
-            <ul class="nav navbar-nav">
-                <li class="sidebar-toggle"><a href="javascript:void(0)" class="ripple"><i class="fas fa-ellipsis-v"></i></a>
-                </li>
-            </ul>
-
-            <!-- /.navbar-search -->
-            <div class="spacer"></div>
-            <!-- Button: Create New -->
-            <div class="btn-list dropdown d-none d-md-flex"><a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
-                    </a>
-               
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                
-            </div>
-            
-        </nav>
+        @include('includes.navbar.nav_admin');
 
         <!-- /.navbar -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="
+            padding-top: 60px;
+        ">
             <!-- SIDEBAR -->
             @yield('sidebar')
 
@@ -105,6 +76,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
     <script src="{{ asset('js/custom.js') }}" defer></script>
     <script src="{{ asset('js/theme.js') }}" defer></script>
+    
 
 </body>
 

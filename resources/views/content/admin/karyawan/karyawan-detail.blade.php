@@ -6,7 +6,6 @@
 
 @section('content')
         <div class="container-fluid d-flex">
-
             @php
                 $done = 0;
                 $progres_tot = 0;
@@ -39,8 +38,6 @@
 
             @endphp
 
-
-           
             <div class="col-12 col-md-12 widget-holder">
                 <div class="widget-bg">
                     <ul class="list-unstyled widget-user-list card-body">
@@ -81,6 +78,8 @@
                                 </li>
                                 <li class="nav-item"><a href="#okr-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">OKR</a>
                                 </li>
+                                <li class="nav-item"><a href="#absensi-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Absensi</a>
+                                </li>
                                 <li class="nav-item"><a href="#profile-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Profile</a>
                                 </li>
                                 <li class="nav-item"><a href="#edit-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Edit</a>
@@ -105,7 +104,6 @@
                                                     <th>Pekan 4</th>
                                                     <th>Pekan 5</th>
                                                     <th>Progres</th>
-                                                    <th>Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -145,7 +143,6 @@
                                                             </div>
                                                         </div>
                                                         </td>
-                                                    <td>{{$tr->status}}</td>
                                                     
                                                 </tr>
                                                 @php
@@ -183,8 +180,71 @@
                                                 </div>
                                             {{-- </div> --}}
                                         </a>
-                                        
                                         @endforeach
+                                    </div>
+                                </div>
+
+                                {{-- Absensi --}}
+                                <div class="tab-pane" id="absensi-tab-bordered-1">
+                                    <div class="container bg-white p-3">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10%">Bulan</th>
+                                                    <th>Jam masuk</th>
+                                                    <th>Total jam</th>
+                                                    <th>Max Jam</th>
+                                                    <th>Hasil</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $bulan = 1;
+                                                @endphp
+                                                @forelse ($absen as $tr )
+                                                    @php
+                                                        $bulan++;
+                                                    @endphp
+                                                    
+                                                <tr>
+                                                    <td>{{$tr->bulan}}</td>
+                                                    <td>{{$tr->jam_masuk}}</td>
+                                                    <td>{{$tr->total_jam}}</td>  
+                                                    <td></td>   
+                                                    <td>{{$tr->hasil}}</td>                                                    
+                                                </tr>
+                                                @empty
+                                                    
+                                                @endforelse
+                                                <tr>
+                                                    <form action="{{route('absenStore')}}" method="POST">
+                                                    @csrf
+                                                    <td>
+                                                        <input class="form-control" name="id_user" value="{{$data->id}}" type="hidden">
+                                                        <input class="form-control" name="bulan" value="{{$bulan}}" type="hidden">
+                                                        {{$bulan}}
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="jam" type="time" >
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="tot" type="number" >
+                                                    </td>
+                                                    <td>
+                                                        @if(!empty(session('jam_max')))
+                                                            <input class="form-control" value="{{session('jam_max')}}" name="max" type="number" readonly>
+                                                        @else
+                                                        <input class="form-control" name="max" type="number" >
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                                    </td>
+                                                    </form>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
 
@@ -202,17 +262,99 @@
                                                 <h6 class="text-muted text-uppercase">Username</h6>
                                                 <p class="mr-t-0">{{$data->username}}</p>
                                             </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Jenis kelamin</h6>
+                                                <p class="mr-t-0">{{$data->jenkel}}</p>
+                                            </div>
                                             
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">Alamat</h6>
                                                 <p class="mr-t-0">{{$data->alamat}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Alamat KTP</h6>
+                                                <p class="mr-t-0">{{$data->alamat_ktp}}</p>
                                             </div>
                                             
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">Telepon</h6>
                                                 <p class="mr-t-0">{{$data->telepon}}</p>
                                             </div>
-                                            
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Telepon WA</h6>
+                                                <p class="mr-t-0">{{$data->telepon_wa}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Tempat lahir</h6>
+                                                <p class="mr-t-0">{{$data->tmpt_lahir}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Tanggal lahir</h6>
+                                                <p class="mr-t-0">{{$data->tgl_lahir}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Usia</h6>
+                                                <p class="mr-t-0">{{$data->usia}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">status_keluarga</h6>
+                                                <p class="mr-t-0">
+                                                    @switch($data->status_keluarga)
+                                                        @case(1)
+                                                            Menikah
+                                                            @break
+                                                        @case(2)
+                                                            Belum menikah
+                                                            @break
+                                                        
+                                                        @default
+                                                    @endswitch
+                                            </div>
+                                        
+                                        <hr class="mr-tb-50">
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Sekolah</h6>
+                                                <p class="mr-t-0">{{$data->sekolah}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Pendidikan</h6>
+                                                <p class="mr-t-0">{{$data->pendidikan}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Jurusan</h6>
+                                                <p class="mr-t-0">{{$data->jurusan}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Rekening</h6>
+                                                <p class="mr-t-0">{{$data->rekening}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Npwp</h6>
+                                                <p class="mr-t-0">{{$data->npwp}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Bpjs tenaga kerja</h6>
+                                                <p class="mr-t-0">{{$data->bpjs_tk}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Bpjs kesehatan</h6>
+                                                <p class="mr-t-0">{{$data->bpjs_kes}}</p>
+                                            </div>
+
                                         </div>
                                         
                                         <hr class="mr-tb-50">
@@ -220,20 +362,96 @@
                                         <h4>Informasi</h4>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">Tempat lahir</h6>
-                                                <p class="mr-t-0">{{$data->tmpt_lahir}}</p>
+                                                <h6 class="text-muted text-uppercase">Pangkat</h6>
+                                                <p class="mr-t-0">
+                                                    @switch($data->pangkat)
+                                                        @case(1)
+                                                            Direktur
+                                                            @break
+                                                        @case(2)
+                                                            Manager
+                                                            @break
+                                                        @case(3)
+                                                            Supervisor
+                                                            @break
+                                                        @case(4)
+                                                            Officer
+                                                            @break
+                                                    
+                                                        @default
+                                                        
+                                                    @endswitch
+                                                    
+                                                </p>
                                             </div>
                                             <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">Tanggal lahir</h6>
-                                                <p class="mr-t-0">{{$data->tgl_lahir}}</p>
+                                                <h6 class="text-muted text-uppercase">Level</h6>
+                                                <p class="mr-t-0">{{$data->level}}
+                                                    
+                                                </p>
                                             </div>
                                             <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">Status</h6>
-                                                <p class="mr-t-0">{{$data->status}}</p>
+                                                <h6 class="text-muted text-uppercase">Divisi</h6>
+                                                <p class="mr-t-0">
+                                                    @switch($data->id_divisi)
+                                                        @case(1)
+                                                            HR
+                                                            @break
+                                                        @case(2)
+                                                            Budimark
+                                                            @break
+                                                        @case(3)
+                                                            MySch
+                                                            @break
+                                                        @case(4)
+                                                            Makin mahir
+                                                            @break
+                                                        @case(5)
+                                                            Dev
+                                                            @break
+                                                        @default
+                                                    @endswitch
+                                                
+                                                    
+                                                </p>
                                             </div>
                                             <div class="col-md-6">
-                                                <h6 class="text-muted text-uppercase">Bank</h6>
-                                                <p class="mr-t-0">{{$data->id_bank}}</p>
+                                                <h6 class="text-muted text-uppercase">Jabatan</h6>
+                                                <p class="mr-t-0">{{$data->jabatan}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Status kerja</h6>
+                                                <p class="mr-t-0">
+                                                    @switch($data->status_kerja)
+                                                        @case(1)
+                                                            Karyawan tetap
+                                                            @break
+                                                        @case(2)
+                                                            Karyawan tidak tetap
+                                                            @break
+                                                        @case(3)
+                                                            Karyawan kontrak
+                                                            @break
+                                                        @case(4)
+                                                            Karyawan freelancer
+                                                            @break
+                                                        @case(5)
+                                                            Training
+                                                            @break
+                                                        @case(6)
+                                                            Magang
+                                                            @break
+                                                        @default
+                                                    @endswitch
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Habis kontrak</h6>
+                                                <p class="mr-t-0">{{$data->habis_kontrak}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Reminder habis kontrak</h6>
+                                                <p class="mr-t-0">{{$data->reminder_habis_kontrak}}</p>
                                             </div>
                                         </div>
                                         <hr class="border-0 mr-tb-50">
@@ -266,42 +484,191 @@
                                             <input type="text" class="form-control" value="{{$data->nama}}" name="nama" id="nama" aria-describedby="emailHelp">
                                             <label>Nama</label>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="{{$data->username}}" name="username" id="usernama" aria-describedby="emailHelp">
-                                            <label>Username</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" value="{{$data->nik}}" name="nik" id="usernama" aria-describedby="emailHelp">
-                                            <label>NIK</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="{{$data->kantor}}" name="kantor" id="usernama" aria-describedby="emailHelp">
-                                            <label>Kantor</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="{{$data->pangkat}}" name="pangkat" id="usernama" aria-describedby="emailHelp">
-                                            <label>pangkat</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="{{$data->jabatan}}" name="jabatan" id="usernama" aria-describedby="emailHelp">
-                                            <label>jabatan</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="{{$data->fungsi}}" name="fungsi" aria-describedby="emailHelp">
-                                            <label>Fungsi</label>
-                                        </div>
 
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->username}}" name="username" id="usernama" aria-describedby="emailHelp">
+                                                    <label>Username</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" value="{{$data->nik}}" name="nik" id="usernama" aria-describedby="emailHelp">
+                                                    <label>NIK</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- alamat --}}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->alamat}}" name="alamat" id="usernama" aria-describedby="emailHelp">
+                                                    <label>Alamat</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->alamat_ktp}}" name="alamat_ktp" id="usernama" aria-describedby="emailHelp">
+                                                    <label>Alamat KTP</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- tmpt tgl lahir --}}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->tmpt_lahir}}" name="tmpt_lahir" id="email">
+                                                    <label for="example-email">Tempat lahir</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input onfocus="(this.type='date')" type="text" name="tgl_lahir" value="{{$data->tgl_lahir}}" class="form-control form-control-line">
+                                                    <label>Tanggal lahir</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- email --}}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="BCA 123 456 7890" name="rekening" value="{{$data->rekening}}" class="form-control form-control-line">
+                                                    <label>Rekening</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control" value="{{$data->email}}" name="email" id="email">
+                                                    <label for="example-email">Email</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- telepon --}}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="number" placeholder="123 456 7890" name="telepon_wa" value="{{$data->telepon_wa}}" class="form-control form-control-line">
+                                                    <label>Telepon WA</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="number" placeholder="123 456 7890" name="telepon" value="{{$data->telepon}}" class="form-control form-control-line">
+                                                    <label>Telepon</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        {{-- pendidikan sekolah --}}
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->pendidikan}}" name="pendidikan" id="email">
+                                                    <label for="example-email">Pendidikan</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="text" name="sekolah" value="{{$data->sekolah}}" class="form-control form-control-line">
+                                                    <label>Sekolah</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->jurusan}}" name="jurusan" id="email">
+                                                    <label for="example-email">Jurusan</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <select id="keluarga" class="form-control" value="{{$data->status_keluarga}}" name="status_keluarga">
+                                                        <option value="{{$data->status_keluarga}}">Pilih</option>
+                                                        <option value="1">Menikah</option>
+                                                        <option value="2">Belum menikah</option>
+                                                    </select>
+                                                    <label for="keluarga">Status keluarga</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                <select id="jk" class="form-control" value="{{$data->jenkel}}" name="jenkel">
+                                                    <option value="{{$data->jenkel}}">Pilih</option>
+                                                    <option value="1">Laki-laki</option>
+                                                    <option value="2">Perempuan</option>
+                                                </select>
+                                                <label for="jk">Jenis kelamin</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <input type="number" class="form-control" value="{{$data->usia}}" name="usia" id="email">
                                                     <label for="example-email">Usia</label>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        {{-- npwp kpj bpjs --}}
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->npwp}}" name="npwp" id="email">
+                                                    <label for="example-email">NPWP</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="text" name="bpjs_kes" value="{{$data->bpjs_kes}}" class="form-control form-control-line">
+                                                    <label>BPJS Kes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" value="{{$data->bpjs_tk}}" name="bpjs_tk" id="email">
+                                                    <label for="example-email">BPJS TK</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" value="{{$data->jabatan}}" name="jabatan" id="usernama" aria-describedby="emailHelp">
+                                            <label>Jabatan</label>
+                                        </div>
+                                        
+                                        <div class="row">  
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <input type="number" name="status_kerja" value="{{$data->status_kerja}}" class="form-control form-control-line">
-                                                    <label>Status kerja</label>
+                                                    <select class="form-control" name="status_kerja" value="{{$data->status_kerja}}">
+                                                        <option value="{{$data->status_kerja}}">Pilih</option>
+                                                        <option value="1">Karyawan tetap</option>
+                                                        <option value="2">Karyawan tidak tetap</option>
+                                                        <option value="3">Karyawan kontrak</option>
+                                                        <option value="4">Karyawan freelancer</option>
+                                                        <option value="5">Training</option>
+                                                        <option value="6">Magang</option>
+                                                    </select>
+                                                    <label for="l38">Status kerja</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <select class="form-control" name="pangkat" value="{{$data->pangkat}}">
+                                                        <option value="{{$data->pangkat}}">Pilih</option>
+                                                        <option value="1">Direktur</option>
+                                                        <option value="2">Manager</option>
+                                                        <option value="3">Supervisor</option>
+                                                        <option value="4">Officer</option>
+                                                    </select>
+                                                    <label for="l38">Pangkat</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -331,176 +698,18 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <input onfocus="(this.type='date')" type="text" name="remider_habis_kontrak" value="{{$data->remider_habis_kontrak}}" class="form-control form-control-line">
+                                                    <input onfocus="(this.type='date')" type="text" name="reminder_habis_kontrak" value="{{$data->remider_habis_kontrak}}" class="form-control">
                                                     <label>Reminder habis kontrak</label>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->tmpt_lahir}}" name="tmpt_lahir" id="email">
-                                                    <label for="example-email">Tempat lahir</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input onfocus="(this.type='date')" type="text" name="tgl_lahir" value="{{$data->tgl_lahir}}" class="form-control form-control-line">
-                                                    <label>Tanggal lahir</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        {{-- direktorat kota rekruit --}}
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->direktorat}}" name="direktorat" id="email">
-                                                    <label for="example-email">Direktorat</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" name="kota_rekrutmen" value="{{$data->kota_rekrutmen}}" class="form-control form-control-line">
-                                                    <label>Kota rekrutmen</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- pendidikan sekolah --}}
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->pendidikan}}" name="pendidikan" id="email">
-                                                    <label for="example-email">Pendidikan</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="text" name="sekolah" value="{{$data->sekolah}}" class="form-control form-control-line">
-                                                    <label>Sekolah</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->jurusan}}" name="jurusan" id="email">
-                                                    <label for="example-email">Jurusan</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- npwp kpj bpjs --}}
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->npwp}}" name="npwp" id="email">
-                                                    <label for="example-email">NPWP</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="text" name="kpj" value="{{$data->kpj}}" class="form-control form-control-line">
-                                                    <label>KPJ</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->bpjs}}" name="bpjs" id="email">
-                                                    <label for="example-email">BPJS</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <select id="keluarga" class="form-control" value="{{$data->status_keluarga}}" name="status_keluarga">
-                                                        <option value="1">Menikah</option>
-                                                        <option value="2">Belum menikah</option>
-                                                    </select>
-                                                    <label for="keluarga">Status keluarga</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                <select id="jk" class="form-control" value="{{$data->jenkel}}" name="jenkel">
-                                                    <option value="1">Laki-laki</option>
-                                                    <option value="2">Perempuan</option>
-                                                </select>
-                                                <label for="jk">Jenis kelamin</label>
-                                            </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- MK --}}
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="number" class="form-control" value="{{$data->MK_thn}}" name="MK_thn" id="email">
-                                                    <label for="example-email">MK Tahun</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="number" name="MK_bln" value="{{$data->MK_bln}}" class="form-control form-control-line">
-                                                    <label>MK bulan</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                <select class="form-control" value="{{$data->edukasi_pekanan}}" name="edukasi_pekanan">
-                                                    <option value="1">Aktif</option>
-                                                    <option value="2">Tidak aktif</option>
-                                                </select>
-                                                <label for="l38">Edukasi pekanan</label>
-                                            </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- email --}}
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="email" class="form-control" value="{{$data->email}}" name="email" id="email">
-                                                    <label for="example-email">Email</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="email" class="form-control" value="{{$data->email_2}}" name="email_2" id="email_2">
-                                                    <label for="example-email">Email External</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="number" placeholder="123 456 7890" name="telepon" value="{{$data->telepon}}" class="form-control form-control-line">
-                                                    <label>Telepon</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         {{-- alamat --}}
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->alamat}}" name="alamat" id="usernama" aria-describedby="emailHelp">
-                                                    <label>Alamat</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" value="{{$data->alamat_ktp}}" name="alamat_ktp" id="usernama" aria-describedby="emailHelp">
-                                                    <label>Alamat KTP</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- alamat --}}
-                                        <div class="row">
-                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select class="form-control" name="id_divisi" id="l13">
+                                                        <option value="{{$data->id_divisi}}">Pilih</option>
                                                         @foreach ($divisi as $us )
                                                             <option value="{{$us['id']}}">{{$us['nama']}}</option>
                                                         @endforeach
@@ -511,6 +720,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <select class="form-control" name="level" id="l13">
+                                                        <option value="{{$data->level}}">Pilih</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
@@ -520,8 +730,12 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <input type="string" placeholder="123 456 7890" name="rekening" value="{{$data->rekening}}" class="form-control form-control-line">
-                                                    <label>Rekening</label>
+                                                    <select class="form-control" value="{{$data->edukasi_pekanan}}" name="edukasi_pekanan">
+                                                        <option value="{{$data->edukasi_pekanan}}">Pilih</option>
+                                                        <option value="1">Aktif</option>
+                                                        <option value="2">Tidak aktif</option>
+                                                    </select>
+                                                    <label for="l38">Edukasi pekanan</label>
                                                 </div>
                                             </div>
                                         </div>

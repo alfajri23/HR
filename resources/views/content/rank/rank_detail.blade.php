@@ -4,7 +4,7 @@
     @hasrole('admin')
     @include('includes.sidebar.admin')
     @endhasrole
-    @hasrole('user')
+    @hasrole('user|user_manager')
     @include('includes.sidebar.user')
     @endhasrole
 @endsection
@@ -18,43 +18,69 @@
         <div class="col-md-12 widget-holder widget-full-height">
             <div class="widget-bg">
                 <div class="widget-body clearfix">
-                    <h5 class="box-title">Ranking Karyawan</h5>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="box-title">Ranking </h5>
+                        <h6><i class="fas fa-info-circle" style="color: #51d2b7"></i>
+                            <a href="{{route('dashboardDetail',$id)}}">Detail</a>
+                        </h6>
+                    </div>
+                    
                     <ul class="list-unstyled widget-user-list mb-0">
-                        @foreach ($data_pekan as $dt)
-                        
-                            <li class="media d-flex align-items-center"> 
-                                <h5 class="mr-2 my-0">{{$loop->iteration}}</h5>
-                                <div class="d-flex mr-3">
-                                    <a href="#" class="user--online thumb-xs">
-                                        <img src="{{asset($dt['user']->foto)}}" class="rounded-circle" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body d-flex justify-content-between">
-                                    <h5 class="media-heading">
-                                        @hasrole('admin')
+                        @foreach ($rank as $dt)
+                        <li class="media">
+                            <div class="d-flex mr-3">
+                                <h5 class="mr-2">{{$loop->iteration}}</h5>
+                                <a href="#" class="user--online thumb-xs">
+                                    <img src="{{asset($dt['user']->foto)}}" class="rounded-circle" alt="">
+                                </a>
+                            </div>
+                            <div class="media-body d-flex justify-content-between">
+                                
+                                <h5 class="media-heading">
+                                    @hasrole('admin')
                                         <a href="{{route('karyawanDetail',$dt['user']->id)}}">{{$dt['user']->nama}}</a> 
                                         @endhasrole
-                                        @hasrole('user')
+                                        @hasanyrole('user|user_manager')
                                         <a>{{$dt['user']->nama}}</a> 
                                         @endhasrole
-                                        <small>{{$dt['user']->divisi->nama}}</small>
-                                    </h5>
-                                    <div class="clearfix" style="width: 80%">
-                                        <div class="progress progress-md">
-                                            <div class="progress-bar bg-{{ ($dt['progres'] >= 70) ? "success" : (($dt['progres'] < 70 && $dt['progres'] >= 40)  ? "warning" : "danger") }}" style="width: {{$dt['progres']}}%" role="progressbar">{{$dt['progres']}}%</div>
-                                        </div>
+                                    <small> 
+                                        <a>{{$dt['user']->jabatan}}</a> <br>
+                                        @switch($dt['user']->divisi->id)
+                                            @case(1)
+                                                <i style="color:rgb(166, 173, 68)" class="fas fa-male fa-lg mr-1"></i>
+                                                @break
+                                            @case(2)
+                                                @break
+                                            @case(3)
+                                                <i style="color:rgb(81, 165, 165)" class="fas fa-graduation-cap fa-lg mr-1"></i>
+                                                @break
+                                            @case(4)
+                                                <i style="color:rgb(49, 113, 233)" class="fab fa-monero fa-lg mr-1"></i>
+                                                @break
+                                            @case(5)
+                                                <i style="color:rgb(218, 94, 207)" class="fab fa-dev fa-lg mr-1"></i>
+                                                @break
+                                            @default
+                                        @endswitch
+                                        
+                                        {{$dt['user']->divisi->nama}}
+                                    </small>
+                                </h5>
+
+                                <div class="d-flex align-items-center" style="width:60%">
+                                        
+                                        
+                                    <div class="progress progress-md" style="width: 100%">
+                                        <div class="progress-bar bg-{{ ($dt['hasil'] >= 70) ? "success" : (($dt['hasil'] < 70 && $dt['hasil'] >= 40)  ? "warning" : "danger") }}" style="width: {{$dt['hasil']}}%" role="progressbar">{{$dt['hasil']}}%</div>
                                     </div>
-                                    
-                                    
                                 </div>
-                            </li>
+                            </div>
+                            
+                        </li>
                         @endforeach
                     </ul>
-                    <!-- /.widget-user-list -->
                 </div>
-                <!-- /.widget-body -->
             </div>
-            <!-- /.widget-bg -->
         </div>
 
         <div class="col-md-12 widget-holder widget-full-height">
@@ -72,7 +98,7 @@
                             </div>
                             <div class="media-body d-flex justify-content-between">
                                 {{-- <a href="#" class="btn btn-outline-{{ ($dt['progres'] >= 70) ? "success" : (($dt['progres'] < 70 && $dt['progres'] >= 40)  ? "secondary" : "danger") }}">{{$dt['progres']}}</a> --}}
-                                <h5 class="media-heading"><a href="{{route('trackDivisi',$dt['divisi']->id)}}">{{$dt['divisi']->nama}}</a> <small>{{$dt['divisi']->nama}}</small></h5>
+                                <h5 class="media-heading"><a href="{{route('trackDivisiMount',['id'=>$dt['divisi']->id,'m'=>$id])}}">{{$dt['divisi']->nama}}</a> <small>{{$dt['divisi']->nama}}</small></h5>
                                 <div class="clearfix" style="width: 80%">
                                     <div class="progress progress-md">
                                         <div class="progress-bar bg-{{ ($dt['progres'] >= 70) ? "success" : (($dt['progres'] < 70 && $dt['progres'] >= 40)  ? "warning" : "danger") }}" style="width: {{$dt['progres']}}%" role="progressbar">{{$dt['progres']}}%</div>
