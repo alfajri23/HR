@@ -59,14 +59,14 @@ class KeyResultUserController extends Controller
         //dd($user);
         $kode_key = KeyResult::find($id);
         $key = KeyResultUser::where([
-            'username' => $user->username,
+            'id_user' => $user->id,
             'kode_key' => $kode_key->kode,
         ])
         ->get();
 
         $key = $key[0];
 
-        //dd($key);
+        //dd($key['target_1']);
 
         return view('content.user.key_result_user_detail',compact('key'));
     }

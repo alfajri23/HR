@@ -70,6 +70,13 @@ class TrackController extends Controller
         return view('content.user.okr_detail',compact('data','bulan','track'));
     }
 
+    public function histori_track_user(){
+        $track_tahun = Track::track_tahun(session('id_user'));
+        $track_tahun = implode(",",$track_tahun);
+
+        return view('content.user.okr_histori',compact('track_tahun'));
+    }
+
     
     public function create(Request $request)
     {

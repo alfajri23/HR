@@ -10,6 +10,9 @@ use App\Helpers\Track;
 use Illuminate\Support\Facades\Session;
 use App\Models\OkrTracking;
 use App\Models\Absensi;
+use App\Models\Izin;
+use App\Models\LemburKerja;
+use App\Models\GantiJam;
 use App\Models\ListIbadahUser;
 use App\Models\Keyresult;
 use App\Models\Objective;
@@ -28,12 +31,9 @@ class KaryawanController extends Controller
     {
         $user = User::all(); 
         $divisi = Divisi::all();
-        //$user = KaryawanCollection::collection($user);
-        //dd($user);
         return view('content.admin.karyawan.karyawan',compact('user','divisi'));
     }
 
-    
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -52,8 +52,6 @@ class KaryawanController extends Controller
             $files = $tujuan_upload . '/'. $nama_file;
             $file->move($tujuan_upload,$nama_file);
         }
-
-        //dd($request->nama);
 
     	$user = User::updateOrCreate(['id' => $request->id],[
     		'nama' => $request->nama,
@@ -76,10 +74,6 @@ class KaryawanController extends Controller
                 $user->assignRole('user');
                 break;
         }
-            
-
-
-        
 
         Session::flash('message', 'Sukses menambahkan data');
 
@@ -109,6 +103,7 @@ class KaryawanController extends Controller
 
         $data = User::find($request->id);
         $data->nama = $request->nama; 
+        $data->cuti = $request->cuti; 
         $data->nik = $request->nik; //
         $data->pangkat = $request->pangkat;
         $data->jabatan = $request->jabatan;
@@ -145,7 +140,6 @@ class KaryawanController extends Controller
 
     }
 
-   
     public function show($id)
     {
         $data = User::find($id);
@@ -153,16 +147,60 @@ class KaryawanController extends Controller
         $bulan = array('1'=>'Januari', '2'=>'Februari', '3'=>'Maret', '4'=>'April', '5'=>'Mei', '6'=>'Juni', '7'=>'Juli', '8'=>'Agustus', '9'=>'September', '10'=>'Oktober', '11'=>'November', '12'=>'Desember');
         $absen = Absensi::where('id_user',$id)->get();
 
-        //dd($absen);
-
         $track = OkrTracking::where('id_user',$id)
         ->where('bulan',date('m'))
         ->get();
 
-        //dd($track);
+        $track_tahun = Track::track_tahun($id);
+        $track_tahun = implode(",",$track_tahun);
+
+        $cuti = Izin::where('id_user',$id)
+        ->where('bulan',date('m'))
+        ->where('tipe','like','%cuti%')
+        ->where('status',1)
+        ->get();
+
+        $izin = Izin::where([
+            'id_user' => $id,
+            'status' => 1,
+            'ganti_jam' =>1,
+            'bulan' => date('m')
+        ])
+        ->where('tipe','!=','cuti')
+        ->get();
+
+        $jam = 0;
+        foreach($izin as $iz){
+            $jam = $jam + $iz->jam;
+        }
+        $ijin = $jam;
+
+        $lembur = LemburKerja::where([
+            'id_user' => $id,
+            'bulan' => date('m')
+        ])
+        ->get();
+
+        foreach($lembur as $iz){
+            $jam = $jam - $iz->jam;
+        }
+
+        $ganti = GantiJam::where([
+            'id_user' => $id,
+            'bulan' => date('m')
+        ])->get();
+
+        foreach($ganti as $gt){
+            $jam = $jam - $gt->jam;
+        }
 
         
-        return view('content.admin.karyawan.karyawan-detail',compact('data','divisi','bulan','track','absen'));
+        return view('content.admin.karyawan.karyawan-detail',compact('data','divisi',
+                                                                    'bulan','track',
+                                                                    'absen','izin',
+                                                                    'lembur','ganti',
+                                                                    'jam','ijin',
+                                                                    'cuti','track_tahun'));
         
 
     }
@@ -190,7 +228,6 @@ class KaryawanController extends Controller
         ->where('bulan',date('m'))
         ->orderBy('updated_at')
         ->get();
-        //dd($track);
 
         if(count($track)>0){
             //cek apakah sudah input okr belum
@@ -203,15 +240,10 @@ class KaryawanController extends Controller
                     $attempt++;
                 }
             }
-            // dd($attempt);
         }else{
             $attempt = 0;
         }
 
-        //dd($attempt);
-
-        
-        
 
         $ibadah = ListIbadahUser::where([
             'id_user' => session('id_user'),
@@ -230,8 +262,6 @@ class KaryawanController extends Controller
         }else{
             $ibadah = 0;
         }
-
-        //dd($ibadah);
 
         if($ibadah < $attempt){
             $status = 0;

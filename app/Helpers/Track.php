@@ -13,8 +13,7 @@ class Track
 
         //grup per-user
         $track_user = $track->where('bulan', $id)
-        ->groupBy('username');
-        //dd($track_user);
+        ->groupBy('id_user');
   
         //per-user
         $data_pekan = [];
@@ -22,7 +21,6 @@ class Track
         $user = '';
 
         foreach($track_user as $tm){
-            //dd($tm);
             $progres = 0;
             foreach($tm as $tr){
                 $user = $tr;
@@ -39,9 +37,39 @@ class Track
 
         $data_pekan = collect($data_pekan);
         $data_pekan = $data_pekan->sortByDesc('progres');
-        //dd($data_pekan);
         return $data_pekan;
-    }  
+    } 
+    
+    public static function track_tahun($id){
+        $track = OkrTracking::where('id_user',$id)
+        ->whereYear('created_at',date('Y'))
+        ->get();
+        $track = collect($track);
+        $track = $track->groupBy('bulan');
+        //dd($track);
+
+        $data_track = [];
+
+        foreach($track as $key => $tr){
+            //dd($track);
+            $progres = 0;
+            foreach($tr as $t){
+                $progres = $progres + $t->progres;
+            }
+
+            // $data_track [] = [
+            //     'bulan' => $key,
+            //     'progres' => $progres
+            // ];
+
+            $data_track [] = $progres;
+        }
+
+        //dd($data_track);
+
+        
+        return $data_track;
+    } 
 
     public static function track_divisi($data){
         $data_divisi = $data->groupBy('id_divisi');

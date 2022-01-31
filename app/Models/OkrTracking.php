@@ -21,11 +21,11 @@ class OkrTracking extends Model
     	return $this->belongsTo(KeyResultUser::class, 'id_key_result_user', 'id');
     }
 
-    public function user(){
-    	return $this->belongsTo(User::class, 'username', 'username');
-    }
+    // public function user(){
+    // 	return $this->belongsTo(User::class, 'username', 'username');
+    // }
 
-    public function users(){
+    public function user(){
     	return $this->belongsTo(User::class, 'id_user', 'id');
     }
 }

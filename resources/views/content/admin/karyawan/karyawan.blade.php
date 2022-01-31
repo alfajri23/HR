@@ -35,7 +35,7 @@
                         </figure>
                     </label>
                 </td>
-                <td class="mail-list-name"><a href="app-inbox-single.html">{{$dt->nama}}</a>  
+                <td class="mail-list-name"><a href="{{route('karyawanDetail',$dt->id)}}">{{$dt->nama}}</a>  
                     <span class="text-muted">{{$dt->jabatan}}, 
                         <a href="#">{{$dt->divisi->nama}}</a>
                     </span>

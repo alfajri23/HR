@@ -31,6 +31,7 @@ class DashboardController extends Controller
 
         //okr pribadi
         $data_pekan = Track::track(date('m'));
+        //dd($data_pekan);
 
         //okr divisi
         $divisi_data = Track::track_divisi($data_pekan);

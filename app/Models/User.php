@@ -56,6 +56,21 @@ class User extends Authenticatable
         return $this->hasMany(TopOfMount::class, 'id_user', 'id');
     }
 
+    public function izin()
+    {
+        return $this->hasMany(Izin::class, 'id_user', 'id');
+    }
+
+    public function ganti_jam()
+    {
+        return $this->hasMany(GantiJam::class, 'id_user', 'id');
+    }
+
+    public function lembur()
+    {
+        return $this->hasMany(LemburKerja::class, 'id_user', 'id');
+    }
+
 
 
     /**

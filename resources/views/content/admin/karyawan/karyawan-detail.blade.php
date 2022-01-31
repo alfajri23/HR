@@ -54,6 +54,19 @@
                                     <small>{{$data->divisi->nama}}</small>
                                 </h5>
                                 <span class="btn-group mr-b-20">
+                                    <button type="button" class="btn btn-outline-{{$jam > 0 ? 'danger' : 'default'}} ripple">
+                                        <p class="mb-0">
+                                            @if($jam < 1)
+                                                {{$jam*-1}} jam
+                                        </p>
+                                        <p class="mb-0">Lebih</p>
+                                            @else
+                                                {{$jam}}
+                                        </p>
+                                        <p class="mb-0">Hutang jam</p>
+                                            @endif
+
+                                    </button>
                                     <button type="button" class="btn btn-outline-default ripple">
                                         <p class="mb-0">{{count($track)}}</p>
                                         <p class="mb-0">Key result</p>
@@ -78,8 +91,16 @@
                                 </li>
                                 <li class="nav-item"><a href="#okr-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">OKR</a>
                                 </li>
-                                <li class="nav-item"><a href="#absensi-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Absensi</a>
+                                <li class="nav-item"><a href="#ganti-jam-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Ganti jam</a>
                                 </li>
+                                <li class="nav-item"><a href="#izin-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Izin</a>
+                                </li>
+                                <li class="nav-item"><a href="#lembur-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Lembur</a>
+                                </li>
+                                <li class="nav-item"><a href="#cuti-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Cuti</a>
+                                </li>
+                                <li class="nav-item"><a href="#absensi-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Absensi</a>
+                                </li>       
                                 <li class="nav-item"><a href="#profile-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Profile</a>
                                 </li>
                                 <li class="nav-item"><a href="#edit-tab-bordered-1" class="nav-link" data-toggle="tab" aria-expanded="true">Edit</a>
@@ -89,6 +110,7 @@
                                 <!-- Progress -->
                                 <div class="tab-pane active" id="home-tab-bordered-1">
                                     <div class="container bg-white p-3">
+                                        <h5>OKR Berjalan</h5>
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -157,11 +179,16 @@
                                                         <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
                                                             <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
                                                             </div>
-                                                        </div></td>
-                                                    <td colspan="2"></td>
+                                                        </div>
+                                                    </td>
+                                                    <td colspan="1"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="container bg-white p-3">
+                                        <h5>OKR Tracking</h5>
+                                        <canvas id="myChart"></canvas>
                                     </div>
                                 </div>
                                 <!-- End Progress -->
@@ -181,6 +208,172 @@
                                             {{-- </div> --}}
                                         </a>
                                         @endforeach
+                                    </div>
+                                </div>
+                          
+                                <!-- Ganti jam -->
+                                <div class="tab-pane" id="ganti-jam-tab-bordered-1">
+                                    <div class="container">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 3%">No</th>
+                                                    <th style="width: 11%">Tanggal</th>
+                                                    <th style="width: 5%">Jam</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $jams = 0;
+                                                @endphp
+                                                @forelse ($ganti as $iz )
+                                                    @php
+                                                        $jams = $jams + $iz->jam;
+                                                    @endphp
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$iz->hari}}</td>
+                                                        <td>{{$iz->jam}}</td>
+                                                    </tr>
+                                                @empty
+                                                <tr>
+                                                    <td colspan="8" class="text-center"> tidak ada data</td>
+                                                </tr>
+                                                    
+                                                @endforelse
+                                                <tr>
+                                                    <td colspan="2" class="text-center">Hutang jam</td>
+                                                    <td>{{$jams}}</td>
+                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Ijin -->
+                                <div class="tab-pane" id="izin-tab-bordered-1">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <h5>Daftar izin {{$data->nama}} bulan ini</h5>
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Total hutang izin : {{$ijin}} jam</h5>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="row">
+                                        @forelse ($izin as $iz)
+                                        <div class="col-sm-4 mr-b-20">
+                                            <div class="card bg-light">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 class="card-title">{{$iz->tipe}}</h5>
+                                                        @if ($iz->ganti_jam == 1)
+                                                            <h6 class="card-title">Hutang {{$iz->jam}} jam</h6>
+                                                        @endif
+                                                        
+                                                    </div>
+                                                    <p class="card-text text-dark">{{$iz->alasan}}</p>
+                                                    <p class="card-text text-dark">
+                                                        {{$iz->tanggal_mulai}}
+
+                                                        @if (empty($iz->tanggal_akhir))
+                                                            
+                                                        @else
+                                                            sampai {{$iz->tanggal_akhir}}<br>
+                                                            {{$iz->hari}} hari   
+
+                                                        @endif
+                                                    
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @empty
+                                            tidak ada catatan izin
+                                        @endforelse
+                                        
+                                    </div>
+                                </div>
+   
+                                <!-- Lembur -->
+                                <div class="tab-pane" id="lembur-tab-bordered-1">
+                                    <div class="container">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 3%">No</th>
+                                                    <th style="width: 11%">Tanggal</th>
+                                                    <th>Alasan</th>
+                                                    <th style="width: 5%">Jam</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $jams = 0;
+                                                @endphp
+                                                @forelse ($lembur as $iz )
+                                                    @php
+                                                        $jams = $jams + $iz->jam;
+                                                    @endphp
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$iz->hari}}</td>
+                                                        <td>{{$iz->alasan}}</td>
+                                                        <td>{{$iz->jam}}</td>
+                                                    </tr>
+                                                @empty
+                                                <tr>
+                                                    <td colspan="8" class="text-center"> tidak ada data</td>
+                                                </tr>
+                                                    
+                                                @endforelse
+                                                <tr>
+                                                    <td colspan="3" class="text-center">Total jam</td>
+                                                    <td >{{$jams}}</td>
+                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Cuti -->
+                                <div class="tab-pane" id="cuti-tab-bordered-1">
+                                    <div class="col-6">
+                                        <h5>Jatah cuti : {{$data->cuti}} </h5>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        @forelse ($cuti as $iz)
+                                        <div class="col-sm-4 mr-b-20">
+                                            <div class="card bg-light">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 class="card-title">{{$iz->tipe}}</h5>
+                                                    </div>
+                                                    <p class="card-text text-dark">{{$iz->alasan}}</p>
+                                                    <p class="card-text text-dark">
+                                                        {{$iz->tanggal_mulai}}
+
+                                                        @if (empty($iz->tanggal_akhir))
+                                                            
+                                                        @else
+                                                            sampai {{$iz->tanggal_akhir}}<br>
+                                                            {{$iz->hari}} hari   
+
+                                                        @endif
+                                                    
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @empty
+                                            tidak ada catatan cuti
+                                        @endforelse
+                                        
                                     </div>
                                 </div>
 
@@ -247,7 +440,7 @@
                                         </table>
                                     </div>
                                 </div>
-
+                            
                                 <!-- Detail -->
                                 <div class="tab-pane" id="profile-tab-bordered-1">
                                     <div class="contact-details-profile pd-lr-30">
@@ -353,6 +546,11 @@
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">Bpjs kesehatan</h6>
                                                 <p class="mr-t-0">{{$data->bpjs_kes}}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Cuti</h6>
+                                                <p class="mr-t-0">{{$data->cuti}}</p>
                                             </div>
 
                                         </div>
@@ -479,11 +677,22 @@
                                             <!-- /.media-body -->
                                         </div>
                                         <!-- /.media -->
-                                        <div class="form-group">
-                                            <input type="hidden" class="form-control" value="{{$data->id}}" name="id" id="id" aria-describedby="emailHelp">
-                                            <input type="text" class="form-control" value="{{$data->nama}}" name="nama" id="nama" aria-describedby="emailHelp">
-                                            <label>Nama</label>
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <input type="hidden" class="form-control" value="{{$data->id}}" name="id" id="id" aria-describedby="emailHelp">
+                                                    <input type="text" class="form-control" value="{{$data->nama}}" name="nama" id="nama" aria-describedby="emailHelp">
+                                                    <label>Nama</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" value="{{$data->cuti}}" name="cuti" id="cuti" aria-describedby="emailHelp">
+                                                    <label>Cuti</label>
+                                                </div>
+                                            </div>
                                         </div>
+
 
                                         <div class="row">
                                             <div class="col-md-6">
@@ -763,6 +972,50 @@
         </div>
         
 {{-- </div> --}}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let datas = "{{ $track_tahun }}";
+
+    const labels = [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    ];
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Progres',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: datas.split(","),
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+
+
+</script>
 
 
 @endsection

@@ -1,21 +1,15 @@
 @extends('layouts.apps')
 
 @section('sidebar')
-    @hasrole('admin')
-    @include('includes.sidebar.admin')
-    @endhasrole
-    @hasrole('user|user_manager')
     @include('includes.sidebar.user')
-    @endhasrole
 @endsection
 
 @section('content')
 
 <div class="container bg-white p-3">
 
-    <h4>{{$key->kode_key}}</h4>
-    <h4>{{$key->keyResult[0]->nama}}</h4>
-    <div class="col-10">
+    <h4>Histori track OKR</h4>
+    <div class="col-12">
         <canvas id="myChart"></canvas>
       </div>
        
@@ -23,18 +17,15 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    let datas = "{{ $key['target_1'] }}";
-    console.log(datas);
-    let ad = datas.split(",");
-    console.log(ad);
-    
+    let datas = "{{ $track_tahun }}";
+
     const labels = [
-        'January',
-        'February',
-        'March',
+        'Januari',
+        'Februari',
+        'Maret',
         'April',
-        'May',
-        'June',
+        'Mei',
+        'Juni',
         'Juli',
         'Agustus',
         'September',
@@ -54,7 +45,7 @@
     };
 
     const config = {
-        type: 'bar',
+        type: 'line',
         data: data,
         options: {}
     };
@@ -63,6 +54,9 @@
         document.getElementById('myChart'),
         config
     );
+
+
+
 </script>
 
 @endsection

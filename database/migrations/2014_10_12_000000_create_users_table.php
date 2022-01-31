@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration
             $table->integer('edukasi_pekanan')->nullable();
             $table->string('foto')->nullable();
             $table->integer('status')->default(1);
+            $table->integer('cuti')->nullable();
             $table->integer('id_divisi');
             $table->string('username')->unique();
             $table->string('password');

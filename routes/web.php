@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('divisi/{id}/{m}',[Controllers\TrackController::class,'divisiMount'])->name('trackDivisiMount');
             
             Route::get('user/{m}',[Controllers\TrackController::class,'user_track'])->name('trackKaryawan');
+            Route::get('riwayat',[Controllers\TrackController::class,'histori_track_user'])->name('trackHistoriUser');
 
             Route::get('list',[Controllers\TrackController::class,'list'])->name('trackList');
             Route::post('/add',[Controllers\TrackController::class,'create'])->name('trackStore');
@@ -89,6 +90,42 @@ Route::middleware(['auth'])->group(function () {
             Route::get('list',[Controllers\DashboardController::class,'list_histori'])->name('rankList');
             Route::get('/{id}',[Controllers\DashboardController::class,'histori_rank'])->name('rankDetail');
             Route::get('detail/{m}',[Controllers\DashboardController::class,'detail'])->name('dashboardDetail');
+        });
+
+        Route::prefix('izin')->group(function(){ 
+            Route::get('admin',[Controllers\IzinController::class,'admin'])->name('izinAdmin');
+            Route::get('/',[Controllers\IzinController::class,'index'])->name('izinIndex');
+            Route::get('histori',[Controllers\IzinController::class,'histori'])->name('izinHistori');
+            Route::post('/',[Controllers\IzinController::class,'request'])->name('izinReq');
+            Route::get('show',[Controllers\IzinController::class,'show'])->name('izinShow');
+            Route::get('delete',[Controllers\IzinController::class,'delete'])->name('izinDelete');
+            
+            Route::get('accept',[Controllers\IzinController::class,'accept'])->name('izinAcc');
+            Route::get('reject',[Controllers\IzinController::class,'reject'])->name('izinRej');
+        });
+
+        Route::prefix('cuti')->group(function(){ 
+            Route::get('admin',[Controllers\CutiController::class,'admin'])->name('cutiAdmin');
+            Route::get('/',[Controllers\CutiController::class,'index'])->name('cutiIndex');
+            Route::get('histori',[Controllers\CutiController::class,'histori'])->name('cutiHistori');
+        });
+
+        Route::prefix('ganti_jam')->group(function(){ 
+            Route::get('admin',[Controllers\GantiJamController::class,'admin'])->name('gantiAdmin');
+            Route::get('/',[Controllers\GantiJamController::class,'index'])->name('gantiIndex');
+            Route::get('histori',[Controllers\GantiJamController::class,'histori'])->name('gantiHistori');
+            Route::get('show',[Controllers\GantiJamController::class,'show'])->name('gantiShow');
+            Route::post('store',[Controllers\GantiJamController::class,'store'])->name('gantiStore');
+            Route::get('delete',[Controllers\GantiJamController::class,'delete'])->name('gantiDelete');
+        });
+
+        Route::prefix('lembur')->group(function(){ 
+            Route::get('admin',[Controllers\LemburController::class,'admin'])->name('lemburAdmin');
+            Route::get('/',[Controllers\LemburController::class,'index'])->name('lemburIndex');
+            Route::get('histori',[Controllers\LemburController::class,'histori'])->name('lemburHistori');
+            Route::get('show',[Controllers\LemburController::class,'show'])->name('lemburShow');
+            Route::post('store',[Controllers\LemburController::class,'store'])->name('lemburStore');
+            Route::get('delete',[Controllers\LemburController::class,'delete'])->name('lemburDelete');
         });
 
         //notifikasi
