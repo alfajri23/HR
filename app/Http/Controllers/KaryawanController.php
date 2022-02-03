@@ -14,6 +14,7 @@ use App\Models\Izin;
 use App\Models\LemburKerja;
 use App\Models\GantiJam;
 use App\Models\ListIbadahUser;
+use App\Helpers\MultiOkr;
 use App\Models\Keyresult;
 use App\Models\Objective;
 
@@ -29,7 +30,10 @@ class KaryawanController extends Controller
 
     public function index()
     {
-        $user = User::all(); 
+        //$user = User::all(); 
+        $user = User::whereHas("roles", function($q){ $q->where("name","!=", "Admin"); })
+        ->where('id_divisi','!=',null)
+        ->get();
         $divisi = Divisi::all();
         return view('content.admin.karyawan.karyawan',compact('user','divisi'));
     }
@@ -142,6 +146,7 @@ class KaryawanController extends Controller
 
     public function show($id)
     {
+        $multi = null;
         $data = User::find($id);
         $divisi = Divisi::all();
         $bulan = array('1'=>'Januari', '2'=>'Februari', '3'=>'Maret', '4'=>'April', '5'=>'Mei', '6'=>'Juni', '7'=>'Juli', '8'=>'Agustus', '9'=>'September', '10'=>'Oktober', '11'=>'November', '12'=>'Desember');
@@ -150,6 +155,16 @@ class KaryawanController extends Controller
         $track = OkrTracking::where('id_user',$id)
         ->where('bulan',date('m'))
         ->get();
+
+        $tracks = collect($track);
+        
+        //cek jika track ada
+        if(count($tracks) > 1){
+            if($tracks[0]['multi'] != null){
+                $multi = MultiOkr::user($tracks);
+            } 
+        }
+        $tracks = $tracks->groupBy('multi');
 
         $track_tahun = Track::track_tahun($id);
         $track_tahun = implode(",",$track_tahun);
@@ -163,7 +178,6 @@ class KaryawanController extends Controller
         $izin = Izin::where([
             'id_user' => $id,
             'status' => 1,
-            'ganti_jam' =>1,
             'bulan' => date('m')
         ])
         ->where('tipe','!=','cuti')
@@ -171,7 +185,9 @@ class KaryawanController extends Controller
 
         $jam = 0;
         foreach($izin as $iz){
-            $jam = $jam + $iz->jam;
+            if($iz->ganti_jam == 1){
+                $jam = $jam + $iz->jam;
+            }  
         }
         $ijin = $jam;
 
@@ -269,7 +285,10 @@ class KaryawanController extends Controller
             $status = 1;
         }
 
-        return view('content.user.okr_input',compact('data','divisi','bulan','track','status'));
+        $tracks = collect($track);
+        $tracks = $tracks->groupBy('multi');
+
+        return view('content.user.okr_input',compact('tracks','data','divisi','bulan','track','status'));
         
     }
 

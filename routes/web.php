@@ -94,7 +94,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('izin')->group(function(){ 
             Route::get('admin',[Controllers\IzinController::class,'admin'])->name('izinAdmin');
-            Route::get('/',[Controllers\IzinController::class,'index'])->name('izinIndex');
+            Route::get('sakit/adm',[Controllers\IzinController::class,'admin_sakit'])->name('izinAdminSakit');
+            Route::get('main',[Controllers\IzinController::class,'index'])->name('izinIndex');
+            Route::get('sakit',[Controllers\IzinController::class,'sakit'])->name('izinSakit');
             Route::get('histori',[Controllers\IzinController::class,'histori'])->name('izinHistori');
             Route::post('/',[Controllers\IzinController::class,'request'])->name('izinReq');
             Route::get('show',[Controllers\IzinController::class,'show'])->name('izinShow');

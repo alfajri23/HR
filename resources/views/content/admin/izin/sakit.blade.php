@@ -9,7 +9,7 @@
     <div class="widget-holder col-md-12">
         <div class="widget-bg">
             <div class="widget-body">
-                <h5 class="box-title">Perizinan</h5>
+                <h5 class="box-title">Perizinan sakit</h5>
                 <div class="mb-2">
                     <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#izinModal">Ajukan izin</button>
                     <a href="{{route('izinHistori')}}" class="btn btn-secondary btn-sm ">Riwayat</a>
@@ -20,11 +20,10 @@
                             <th style="width: 3%">No</th>
                             <th style="width: 11%">Nama</th>
                             <th style="width: 11%">Tanggal mulai</th>
-                            <th style="width: 11%">Tanggal akhir</th>
                             <th style="width: 10%">Tipe</th>
                             <th>Alasan</th>
                             <th style="width: 5%">Hari</th>
-                            <th style="width: 5%">Ganti jam</th>
+                            <th style="width: 5%">Surat</th>
                             <th style="width: 10%">Status</th>
                             <th style="width: 10%">Aksi</th>
                         </tr>
@@ -35,11 +34,14 @@
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$iz->user->nama}}</td>
                                 <td>{{$iz->tanggal_mulai}}</td>
-                                <td>{{$iz->tanggal_akhir}}</td>
                                 <td>{{$iz->tipe}}</td>
                                 <td>{{$iz->alasan}}</td>
                                 <td>{{$iz->hari}}</td>
-                                <td>{{$iz->ganti_jam == 1 ? 'ya' : 'tidak'}}</td>
+                                <td>
+                                    <a href="{{ asset($iz->bukti) }}">
+                                        <i class="fas fa-file-download"></i>
+                                    </a>
+                                </td>
                                 <td>
                                     @if ($iz->status == 0)
                                         <span class="badge badge-pill badge-warning">pending</span> 
@@ -116,7 +118,7 @@
                     </select>
                   </div>
                 
-                <div class="form-row">
+                <div class="form-row pl-2">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Tanggal mulai</label>
                         <input type="hidden" class="form-control" id="id" name="id">
@@ -130,58 +132,27 @@
 
                 <div class="form-group col-md-12">
                     <label for="inputPassword4">Jenis</label>
-                    <input type="text" class="form-control" name="jenis" id="jenis">
-                    <small id="emailHelp" class="form-text text-muted">Sakit ,Izin ,Tugas atau lainnya</small>
+                    <input type="text" class="form-control" name="jenis" id="jenis" value="sakit" readonly>
                 </div>
 
                 <div class="form-group col-md-12">
-                    <label for="inputPassword4">Alasan</label>
+                    <label for="inputPassword4">Keterangan</label>
                     <input type="text" class="form-control" name="alasan" id="alasan">
                 </div>
 
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Surat dokter</label>
+                    <input type="file" class="form-control-file" name="bukti" id="exampleFormControlFile1">
+                </div>
+
                 <div class="form-row">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-6">
                         <div class="form-check ml-4">
                             <input class="form-check-input" type="checkbox" value="1" name="hari">
                             <label class="form-check-label px-1" for="defaultCheck1">
                                 Lebih dari 1 hari
                             </label>
                         </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <div class="form-check ml-4">
-                            <input class="form-check-input" type="checkbox" value="1" name="half">
-                            <label class="form-check-label px-1" for="defaultCheck1">
-                                Setengah hari
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <div class="form-check ml-4">
-                            <input class="form-check-input" type="checkbox" value="1" name="ganti">
-                            <label class="form-check-label px-1" for="defaultCheck1">
-                                Ganti jam
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <div class="form-check ml-4">
-                            <input class="form-check-input" type="checkbox" value="1" name="dinas">
-                            <label class="form-check-label px-1" for="defaultCheck1">
-                                Tujuan administrasi
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row" id="jam" style="display:none">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail4">Jam mulai izin</label>
-                        <input type="time" class="form-control" id="jam_mulai" name="jam_mulai">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputPassword4">Jam akhir izin</label>
-                        <input type="time" class="form-control" id="jam_akhir" name="jam_akhir">
                     </div>
                 </div>
 

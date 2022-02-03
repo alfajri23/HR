@@ -10,6 +10,7 @@ use App\Models\Objective;
 use App\Models\OkrTracking;
 use App\Models\KeyResultUser;
 use App\Helpers\Track;
+use App\Helpers\MultiOkr;
 use PhpParser\Node\Expr\AssignOp\Div;
 use Carbon\Carbon;
 
@@ -23,15 +24,26 @@ class TrackController extends Controller
         ->where('bulan',$m)
         ->get();
 
+        $multi = null;
         $bulan = Track::get_bulan($m);
-
         $key = $user->divisi->id;
-        
         $key = Objective::where('id_divisi',$key)->pluck('kode');
-        
         $key = Keyresult::whereIn('kode_obj',$key)->get();
+        $tracks = collect($track);
+        //dd($track);
         
-        return view('content.admin.track.track-user',compact('user','track','key','bulan'));
+        //cek jika track ada
+        if(count($tracks) > 1){
+            if($tracks[0]['multi'] != null){
+                $multi = MultiOkr::user($tracks);
+            } 
+        }
+        $tracks = $tracks->groupBy('multi');
+       
+        //dd($tracks);
+        
+        
+        return view('content.admin.track.track-user',compact('user','tracks','key','bulan','multi'));
     }
 
     public function divisi($id)
@@ -66,8 +78,20 @@ class TrackController extends Controller
         ->get();
         $bulan = Track::get_bulan($m);
 
+        $multi = null;
 
-        return view('content.user.okr_detail',compact('data','bulan','track'));
+        $tracks = collect($track);
+        
+        //cek jika track ada
+        if(count($tracks) > 1){
+            if($tracks[0]['multi'] != null){
+                $multi = MultiOkr::user($tracks);
+            } 
+        }
+        $tracks = $tracks->groupBy('multi');
+
+
+        return view('content.user.okr_detail',compact('data','bulan','tracks','multi'));
     }
 
     public function histori_track_user(){
@@ -81,10 +105,14 @@ class TrackController extends Controller
     public function create(Request $request)
     {
         $user = User::find($request->id_user);
-        //dd($user);
-        $user = $user->username;
+        $user = $user->id;
+        //untuk budimark karena banyak okr
+        $multi = null;
+        if($request->multi != null){
+            $multi = $request->multi;
+        }
         OkrTracking::updateOrCreate(['id' => $request->id],[
-            'username' => $user,
+            'multi' => $multi,
             'kode_key' => $request->key,
     		'target' => $request->target,
     		'start' => $request->start,
@@ -94,7 +122,8 @@ class TrackController extends Controller
     	]);
 
         $result = KeyResultUser::where([
-                    'username' => $user,
+                    'id_user'  => $user,
+                    // 'username' => $user,
                     'kode_key' => $request->key,
                 ])->whereYear('created_at', date('Y'))
                 ->get();
@@ -104,7 +133,6 @@ class TrackController extends Controller
             $target[$request->bulan-1] = $request->target;
             $new_target = implode(",",$target);
             KeyResultUser::create([
-                'username' => $user,
                 'id_user' => $request->id_user,
                 'kode_key' => $request->key,
                 'bobot' => $request->bobot,
@@ -117,7 +145,6 @@ class TrackController extends Controller
             $target = explode(",",$target);
             $target[$request->bulan-1] = $request->target;
             $new_target = implode(",",$target);
-            //dd($new_target);
             $result->target_1 = $new_target;
             $result->save();
 
@@ -142,14 +169,11 @@ class TrackController extends Controller
         for($y=0 ; $y<count($data_week); $y++){
             if($data_week[$y] == null){
                 $data_progres = $data_week[$y-1];
-                //$pekan = $data_val[$y-1];
                 break;
             }else{
                 $data_progres = $data_week[$y];
             }
         }
-
-        //dd($data_week);
 
         $data_week = implode(",",$data_week);
 
@@ -161,11 +185,11 @@ class TrackController extends Controller
         $track->save();  
         
         //key result user
-        $usr = $track->username;
+        $usr = $track->id_user;
         $key = $track->kode_key;
 
         $result = KeyResultUser::where([
-            'username' => $usr,
+            'id_user' => $usr,
             'kode_key' => $key,
         ])->whereYear('created_at', date('Y'))
         ->get();
@@ -178,7 +202,6 @@ class TrackController extends Controller
         $new_target = implode(",",$target);
         $result->target_1 = $new_target;
         $result->save();
-        //}
 
         return redirect()->back();
     }

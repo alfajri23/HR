@@ -12,7 +12,7 @@
                     <h5 class="box-title">Lembur bulan ini</h5>
                    
                     <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal"><i class="far fa-plus-square mr-1"></i>Tambah lembur</button>
-
+                    <a href="{{route('lemburHistori')}}" class="btn btn-secondary btn-sm mb-2">Riwayat</a>
                     <table class="table table-bordered">
                         <thead>
                             <tr>

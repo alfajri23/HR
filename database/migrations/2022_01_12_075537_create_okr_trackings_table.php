@@ -15,8 +15,9 @@ class CreateOkrTrackingsTable extends Migration
     {
         Schema::create('okr_trackings', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
+            // $table->string('username')->nullable();
             $table->integer('bulan');
+            $table->string('multi')->nullable();
             $table->integer('id_user')->nullable();
             $table->string('kode_key');
             $table->integer('target');

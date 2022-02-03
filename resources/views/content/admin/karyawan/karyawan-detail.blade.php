@@ -186,7 +186,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="container bg-white p-3">
+                                    <div class="container bg-light p-3">
                                         <h5>OKR Tracking</h5>
                                         <canvas id="myChart"></canvas>
                                     </div>
@@ -270,9 +270,17 @@
                                                 <div class="card-body">
                                                     <div class="d-flex justify-content-between">
                                                         <h5 class="card-title">{{$iz->tipe}}</h5>
-                                                        @if ($iz->ganti_jam == 1)
-                                                            <h6 class="card-title">Hutang {{$iz->jam}} jam</h6>
-                                                        @endif
+                                                        
+                                                        <span>
+                                                            @if ($iz->ganti_jam == 1)
+                                                            <h6 class="card-title mb-0">Hutang {{$iz->jam}} jam</h6>
+                                                            @endif
+                                                            @if($iz->dinas == 1)
+                                                            <i class="fas fa-ad fa-lg mr-1" style="color: gold"></i><p class="my-0 d-inline" style="color: rgb(134, 120, 40)">Administratif</p>
+                                                            @endif
+                                                        </span>
+                                                            
+                                                        
                                                         
                                                     </div>
                                                     <p class="card-text text-dark">{{$iz->alasan}}</p>
@@ -292,7 +300,7 @@
                                             </div>
                                         </div>
                                         @empty
-                                            tidak ada catatan izin
+                                            <h6 class="ml-4">tidak ada catatan izin</h6>
                                         @endforelse
                                         
                                     </div>
@@ -948,9 +956,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        
-                                        
 
                                         <div class="form-group">
                                             <button class="btn btn-success ripple">Update Profile</button>

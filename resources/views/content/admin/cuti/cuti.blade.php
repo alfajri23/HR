@@ -11,7 +11,7 @@
             <div class="widget-body">
                 <h5 class="box-title">Cuti</h5>
                 <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal">Tambah cuti</button>
-                
+                <a href="{{route('cutiHistori')}}" class="btn btn-secondary btn-sm mb-2">Riwayat</a>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

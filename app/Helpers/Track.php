@@ -3,26 +3,58 @@
 namespace App\Helpers;
 
 use App\Models\OkrTracking;
+use App\Models\User;
 use Carbon\Carbon;
+use App\Helpers\MultiOkr;
 
 class Track
 {
     public static function track($id){
         $track = OkrTracking::latest()->get();
         $track = collect($track);
+        $multi_user = User::where('multi_okr','!=',null)->pluck('id');
+        //dd($multi_user);
 
         //grup per-user
         $track_user = $track->where('bulan', $id)
+        ->where('multi',null)
+        ->groupBy('id_user');
+
+        $track_user_multi = $track->where('bulan', $id)
+        ->where('multi','!=',null)
         ->groupBy('id_user');
   
-        //per-user
         $data_pekan = [];
         $progres = 0;
         $user = '';
 
+        //untuk multi okr
+        //dd($track_user_multi);
+        foreach($track_user_multi as $k => $tm){
+            //dd($tm[0]->user);
+            $multi = MultiOkr::user($tm);
+            $progres_multi = 0;
+            foreach($multi as $multies){
+                //dd($multies);
+                $progres_multi += $multies['progres'];
+            }
+            
+            $data_pekan[]=[
+                'id_user' => $tm[0]->user->id,
+                'user' => $tm[0]->user,
+                'progres' => $progres_multi,
+                'id_divisi' => $tm[0]->user->id_divisi
+            ];
+
+        }
+
+        
+
+        //untuk single okr
         foreach($track_user as $tm){
             $progres = 0;
             foreach($tm as $tr){
+                //dd($tr);
                 $user = $tr;
                 $progres += $tr->progres;
             }
@@ -34,6 +66,8 @@ class Track
             ];
 
         }
+
+        //dd($data_pekan);
 
         $data_pekan = collect($data_pekan);
         $data_pekan = $data_pekan->sortByDesc('progres');

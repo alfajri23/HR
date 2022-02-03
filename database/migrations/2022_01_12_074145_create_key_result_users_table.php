@@ -15,7 +15,7 @@ class CreateKeyResultUsersTable extends Migration
     {
         Schema::create('key_result_users', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
+            // $table->string('username')->nullable();
             $table->integer('tahun')->nullable();
             $table->integer('id_user')->nullable();;
             $table->string('kode_key');

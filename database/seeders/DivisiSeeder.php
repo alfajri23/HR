@@ -40,11 +40,11 @@ class DivisiSeeder extends Seeder
                 'deskripsi' => 'deskripsi',
             ],
             [
-                'nama' => 'Tim dev',
+                'nama' => 'Developers',
                 'id_manager' => 5,
                 'logo' => 'asset/img/divisi/dev.png',
                 'deskripsi' => 'deskripsi',
-            ]
+            ],
             
         ]);
     }

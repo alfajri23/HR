@@ -10,16 +10,24 @@ use Carbon\Carbon;
 
 class Rank
 {
-    public function rank_kumulatif($m){
+    public static function rank_kumulatif($m){
         $data_pekan = Track::track($m);
         
-        $user = User::all();
-        //dd($user);
+
+        $user = User::whereHas("roles", function($q){ $q->where("name","!=", "Admin"); })
+        ->where('id_divisi','!=',null)
+        ->get();
+        //dd($users);
+        //$user = User::where('id_divisi','!=',null)->get();
         $rank=[];
         $ibadah = 0;
         $absensi = 0;
         $okr = 0;
+
+        //dd($data_pekan);
+
         foreach($user as $id){
+            //IBADAH
             $ibadah = ListIbadahUser::where([
                 'id_user' => $id->id,
                 'bulan' => $m
@@ -33,6 +41,7 @@ class Rank
                 $ibadah = 0;
             }
             
+            //ABSESNI
             $absensi = Absensi::where([
                 'id_user' => $id->id,
                 'bulan' => $m
@@ -46,6 +55,7 @@ class Rank
                 $absensi = 0;
             }
 
+            //OKR
             $okr = $data_pekan->where('id_user',$id->id)->first();
         
             if(empty($okr)){

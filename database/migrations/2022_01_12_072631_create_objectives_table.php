@@ -18,7 +18,7 @@ class CreateObjectivesTable extends Migration
             $table->string('kode')->unique();
             $table->string('nama');
             $table->integer('id_divisi');
-            $table->string('deskripsi');
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

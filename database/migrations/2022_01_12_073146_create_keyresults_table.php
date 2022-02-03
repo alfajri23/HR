@@ -18,7 +18,7 @@ class CreateKeyresultsTable extends Migration
             $table->string('nama');
             $table->string('kode')->unique();
             $table->string('kode_obj');
-            $table->string('deskripsi');
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

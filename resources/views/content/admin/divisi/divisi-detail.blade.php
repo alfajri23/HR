@@ -34,11 +34,16 @@
                                                     class="ml-4 mb-3 btn btn-success">Tambah OKR</a>
                         <div class="container-fluid d-flex flex-wrap" id="main-obj">
                             @foreach ($obj as $bj)
-                            <div class="col-lg-6 col-md-12 widget-holder" id="obj-{{$bj->kode}}">
+                            <div class="col-lg-12 col-md-12 widget-holder" id="obj-{{$bj->kode}}">
                                 <div class="widget-bg">
                                     <div class="widget-body">
                                         <div class="d-flex justify-content-between">
-                                            <h5 class="box-title">{{$bj->kode}} {{$bj->nama}}</h5>
+                                            <h5 class="box-title" style="
+                                                width: 70%;
+                                                line-height: 20px;
+                                            ">
+                                                {{$bj->kode}} {{$bj->nama}}
+                                            </h5>
                                             <span>
                                                 
                                                 <a href="javascript:void(0)" onclick="keyModalCreate({{$bj->id}})" class="btn btn-info btn-sm"><i class="fas fa-plus"></i></i></a>
@@ -48,11 +53,11 @@
                                         </div>
                                         
                                         <div class="todo-widget">
-                                            <ol>
+                                            <ol class="pl-5">
                                                 @foreach ($bj->keyResult as $key )
-                                                <li style="list-style-type:none;" class="my-1" data-checked="true">
+                                                <li style="list-style-type:number;" class="my-1" data-checked="true">
                                                     <span class="d-flex justify-content-betweend-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">{{$key->kode}} {{$key->nama}}</p> 
+                                                        <p class="mb-0" style="width: 90%"><strong>{{$key->kode}}</strong> {{$key->nama}}</p> 
                                                         <span>
                                                             <a href="javascript:void(0)" onclick="keyModalEdit({{$key->id}})"><i class="fas fa-pencil-alt"></i></a>
                                                             <a href="javascript:void(0)" onclick="deleteKey({{$key->id}})"><i class="fas fa-trash-alt"></i></a>

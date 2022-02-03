@@ -21,9 +21,14 @@ class User extends Authenticatable
         return $this->belongsTo(Divisi::class, 'id_divisi', 'id');
     }
 
+    // public function keyResult()
+    // {
+    //     return $this->hasMany(KeyResultUser::class, 'username', 'username');
+    // }
+
     public function keyResult()
     {
-        return $this->hasMany(KeyResultUser::class, 'username', 'username');
+        return $this->hasMany(KeyResultUser::class, 'id_user', 'id');
     }
 
     public function ibadah()
@@ -31,25 +36,20 @@ class User extends Authenticatable
         return $this->hasMany(ListIbadahUser::class, 'id', 'id_user');
     }
 
-    public function keyResults()
-    {
-        return $this->hasMany(KeyResultUser::class, 'id_user', 'id');
-    }
+    // public function track()
+    // {
+    //     return $this->hasMany(OkrTracking::class, 'username', 'username');
+    // }
 
     public function track()
     {
-        return $this->hasMany(OkrTracking::class, 'username', 'username');
+        return $this->hasMany(OkrTracking::class, 'id_user', 'id');
     }
 
     public function absens()
     {
         return $this->hasMany(Absensi::class, 'id_user', 'id');
     }
-
-    // public function track()
-    // {
-    //     return $this->hasMany(OkrTracking::class, 'id_user', 'id');
-    // }
 
     public function top()
     {

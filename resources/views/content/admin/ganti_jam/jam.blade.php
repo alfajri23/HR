@@ -15,6 +15,7 @@
                     @empty(!$ganti)
                     <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal"><i class="far fa-plus-square"></i>Ganti jam</button>
                     @endempty
+                    <a href="{{route('gantiHistori')}}" class="btn mb-2 btn-secondary btn-sm ">Riwayat</a>
                     
                     
                     <table class="table table-bordered">

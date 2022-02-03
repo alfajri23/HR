@@ -32,6 +32,19 @@
 
 </head>
 
+<style>
+    @media only screen and (max-width: 960px) {
+        .content-wrapper {
+            padding-top: 0 !important;
+        }
+
+        .main-wrapper{
+            padding: 0 !important;
+        }
+    }
+</style>
+
+
 <body class="header-light sidebar-dark sidebar-expand">
     <div id="wrapper" class="wrapper">
         <!-- HEADER -->
@@ -56,7 +69,7 @@
         </div>
         
         <!-- FOOTER -->
-        <footer class="footer text-center clearfix">2017 © Oscar Admin brought to you by UnifatoThemes</footer>
+        <footer class="footer text-center clearfix">2022 © HR Program easier your work</footer>
     </div>
     <!--/ #wrapper -->
 

@@ -19,6 +19,7 @@ class CreateIzinsTable extends Migration
             $table->integer('hari');
             $table->string('tipe');
             $table->string('alasan');
+            $table->string('bukti')->nullable();
             $table->integer('bulan');
             $table->enum('setengah_hari', [1,0]);
             $table->enum('ganti_jam', [1,0]);

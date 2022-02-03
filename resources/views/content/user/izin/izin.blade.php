@@ -10,7 +10,7 @@
         <div class="widget-bg">
             <div class="widget-body">
                 <h5 class="box-title">Perizinan</h5>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between align-items-center">
                     <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal">Ajukan izin</button>
                     <h5>Hutang jam : {{$jam}} jam</h5>
                 </div>
@@ -23,7 +23,7 @@
 
                 </span> --}}
                 
-                
+                <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -83,6 +83,7 @@
                         
                     </tbody>
                 </table>
+                </div>
             </div>
             <!-- /.widget-body -->
         </div>

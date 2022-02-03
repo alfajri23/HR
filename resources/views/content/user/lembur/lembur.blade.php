@@ -12,7 +12,7 @@
                     <h5 class="box-title">Lembur bulan ini</h5>
                    
                     <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal"><i class="far fa-plus-square mr-1"></i>Tambah lembur</button>
-
+                    <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -58,6 +58,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@
 
                 </span> --}}
                 
-                
+                <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -80,6 +80,7 @@
                         
                     </tbody>
                 </table>
+                </div>
             </div>
             <!-- /.widget-body -->
         </div>
@@ -105,7 +106,7 @@
 
                 <div class="form-group col-md-12">
                     <label for="inputPassword4">Jatah cuti</label>
-                    <input type="number" class="form-control" value="{{auth()->user()->cuti}}" readonly>
+                    <input type="number" class="form-control" name="jatah" value="{{auth()->user()->cuti}}" readonly>
                 </div>
                 <div class="form-row pl-3">
                     <div class="form-group col-md-6">
@@ -139,7 +140,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success">Kirim</button>
+            <button type="submit" class="btn btn-success" {{ empty(auth()->user()->cuti) ? 'disabled' : ''}}>Kirim</button>
         </form>
         </div>
         </div>

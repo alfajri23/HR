@@ -23,7 +23,7 @@
         <div class="widget-holder col-md-12">
             <div class="widget-bg">
                 <div class="widget-body">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between flex-wrap">
                         <h5 class="box-title">Ganti jam</h5>
 
                     
@@ -54,7 +54,7 @@
                     <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal"><i class="far fa-plus-square"></i>Ganti jam</button>
                     @endempty
                     
-                    
+                    <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -95,19 +95,19 @@
                             @endforelse 
                             <tr>
                                 <td colspan="2" class="text-center">Jumlah ganti jam</td>
-                                <td>{{$jam_ganti}}</td>
+                                <td colspan="2">{{$jam_ganti}}</td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="text-center">Jam izin</td>
-                                <td>-{{$ijin}}</td>
+                                <td colspan="2">-{{$ijin}}</td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="text-center">Jam lembur</td>
-                                <td>{{$lemburs}}</td>
+                                <td colspan="2">{{$lemburs}}</td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="text-center">Hutang jam</td>
-                                <td>
+                                <td colspan="2">
                                     @if($jams < 1)
                                         Anda lebih {{$jams*-1}} jam
                                     @else
@@ -117,6 +117,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

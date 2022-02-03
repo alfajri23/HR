@@ -18,7 +18,7 @@ class CreateDivisisTable extends Migration
             $table->string('nama');
             $table->integer('id_manager');
             $table->string('logo');
-            $table->string('deskripsi');
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

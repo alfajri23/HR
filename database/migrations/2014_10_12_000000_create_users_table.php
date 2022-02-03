@@ -15,7 +15,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->integer('multi_okr')->nullable();
+            $table->string('nama');
             $table->string('nik')->nullable();
             $table->string('pangkat')->nullable();
             $table->string('jabatan')->nullable();
@@ -46,7 +47,7 @@ class CreateUsersTable extends Migration
             $table->string('foto')->nullable();
             $table->integer('status')->default(1);
             $table->integer('cuti')->nullable();
-            $table->integer('id_divisi');
+            $table->integer('id_divisi')->nullable();
             $table->string('username')->unique();
             $table->string('password');
             $table->softDeletes();

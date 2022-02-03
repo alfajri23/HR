@@ -25,7 +25,7 @@
             <a href="#" class="dropdown-toggle ripple" data-toggle="dropdown">
                 <i class="far fa-bell"></i> 
                 <span class="badge badge-border bg-primary countNoti">{{count($noti)}}</span>
-                <span class="my-0">Notifikasi</span>
+                <span class="my-0">Notifikasi &nbsp</span>
             </a>
             <div class="dropdown-menu dropdown-left dropdown-card dropdown-card-dark animated flipInY">
                 <div class="card">

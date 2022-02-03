@@ -10,31 +10,8 @@
 @endsection
 
 @section('content')
-
-    @php                    //besok dicopas dari detail.php jika data tidak ada gunakan dibawah
-        $done = 0;
-        $progres_tot = 0;
-        foreach ($track as $tr){
-
-            $progres = 0;
-            $target = $tr->target;
-            $week = explode(",",$tr->week_1);
-            foreach($week as $tr ){
-                $progres += (int)$tr;
-            }
-            
-            $progres = $progres/$target * 100;
-            if($progres == 100){
-                $done += 1;
-            } 
-            $progres_tot += $progres; 
-        }
-        if(count($track) == 0){
-            $progres_tot = 0;
-        }else{
-            $progres_tot = $progres_tot/count($track);
-        }
-    @endphp
+    
+    
     <h4>{{$user->nama}}<br><small>{{$bulan}}</small></h4>
     
     <div class="container-fluid bg-white p-3">
@@ -42,6 +19,32 @@
         <a href="#" data-toggle="modal" data-target="#modalTrack"
                                 class="mb-3 btn btn-success btn-sm">Tambah Objective</a>
         @endhasrole
+        @forelse ($tracks as $e => $track)  
+        {{-- @php                    //besok dicopas dari detail.php jika data tidak ada gunakan dibawah
+            $done = 0;
+            $progres_tot = 0;
+            foreach ($track as $tr){
+                $progres = 0;
+                $target = $tr->target;
+                $week = explode(",",$tr->week_1);
+                foreach($week as $tr ){
+                    $progres += (int)$tr;
+                }
+                
+                $progres = $progres/$target * 100;
+                if($progres == 100){
+                    $done += 1;
+                } 
+                $progres_tot += $progres; 
+            }
+            if(count($track) == 0){
+                $progres_tot = 0;
+            }else{
+                $progres_tot = $progres_tot/count($track);
+            }
+        @endphp --}}
+
+        <h4>{{$e}}</h4>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -86,7 +89,7 @@
                             
                         </td>
                         @else
-                        <td>{{$week[$i]}}</td>
+                        <td>{{number_format($week[$i])}}</td>
                         @endif
                         
                     @endfor
@@ -120,6 +123,68 @@
                 </tr>
             </tbody>
         </table>
+        @empty    
+
+        @endforelse
+
+        @if (!empty($multi))
+        <h4>Total</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 2px">No</th>
+                    <th>Kode</th>
+                    <th style="width: 300px;">Key result</th>
+                    <th>Bobot</th>
+                    <th>Target</th>
+                    <th>Start</th>
+                    <th>Pekan 1</th>
+                    <th>Pekan 2</th>
+                    <th>Pekan 3</th>
+                    <th>Pekan 4</th>
+                    <th>Pekan 5</th>
+                    <th>Progres</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $tot_progres = 0;
+                @endphp
+                @foreach ($multi as $tr )
+                <tr>
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$tr['kode_key']}}</td>
+                    <td>{{$tr['nama']}}</td>
+                    <td>10%</td>
+                    <td>100%</td>
+                    <td>0</td>
+                    @for($i = 0; $i < count($tr['data_pekan']); $i++)
+                        @if (empty($tr['data_pekan'][$i]))
+                        <td>
+                            
+                        </td>
+                        @else
+                        <td>{{number_format($tr['data_pekan'][$i])}}</td>
+                        @endif
+                        
+                    @endfor
+                    <td>
+                        <p class="my-0">{{$tr['progres']}}%</p>
+                        <div class="progress" data-toggle="tooltip" title="{{$tr['progres']}}%">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr['progres']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr['progres']}}%"><span class="sr-only">{{$tr['progres']}}%</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @endif
+        
+
+
+        
     </div>
 
     <!--Modal OKR-->
@@ -140,7 +205,18 @@
                                     <option value="{{$ky['kode']}}">{{$ky['kode']}} {{$ky['nama']}}</option>
                                 @endforeach
                             </select>
-                        </div>      
+                        </div>   
+                        @if($user->id == 15 || $user->id == 16 )
+                        <div class="mb-3" id="inputKey">
+                            <label for="exampleInputPassword1" class="form-label">Divisi</label>
+                            <select class="form-control" name="multi" id="multi">
+                                <option value="makin_mahir">Makin Mahir</option>
+                                <option value="UMKM">Sekolah UMKM</option>
+                                <option value="lanjut_kuliah">Lanjut kuliah</option>
+                                <option value="Mysch">MySch</option>
+                            </select>
+                        </div>  
+                        @endif    
                         <div class="mb-3">
                             <input type="hidden" class="form-control" name="id" id="id" aria-describedby="emailHelp">
                             <input type="hidden" class="form-control" value="{{date('m')}}" name="bulan" id="bulan">

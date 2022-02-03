@@ -43,18 +43,14 @@ class KeyResultUserController extends Controller
 
     public function list(){
         $user = User::find(session('id_user'));
-        $key = OkrTracking::where('username',$user->username)
+        $key = OkrTracking::where('id_user',$user->id)
         ->pluck('kode_key');
 
         $key_result = KeyResult::whereIn('kode',$key)->get();
-        //$key_result = $key_result[0];
-        //dd($key_result);
-
         return view('content.user.key_result_user_list',compact('key_result'));
     }
     public function show($id)
     {
-        //dd(session('id'));
         $user = User::find(session('id_user'));
         //dd($user);
         $kode_key = KeyResult::find($id);
@@ -65,8 +61,6 @@ class KeyResultUserController extends Controller
         ->get();
 
         $key = $key[0];
-
-        //dd($key['target_1']);
 
         return view('content.user.key_result_user_detail',compact('key'));
     }
