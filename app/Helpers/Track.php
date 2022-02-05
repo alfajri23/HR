@@ -35,15 +35,15 @@ class Track
             $multi = MultiOkr::user($tm);
             $progres_multi = 0;
             foreach($multi as $multies){
-                //dd($multies);
                 $progres_multi += $multies['progres'];
             }
+
             
             $data_pekan[]=[
                 'id_user' => $tm[0]->user->id,
                 'user' => $tm[0]->user,
                 'progres' => $progres_multi,
-                'id_divisi' => $tm[0]->user->id_divisi
+                'id_divisi' => $tm[0]->user->id_divisi,
             ];
 
         }
@@ -52,12 +52,15 @@ class Track
 
         //untuk single okr
         foreach($track_user as $tm){
+            
             $progres = 0;
             foreach($tm as $tr){
-                //dd($tr);
                 $user = $tr;
                 $progres += $tr->progres;
             }
+
+
+
             $data_pekan[]=[
                 'id_user' => $user->user->id,
                 'user' => $user->user,
@@ -66,8 +69,6 @@ class Track
             ];
 
         }
-
-        //dd($data_pekan);
 
         $data_pekan = collect($data_pekan);
         $data_pekan = $data_pekan->sortByDesc('progres');
@@ -79,22 +80,27 @@ class Track
         ->whereYear('created_at',date('Y'))
         ->get();
         $track = collect($track);
-        $track = $track->groupBy('bulan');
+        $track = $track->groupBy('bulan')->sortKeys();
         //dd($track);
 
         $data_track = [];
 
         foreach($track as $key => $tr){
-            //dd($track);
-            $progres = 0;
-            foreach($tr as $t){
-                $progres = $progres + $t->progres;
-            }
+            //d($tr);
+            if($tr[0]['multi'] != null){
+                $multi = MultiOkr::user($tr);
 
-            // $data_track [] = [
-            //     'bulan' => $key,
-            //     'progres' => $progres
-            // ];
+                $progres = 0;
+                foreach($multi as $t){
+                    //dd($t);
+                    $progres = $progres + $t['progres'];
+                }
+            } else {
+                $progres = 0;
+                foreach($tr as $t){
+                    $progres = $progres + $t->progres;
+                }
+            }
 
             $data_track [] = $progres;
         }

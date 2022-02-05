@@ -24,8 +24,8 @@ class CreateOkrTrackingsTable extends Migration
             $table->integer('bobot');
             $table->integer('start')->default(0);
             $table->string('week_1')->nullable();
-            $table->integer('total')->nullable();
-            $table->integer('progres')->nullable();
+            $table->float('total')->nullable();
+            $table->float('progres')->nullable();
             $table->string('status')->nullable();
             $table->string('evaluasi')->nullable();
             $table->timestamps();

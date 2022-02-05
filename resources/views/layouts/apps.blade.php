@@ -40,8 +40,14 @@
 
         .main-wrapper{
             padding: 0 !important;
-        }
+        }  
     }
+
+    .rounded-circle{
+            background-image: cover;
+            width: 45px !important;
+            height:45px !important;
+        }
 </style>
 
 

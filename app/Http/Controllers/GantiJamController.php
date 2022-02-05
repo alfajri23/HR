@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\GantiJam;
 use App\Models\LemburKerja;
 use App\Helpers\Track;
+use App\Models\Notifikasi;
 
 class GantiJamController extends Controller
 {
@@ -51,6 +52,14 @@ class GantiJamController extends Controller
             $jam_total = $jam_total - $gt->jam;
         }
 
+        // if (!$ganti) {
+        //     echo "No players";
+        // } else {
+        //     echo "Explode stuff...";
+        // }
+
+        //dd($ganti);
+
         return view('content.user.ganti_jam.jam',compact('izin','jam',
                                                         'ganti','ijin',
                                                         'lemburs','jam_total'));
@@ -88,6 +97,15 @@ class GantiJamController extends Controller
             $user = $request->id_user;
         }else{
             $user = session('id_user');
+        }
+
+        if($request->hutang - $request->jam <= 0){
+            $users = User::find($user);
+            Notifikasi::create([
+                'nama' => "".$users->nama . " telah selesai mengganti jam",
+                'status' => 1,
+                'tipe' => 2
+            ]);
         }
 
         $result = GantiJam::updateOrCreate(['id' => $request->id],[

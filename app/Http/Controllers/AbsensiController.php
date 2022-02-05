@@ -49,7 +49,7 @@ class AbsensiController extends Controller
             }
         }
 
-        //dd($point);
+        //dd($request->bulan);
 
         $point = $point+$hasil_tot;
         //dd($point);

@@ -42,9 +42,9 @@ class ListIbadahUserController extends Controller
                 $point++;
             }
         }
-        // dd($point);
+
         $point = ($point*10/$ibadah) * 100;
-        // dd($point);
+
         //$point = $point/80*100;
         
         $data = ListIbadahUser::where([
@@ -65,18 +65,20 @@ class ListIbadahUserController extends Controller
             ]);
         }else{
             $pointTot = 0;
-            //ambil data ebelumnya
+            //ambil data sebelumnya
             $nilai = $data[0]->pekan;
             $nilai = explode(",",$nilai);
             //masukkan nilai baru
             array_push($nilai,$point);
+            //dd($nilai);
 
             foreach($nilai as $n){
                 $pointTot += (int)$n;
             }
+            //dd($pointTot);
 
-            $pointTot = ($pointTot/(count($nilai)*$ibadah))*100;
-
+            $pointTot = ($pointTot/(count($nilai)));
+            //dd($pointTot);
             $nilai = implode(",",$nilai);
             $data[0]->point = $pointTot;
             $data[0]->pekan = $nilai;
@@ -85,8 +87,50 @@ class ListIbadahUserController extends Controller
 
         return redirect()->back();
 
+    }
+
+    public function history(){
+        $ibadah = ListIbadahUser::where([
+            'id_user' => session('id_user'),
+        ])->get();
+
+        $ibadah = collect($ibadah)->groupBy('bulan')->sortDesc();
+        //dd($ibadah);
 
 
+        return view('content.user.ibadah_history',compact('ibadah'));
+    }
+
+    public function edit(Request $request){
+        $data = ListIbadahUser::find($request->id);
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
+    public function update(Request $request){
+        $index = $request->pekan_no;
+        $val = $request->pekan_val;
+
+        // var_dump($index);
+        // var_dump($val);
         
+        $old_data = ListIbadahUser::find($request->id);
+
+        $progres = 0;
+        foreach($val as $value){
+            $progres += $value;
+        }
+
+        $progres = $progres / count($val);
+        $val = implode(",",$val);
+        //dd($val);
+        
+        $old_data->pekan = $val;
+        $old_data->point = $progres;
+        $old_data->save();
+
+        return redirect()->back();
     }
 }

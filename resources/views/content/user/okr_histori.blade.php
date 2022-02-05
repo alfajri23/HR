@@ -47,7 +47,14 @@
     const config = {
         type: 'line',
         data: data,
-        options: {}
+        options: {
+            scales: {
+                y: {
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                },
+            }
+        }
     };
 
     const myChart = new Chart(

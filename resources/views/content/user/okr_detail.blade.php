@@ -50,8 +50,8 @@
                 <th>Pekan 3</th>
                 <th>Pekan 4</th>
                 <th>Pekan 5</th>
+                <th>Total</th>
                 <th>Progres</th>
-                <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -91,6 +91,22 @@
                     @endif
                     
                 @endfor
+                {{-- total --}}
+                <td>
+                    @if (empty($tr->total))
+                    <input type="number" class="form-control" name="total" style="
+                            width: 100px;
+                            padding: 8px 2px;
+                    ">
+                    <small id="emailHelp" class="form-text text-muted">Isi terakhir</small>
+                    @else
+                    <input type="number" class="form-control" name="total" value="{{$tr->total}}" readonly style="
+                            width: 100px;
+                            padding: 8px 2px;
+                    ">
+                    @endif
+                    
+                </td>
                 <td>
                     <p class="my-0">{{$tr->progres}}%</p>
                     <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
@@ -105,8 +121,9 @@
                 </form>
             </tr>
             @php
-                
+               
                 $tot_progres += $tr->progres;
+                
             @endphp
             @endforeach
             <tr>

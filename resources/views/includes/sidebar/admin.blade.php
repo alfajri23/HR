@@ -11,7 +11,7 @@
                 <ul class="list-unstyled sub-menu collapse in ml-5">
                     <li><a href="{{route('karyawanAdmin')}}"><i class="fas fa-user-friends mr-2"></i>Karyawan</a>
                     </li>
-                    <li><a href="{{route('divisiAdmin')}}"><i class="fas fa-building mr-2"></i></i>Divisi</a>
+                    <li><a href="{{route('divisiAdmin')}}"><i class="fas fa-building mr-3"></i></i>Divisi</a>
                     </li>
                 </ul>
             </li>

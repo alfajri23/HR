@@ -13,6 +13,7 @@ use App\Helpers\Track;
 use App\Helpers\MultiOkr;
 use PhpParser\Node\Expr\AssignOp\Div;
 use Carbon\Carbon;
+use App\Models\Subdivisi;
 
 class TrackController extends Controller
 {
@@ -30,7 +31,6 @@ class TrackController extends Controller
         $key = Objective::where('id_divisi',$key)->pluck('kode');
         $key = Keyresult::whereIn('kode_obj',$key)->get();
         $tracks = collect($track);
-        //dd($track);
         
         //cek jika track ada
         if(count($tracks) > 1){
@@ -40,10 +40,13 @@ class TrackController extends Controller
         }
         $tracks = $tracks->groupBy('multi');
        
-        //dd($tracks);
+        //multiokr
+        $subs = Subdivisi::all();
         
         
-        return view('content.admin.track.track-user',compact('user','tracks','key','bulan','multi'));
+        return view('content.admin.track.track-user',compact('user','tracks',
+                                                            'key','bulan',
+                                                            'multi','subs'));
     }
 
     public function divisi($id)
@@ -90,6 +93,9 @@ class TrackController extends Controller
         }
         $tracks = $tracks->groupBy('multi');
 
+        //dd($tracks);
+        //dd($multi);
+
 
         return view('content.user.okr_detail',compact('data','bulan','tracks','multi'));
     }
@@ -123,7 +129,6 @@ class TrackController extends Controller
 
         $result = KeyResultUser::where([
                     'id_user'  => $user,
-                    // 'username' => $user,
                     'kode_key' => $request->key,
                 ])->whereYear('created_at', date('Y'))
                 ->get();
@@ -154,7 +159,7 @@ class TrackController extends Controller
     }
 
     public function update(Request $request){
-        //dd($request);
+        $total = empty($request->total) ? null : $request->total;
         $track = OkrTracking::find($request->id);
     
         $data_week = $track->week_1;
@@ -177,8 +182,16 @@ class TrackController extends Controller
 
         $data_week = implode(",",$data_week);
 
-        $progres = $data_progres/$track->target * $track->bobot;
+        if(empty($total)){
+            $progres = $data_progres/$track->target * $track->bobot;
+        }else{
+            $progres = $total/$track->target * $track->bobot;
+        }
 
+        
+
+        
+        $track->total = $total;
         $track->week_1 = $data_week;
         $track->progres = $progres;
 
@@ -198,7 +211,7 @@ class TrackController extends Controller
 
         $target = $result->target_1;
         $target = explode(",",$target);
-        $target[date('m')-1] = round($progres);
+        $target[date('m')-1] = $progres;
         $new_target = implode(",",$target);
         $result->target_1 = $new_target;
         $result->save();

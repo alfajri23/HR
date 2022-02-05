@@ -17,8 +17,11 @@
     <div class="container-fluid bg-white p-3">
         @hasrole('admin')
         <a href="#" data-toggle="modal" data-target="#modalTrack"
-                                class="mb-3 btn btn-success btn-sm">Tambah Objective</a>
+                                class="mb-3 btn btn-success btn-sm">Tambah Objective </a>
         @endhasrole
+        @if($user->multi_okr != 0 )
+            <a href="{{route('subdivIndex')}}" class="mb-3 btn btn-info btn-sm">Tambah Subdivisi</a>
+        @endif
         @forelse ($tracks as $e => $track)  
         {{-- @php                    //besok dicopas dari detail.php jika data tidak ada gunakan dibawah
             $done = 0;
@@ -59,6 +62,7 @@
                     <th>Pekan 3</th>
                     <th>Pekan 4</th>
                     <th>Pekan 5</th>
+                    <th>Total</th>
                     <th>Progres</th>
                     <th>Aksi</th>
                 </tr>
@@ -91,16 +95,17 @@
                         @else
                         <td>{{number_format($week[$i])}}</td>
                         @endif
-                        
                     @endfor
+                    <td>{{$tr->total}}</td>
                     <td>
                         <p class="my-0">{{$tr->progres}}%</p>
-                        <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
+                        {{-- <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
                             <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr->progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr->progres}}%"><span class="sr-only">{{$tr->progres}}%</span>
                             </div>
-                        </div>
-                        </td>
+                        </div> --}}
+                    </td>
                     <td>
+                        <a href="javascript:void(0)" onclick="okrEdit({{$tr->id}})" class="btn btn-info btn-sm"><i class="fas fa-dot-circle"></i></a>
                         <a href="javascript:void(0)" onclick="trackModalEdit({{$tr->id}})" class="btn btn-success btn-sm"><i class="fas fa-pencil-alt"></i></a>
                         <a href="{{route('trackDelete',$tr->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
                     </td>
@@ -112,14 +117,15 @@
                 @endphp
                 @endforeach
                 <tr>
-                    <td colspan="11" class="text-center">Total progres</td>
-                    <td>
+                    <td colspan="12" class="text-center">Total progres</td>
+                    <td colspan="2">
                         <p class="my-0">{{$tot_progres}}%</p>
                         <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
                             <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
                             </div>
-                        </div></td>
-                    <td colspan="2"></td>
+                        </div>
+                    </td>
+                    
                 </tr>
             </tbody>
         </table>
@@ -128,58 +134,65 @@
         @endforelse
 
         @if (!empty($multi))
-        <h4>Total</h4>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th style="width: 2px">No</th>
-                    <th>Kode</th>
-                    <th style="width: 300px;">Key result</th>
-                    <th>Bobot</th>
-                    <th>Target</th>
-                    <th>Start</th>
-                    <th>Pekan 1</th>
-                    <th>Pekan 2</th>
-                    <th>Pekan 3</th>
-                    <th>Pekan 4</th>
-                    <th>Pekan 5</th>
-                    <th>Progres</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $tot_progres = 0;
-                @endphp
-                @foreach ($multi as $tr )
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$tr['kode_key']}}</td>
-                    <td>{{$tr['nama']}}</td>
-                    <td>10%</td>
-                    <td>100%</td>
-                    <td>0</td>
-                    @for($i = 0; $i < count($tr['data_pekan']); $i++)
-                        @if (empty($tr['data_pekan'][$i]))
-                        <td>
+            <h4>Total</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 2px">No</th>
+                        <th>Kode</th>
+                        <th style="width: 300px;">Key result</th>
+                        <th>Pekan 1</th>
+                        <th>Pekan 2</th>
+                        <th>Pekan 3</th>
+                        <th>Pekan 4</th>
+                        <th>Pekan 5</th>
+                        <th>Progres</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $tot_progres = 0;
+                    @endphp
+                    @foreach ($multi as $tr )
+                    <tr>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$tr['kode_key']}}</td>
+                        <td>{{$tr['nama']}}</td>
+                        @for($i = 0; $i < count($tr['data_pekan']); $i++)
+                            @if (empty($tr['data_pekan'][$i]))
+                            <td>
+                                
+                            </td>
+                            @else
+                            <td>{{number_format($tr['data_pekan'][$i])}}</td>
+                            @endif
                             
-                        </td>
-                        @else
-                        <td>{{number_format($tr['data_pekan'][$i])}}</td>
-                        @endif
-                        
-                    @endfor
-                    <td>
-                        <p class="my-0">{{$tr['progres']}}%</p>
-                        <div class="progress" data-toggle="tooltip" title="{{$tr['progres']}}%">
-                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr['progres']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr['progres']}}%"><span class="sr-only">{{$tr['progres']}}%</span>
+                        @endfor
+                        <td>
+                            <p class="my-0">{{$tr['progres']}}%</p>
+                            <div class="progress" data-toggle="tooltip" title="{{$tr['progres']}}%">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr['progres']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr['progres']}}%"><span class="sr-only">{{$tr['progres']}}%</span>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </td>
+                        @php
+                
+                            $tot_progres += $tr['progres'];
+                        @endphp
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="8" class="text-center">Total progres</td>
+                        <td colspan="1">
+                            <p class="my-0">{{$tot_progres}}%</p>
+                            <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
+                                </div>
+                            </div></td>
+                        {{-- <td colspan="1"></td> --}}
+                    </tr>
+                </tbody>
+            </table>
         @endif
         
 
@@ -206,21 +219,37 @@
                                 @endforeach
                             </select>
                         </div>   
-                        @if($user->id == 15 || $user->id == 16 )
+                        @if($user->multi_okr != 0 )
                         <div class="mb-3" id="inputKey">
                             <label for="exampleInputPassword1" class="form-label">Divisi</label>
                             <select class="form-control" name="multi" id="multi">
-                                <option value="makin_mahir">Makin Mahir</option>
-                                <option value="UMKM">Sekolah UMKM</option>
-                                <option value="lanjut_kuliah">Lanjut kuliah</option>
-                                <option value="Mysch">MySch</option>
+                                @foreach ($subs as $sub)
+                                    <option value="{{$sub->nama}}">{{$sub->nama}}</option>
+                                @endforeach
                             </select>
                         </div>  
                         @endif    
                         <div class="mb-3">
                             <input type="hidden" class="form-control" name="id" id="id" aria-describedby="emailHelp">
-                            <input type="hidden" class="form-control" value="{{date('m')}}" name="bulan" id="bulan">
+                            {{-- <input type="hidden" class="form-control" value="{{date('m')}}" name="bulan" id="bulan"> --}}
                             <input type="hidden" class="form-control" value="{{$user->id}}" name="id_user" id="id_user">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlSelect1">Bulan</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="bulan" id="bulan">
+                                <option value="1">Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Target</label>
@@ -242,6 +271,30 @@
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
+    </div>
+
+    {{-- Edit OKR --}}
+    <div class="modal modal-info fade bs-modal-md-primary" id="modalOkr" tabindex="-1" role="dialog" aria-labelledby="myMediumModalLabel" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header text-inverse">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h5 class="modal-title" id="myMediumModalLabel">Edit data pekan</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('trackUpdate')}}" method="POST" id="formObj">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Total</label>
+                            <input type="number" class="form-control" name="total" id="total">
+                            <input type="hidden" class="form-control" name="id" id="id_okr">
+                        </div>
+                        <div id="okrList"></div>
+                        <button type="submit" id="btnOkr" class="btn btn-primary">Edit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 <script>
@@ -280,6 +333,47 @@
                 $('#start').val(data.data.start);
                 $('#key').val(data.data.kode_key);
                 $('#btnOkr').html("Edit");
+                // $('#inputKey').hide();
+            }
+        });
+    }
+
+
+
+    function okrEdit(id){
+        let inputWeek = ``;
+        let input = '';
+
+        function loop(no,index){
+            input += `
+            <div class="col-12 mb-3">
+            <label for="exampleInputPassword1" class="form-label">Pekan ${index+1}</label>
+            <input class="form-control" name="week_no[]" value="${index}" type="hidden">
+            <input type="text" class="form-control" value="${no}" name="week_val[]">
+            </div>
+            `;
+        }
+
+        $.ajax({
+            type : 'GET',
+            url  : "{{ route('trackShow') }}",
+            data : {
+                id : id
+            },
+            dataType: 'json',
+            success : (data)=>{
+                console.log(data.data);
+                
+                $('#id_okr').val(data.data.id);
+                $('#total').val(data.data.total);
+                let week = data.data.week_1;
+                week = week.split(',');
+                week.forEach(loop);
+                //console.log(input);
+
+                $('#okrList').html(input);
+                $('#modalOkr').modal('show');
+
                 // $('#inputKey').hide();
             }
         });

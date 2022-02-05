@@ -165,6 +165,7 @@ class KaryawanController extends Controller
             } 
         }
         $tracks = $tracks->groupBy('multi');
+        //dd($tracks);
 
         $track_tahun = Track::track_tahun($id);
         $track_tahun = implode(",",$track_tahun);
@@ -212,11 +213,12 @@ class KaryawanController extends Controller
 
         
         return view('content.admin.karyawan.karyawan-detail',compact('data','divisi',
-                                                                    'bulan','track',
+                                                                    'bulan','track','tracks',
                                                                     'absen','izin',
                                                                     'lembur','ganti',
                                                                     'jam','ijin',
-                                                                    'cuti','track_tahun'));
+                                                                    'cuti','track_tahun',
+                                                                    'multi'));
         
 
     }
@@ -239,6 +241,7 @@ class KaryawanController extends Controller
         $data = User::find(session('id_user'));
         $divisi = Divisi::all();
         $bulan = Track::get_bulan(date('m'));
+        $multi = '';
 
         $track = OkrTracking::where('id_user',session('id_user'))
         ->where('bulan',date('m'))
@@ -286,9 +289,19 @@ class KaryawanController extends Controller
         }
 
         $tracks = collect($track);
+        if(count($tracks) > 1){
+            if($tracks[0]['multi'] != null){
+                $multi = MultiOkr::user($tracks);
+            } 
+        }
         $tracks = $tracks->groupBy('multi');
 
-        return view('content.user.okr_input',compact('tracks','data','divisi','bulan','track','status'));
+        
+
+        return view('content.user.okr_input',compact('tracks','data',
+                                                    'divisi','bulan',
+                                                    'track','status',
+                                                    'multi'));
         
     }
 

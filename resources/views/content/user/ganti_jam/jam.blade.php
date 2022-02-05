@@ -50,9 +50,9 @@
                             </button>
                         </span>
                     </div>
-                    @empty(!$ganti)
+                    @if($jam_total>1)
                     <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal"><i class="far fa-plus-square"></i>Ganti jam</button>
-                    @endempty
+                    @endif
                     
                     <div class="table-responsive">
                     <table class="table table-bordered">
@@ -139,6 +139,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-8">
                         <label for="inputEmail4">Tanggal</label>
+                        <input type="hidden" class="form-control" name="hutang" value="{{$jam_total}}">
                         <input type="hidden" class="form-control" id="id" name="id">
                         <input type="date" class="form-control" id="tgl" name="tgl">
                     </div>

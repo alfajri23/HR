@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(KeyresultSeeder::class);
         $this->call(DivisiSeeder::class);
         $this->call(ListIbadahSeeder::class);
+        $this->call(SubdivisiSeeder::class);
     }
 }

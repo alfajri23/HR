@@ -3,7 +3,12 @@
     <!-- Logo Area -->
     <div class="navbar-header">
         <a href="{{route('dashboard')}}" class="navbar-brand">
-            <h4 class="logo-expand mx-auto">HR Program</h4>
+            <h4 class="logo-expand mx-auto">
+                <strong>
+                    {{auth()->user()->hasrole('admin') ? 'Admin Program' : 'HR Program'}}
+                </strong>
+                
+            </h4>
             <h4 class="logo-collapse mx-auto">HR</h4>
 
             <!-- <p>OSCAR</p> -->

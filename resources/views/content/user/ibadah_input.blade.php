@@ -13,8 +13,10 @@
 @section('content')
     <div class="container bg-white p-3">
         
+        
         @if ($status == 1)
             <h4 class="text-center mb-4">Evaluasi amal harian pekan {{$pekan}}</h4>
+            <a href="{{route('ibadahHistory')}}" class="btn btn-primary btn-input btn-sm mb-2">Riwayat</a>
             <table class="table table-bordered">
                 <thead>
                     <tr>

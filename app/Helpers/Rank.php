@@ -12,6 +12,7 @@ class Rank
 {
     public static function rank_kumulatif($m){
         $data_pekan = Track::track($m);
+        //dd($data_pekan);
         
 
         $user = User::whereHas("roles", function($q){ $q->where("name","!=", "Admin"); })
@@ -23,8 +24,6 @@ class Rank
         $ibadah = 0;
         $absensi = 0;
         $okr = 0;
-
-        //dd($data_pekan);
 
         foreach($user as $id){
             //IBADAH
@@ -57,10 +56,11 @@ class Rank
 
             //OKR
             $okr = $data_pekan->where('id_user',$id->id)->first();
-        
+            
             if(empty($okr)){
                 $okrs = 0;
             }else{
+               
                 $okrs = $okr['progres'];
             }
             
@@ -70,6 +70,8 @@ class Rank
             ];
 
         }
+
+        // dd("stop");
 
         $rank = collect($rank);
         $rank = $rank->sortByDesc('hasil');

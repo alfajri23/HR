@@ -138,8 +138,10 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('ibadah')->group(function(){
             Route::get('input',[Controllers\ListIbadahUserController::class,'index'])->name('ibadahInput');
             Route::post('store',[Controllers\ListIbadahUserController::class,'store'])->name('ibadahInputStore');
+            Route::post('update',[Controllers\ListIbadahUserController::class,'update'])->name('ibadahUpdate');
 
-
+            Route::get('edit',[Controllers\ListIbadahUserController::class,'edit'])->name('ibadahEdit');
+            Route::get('history',[Controllers\ListIbadahUserController::class,'history'])->name('ibadahHistory');
             Route::get('listMaster',[Controllers\ListIbadahController::class,'index'])->name('ibadahList');
             Route::get('showMaster',[Controllers\ListIbadahController::class,'show'])->name('ibadahShow');
             Route::post('storeMaster',[Controllers\ListIbadahController::class,'create'])->name('ibadahStore');
@@ -150,6 +152,13 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('dashboard')->group(function(){
             Route::get('/',[Controllers\DashboardController::class,'index'])->name('dashboard');
            
+        });
+
+        Route::prefix('subdivisi')->group(function(){
+            Route::get('/',[Controllers\SubdivisiController::class,'index'])->name('subdivIndex');
+            Route::get('show',[Controllers\SubdivisiController::class,'show'])->name('subdivShow');
+            Route::get('delete/{id}',[Controllers\SubdivisiController::class,'destroy'])->name('subdivDelete');
+            Route::post('store',[Controllers\SubdivisiController::class,'store'])->name('subdivStore');
         });
 
     

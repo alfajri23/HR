@@ -91,7 +91,7 @@
                                     <img src="{{asset($dt->user->foto)}}" class="rounded-circle" alt="">
                                 </a>
                             </div>
-                            <div class="media-body"><a href="#" class="btn btn-outline-default">{{$dt->point}}</a>
+                            <div class="media-body"><a href="#" class="btn btn-outline-default px-2">{{$dt->point}}</a>
                                 <h5 class="media-heading"><a href="#">{{$dt->user->nama}}</a> <small>{{$dt->user->username}}</small></h5>
                             </div>
                             
@@ -115,7 +115,7 @@
                                     <img src="{{asset($dt->user->foto)}}" class="rounded-circle" alt="">
                                 </a>
                             </div>
-                            <div class="media-body"><a href="#" class="btn btn-outline-default">{{$dt->hasil}}</a>
+                            <div class="media-body"><a href="#" class="btn btn-outline-default px-2">{{$dt->hasil}}</a>
                                 <h5 class="media-heading"><a href="{{route('karyawanDetail',$dt->user->id)}}">{{$dt->user->nama}}</a> <small>{{$dt->user->username}}</small></h5>
                             </div>
                             
