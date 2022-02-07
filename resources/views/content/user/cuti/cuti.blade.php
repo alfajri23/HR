@@ -107,6 +107,7 @@
                 <div class="form-group col-md-12">
                     <label for="inputPassword4">Jatah cuti</label>
                     <input type="number" class="form-control" name="jatah" value="{{auth()->user()->cuti}}" readonly>
+                    <input type="hidden" class="form-control" name="filter" value="cuti">
                 </div>
                 <div class="form-row pl-3">
                     <div class="form-group col-md-6">

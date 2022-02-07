@@ -52,6 +52,7 @@
                         <th>Pekan 3</th>
                         <th>Pekan 4</th>
                         <th>Pekan 5</th>
+                        <th>Total</th>
                         <th>Progres</th>
                         <th>Aksi</th>
                     </tr>
@@ -59,15 +60,16 @@
                 <tbody>
                     @php
                         $tot_progres = 0;
+                        $tot_bobot = 0;
                     @endphp
                     @forelse ($track as $tr )
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>{{$tr->kode_key}}</td>
                         <td>{{$tr->keyResult->nama}}</td>
-                        <td>{{$tr->bobot}}</td>
-                        <td>{{number_format($tr->target)}}</td>
-                        <td>{{$tr->start}}</td>
+                        <td class="text-center">{{$tr->bobot}}</td>
+                        <td class="text-center">{{number_format($tr->target)}}</td>
+                        <td class="text-center">{{$tr->start}}</td>
                         @php
                             if($tr->week_1 != null){
                                 $week = explode(",",$tr->week_1);
@@ -88,10 +90,24 @@
                                 ">
                             </td>
                             @else
-                            <td>{{number_format($week[$i])}}</td>
+                            <td class="text-center">{{number_format($week[$i])}}</td>
                             @endif
                             
                         @endfor
+                        <td>
+                            @if (empty($tr->total))
+                            <input type="number" class="form-control" name="total" style="
+                                    width: 100px;
+                                    padding: 8px 2px;
+                            ">
+                            <small id="emailHelp" class="form-text text-muted">Isi terakhir</small>
+                            @else
+                            <input type="number" class="form-control" name="total" value="{{$tr->total}}" readonly style="
+                                    width: 100px;
+                                    padding: 8px 2px;
+                            ">
+                            @endif
+                        </td>
                         <td>
                             <p class="my-0">{{$tr->progres}}%</p>
                             {{-- <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
@@ -106,12 +122,15 @@
                     </tr>
                     @php                    
                         $tot_progres += $tr->progres;
+                        $tot_bobot += $tr->bobot;
                     @endphp
 
                     @empty
 
                     @endforelse
                     <tr>
+                        <td colspan="3" class="text-center">Bobot</td>
+                        <td colspan="1">{{$tot_bobot}}</td>
                         <td colspan="8" class="text-center">Total progres</td>
                         <td colspan="1">
                             <p class="my-0">{{$tot_progres}}%</p>
@@ -120,7 +139,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td colspan="2"></td>
+                        <td colspan="1"></td>
                     </tr>
                 </tbody>
             </table>
@@ -159,7 +178,7 @@
                                 
                             </td>
                             @else
-                            <td>{{number_format($tr['data_pekan'][$i])}}</td>
+                            <td class="text-center">{{number_format($tr['data_pekan'][$i])}}</td>
                             @endif
                             
                         @endfor

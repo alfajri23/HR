@@ -10,6 +10,15 @@
 @endsection
 
 @section('content')
+
+<style>
+    .rounded-circle{
+            background-image: cover;
+            width: 45px !important;
+            height:45px !important;
+    }
+</style>
+
     <div class="row flex-wrap">
         
         <div class="col-md-12 widget-holder widget-full-height">
@@ -76,6 +85,7 @@
                                                 <i style="color:rgb(166, 173, 68)" class="fas fa-male fa-lg mr-1"></i>
                                                 @break
                                             @case(2)
+                                                <img style="width: 20px" src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-owl-animals-dreamstale-lineal-dreamstale-1.png"/>
                                                 @break
                                             @case(3)
                                                 <i style="color:rgb(81, 165, 165)" class="fas fa-graduation-cap fa-lg mr-1"></i>

@@ -70,15 +70,16 @@
             <tbody>
                 @php
                     $tot_progres = 0;
+                    $tot_bobot = 0;
                 @endphp
                 @foreach ($track as $tr )
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$tr->kode_key}}</td>
                     <td>{{$tr->keyResult->nama}}</td>
-                    <td>{{$tr->bobot}}</td>
-                    <td>{{$tr->target}}</td>
-                    <td>{{$tr->start}}</td>
+                    <td class="text-center">{{$tr->bobot}}</td>
+                    <td class="text-center">{{$tr->target}}</td>
+                    <td class="text-center">{{$tr->start}}</td>
                     @php
                         if($tr->week_1 != null){
                             $week = explode(",",$tr->week_1);
@@ -93,7 +94,7 @@
                             
                         </td>
                         @else
-                        <td>{{number_format($week[$i])}}</td>
+                        <td  class="text-center">{{number_format($week[$i])}}</td>
                         @endif
                     @endfor
                     <td>{{$tr->total}}</td>
@@ -112,19 +113,22 @@
                     
                 </tr>
                 @php
-                    
+                    $tot_bobot += $tr->bobot;
                     $tot_progres += $tr->progres;
                 @endphp
                 @endforeach
                 <tr>
-                    <td colspan="12" class="text-center">Total progres</td>
-                    <td colspan="2">
+                    <td colspan="3" class="text-center">Bobot</td>
+                    <td colspan="1"  class="text-center">{{$tot_bobot}}</td>
+                    <td colspan="8" class="text-center">Total progres</td>
+                    <td colspan="1">
                         <p class="my-0">{{$tot_progres}}%</p>
                         <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
                             <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
                             </div>
                         </div>
                     </td>
+                    <td colspan="1"></td>
                     
                 </tr>
             </tbody>
@@ -164,7 +168,7 @@
                                 
                             </td>
                             @else
-                            <td>{{number_format($tr['data_pekan'][$i])}}</td>
+                            <td class="text-center">{{number_format($tr['data_pekan'][$i])}}</td>
                             @endif
                             
                         @endfor

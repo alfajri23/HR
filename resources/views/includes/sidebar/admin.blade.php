@@ -15,14 +15,10 @@
                     </li>
                 </ul>
             </li>
-            {{-- <li><a href="{{route('karyawanAdmin')}}"><i class="fas fa-user-friends fa-lg mr-1"></i><span class="hide-menu">Karyawan</span></a>
-            </li>
-            <li><a href="{{route('divisiAdmin')}}"><i class="fas fa-building fa-lg mr-3"></i></i><span class="hide-menu">Divisi</span></a>
-            </li> --}}
-            <li><a href="{{route('ibadahList')}}"><i class="fas fa-pray fa-lg mr-3"></i></i><span class="hide-menu">Ibadah</span></a>
-            </li>
             <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="far fa-calendar-minus fa-lg mr-3"></i>Perizinan</a>
                 <ul class="list-unstyled sub-menu collapse in ml-5">
+                    <li><a href="{{route('gantiAdmin')}}"><i class="fas fa-user-clock mr-2"></i></i>Ganti jam</a>
+                    </li>
                     <li><a href="{{route('izinAdmin')}}"><i class="fas fa-forward mr-2"></i></i>Izin</a>
                     </li>
                     <li><a href="{{route('izinAdminSakit')}}"><i class="fas fa-head-side-cough mr-2"></i></i>Sakit</a>
@@ -31,9 +27,9 @@
                     </li>
                     <li><a href="{{route('lemburAdmin')}}"><i class="fas fa-laptop-house mr-2"></i></i>Lembur</a>
                     </li>
-                    <li><a href="{{route('gantiAdmin')}}"><i class="fas fa-user-clock mr-2"></i></i>Ganti jam</a>
-                    </li>
                 </ul>
+            </li>
+            <li><a href="{{route('ibadahList')}}"><i class="fas fa-pray fa-lg mr-3"></i></i><span class="hide-menu">Ibadah</span></a>
             </li>
             
             {{-- <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="fas fa-briefcase fa-lg mr-3"></i>OKR</a>

@@ -34,11 +34,15 @@
             </a>
             <div class="dropdown-menu dropdown-left dropdown-card dropdown-card-dark animated flipInY">
                 <div class="card">
-                    <header class="card-header">New notifications 
+                    {{-- <header class="card-header">New notifications 
                         <span class="countNoti" class="mr-l-10 badge badge-border badge-border-inverted bg-primary">{{count($noti)}}</span>
-                    </header>
+                    </header> --}}
                     <ul class="list-unstyled dropdown-list-group">
-                        @forelse ($noti as $n)
+                        @forelse ($noti as $key => $not)
+                            <header class="card-header text-uppercase">{{$key}} 
+                                <span class="countNoti mr-l-10 badge badge-border badge-border-inverted bg-primary">{{count($not)}}</span>
+                            </header>
+                            @forelse ($not as $n)
                             <li id="listNoti-{{$n->id}}">
                                 <a href="#" class="media">
                                     <span class="d-flex"><i class="far fa-bell" style="color: gold"></i> </span>
@@ -54,16 +58,17 @@
                                     </span>
                                 </a>
                             </li>
+                            @empty
+                                
+                            @endforelse
+                            
                         @empty
                             <p>Tidak ada notifikasi</p>
                             
                         @endforelse
                     </ul>
-                    <!-- /.dropdown-list-group -->
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.dropdown-menu -->
         </li>
     </ul>
     <div class="btn-list dropdown d-none d-md-flex mx-3">

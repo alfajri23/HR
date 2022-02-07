@@ -55,7 +55,8 @@ class CheckNotifikasi extends Command
                 Notifikasi::create([
                     'nama' => $pesan,
                     'status' => 1,
-                    'tipe' => 2
+                    'tipe' => 2,
+                    'filter' => 'reminder'
                 ]);
             }
         }
@@ -68,7 +69,8 @@ class CheckNotifikasi extends Command
                 Notifikasi::create([
                     'nama' => $pesan,
                     'status' => 1,
-                    'tipe' => 1
+                    'tipe' => 1,
+                    'filter' => 'reminder'
                 ]);
             }
         }

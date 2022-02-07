@@ -58,15 +58,16 @@
         <tbody>
             @php
                 $tot_progres = 0;
+                $tot_bobot = 0;
             @endphp
             @foreach ($track as $tr )
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$tr->kode_key}}</td>
                 <td>{{$tr->keyResult->nama}}</td>
-                <td>{{$tr->bobot}}</td>
-                <td>{{number_format($tr->target)}}</td>
-                <td>{{$tr->start}}</td>
+                <td class="text-center">{{$tr->bobot}}</td>
+                <td class="text-center">{{number_format($tr->target)}}</td>
+                <td class="text-center">{{$tr->start}}</td>
                 @php
                     if($tr->week_1 != null){
                         $week = explode(",",$tr->week_1);
@@ -87,7 +88,7 @@
                         ">
                     </td>
                     @else
-                    <td>{{number_format($week[$i])}}</td>
+                    <td class="text-center">{{number_format($week[$i])}}</td>
                     @endif
                     
                 @endfor
@@ -113,33 +114,33 @@
                         <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr->progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr->progres}}%"><span class="sr-only">{{$tr->progres}}%</span>
                         </div>
                     </div>
-                    </td>
-                <td>{{$tr->status}}</td>
+                </td>
                 <td>
                     <button type="submit" class="btn btn-primary btn-sm">Update</button>
                 </td>
                 </form>
             </tr>
             @php
-               
                 $tot_progres += $tr->progres;
-                
+                $tot_bobot += $tr->bobot;
             @endphp
             @endforeach
             <tr>
-                <td colspan="11" class="text-center">Total progres</td>
-                <td>
+                <td colspan="3" class="text-center">Bobot</td>
+                <td colspan="1">{{$tot_bobot}}</td>
+                <td colspan="8" class="text-center">Total progres</td>
+                <td colspan="1">
                     <p class="my-0">{{$tot_progres}}%</p>
                     <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
                         <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
                         </div>
-                    </div></td>
-                <td colspan="2"></td>
+                    </div>
+                </td>
+                <td colspan="1"></td>
             </tr>
         </tbody>
     </table>
     @empty    
-
     @endforelse
 
     @if (!empty($multi))
@@ -150,16 +151,12 @@
                     <th style="width: 2px">No</th>
                     <th>Kode</th>
                     <th style="width: 300px;">Key result</th>
-                    <th>Bobot</th>
-                    <th>Target</th>
-                    <th>Start</th>
                     <th>Pekan 1</th>
                     <th>Pekan 2</th>
                     <th>Pekan 3</th>
                     <th>Pekan 4</th>
                     <th>Pekan 5</th>
                     <th>Progres</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -171,16 +168,13 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{$tr['kode_key']}}</td>
                     <td>{{$tr['nama']}}</td>
-                    <td>10%</td>
-                    <td>100%</td>
-                    <td>0</td>
                     @for($i = 0; $i < count($tr['data_pekan']); $i++)
                         @if (empty($tr['data_pekan'][$i]))
                         <td>
                             
                         </td>
                         @else
-                        <td>{{number_format($tr['data_pekan'][$i])}}</td>
+                        <td class="text-center">{{number_format($tr['data_pekan'][$i])}}</td>
                         @endif
                         
                     @endfor
@@ -198,14 +192,14 @@
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="11" class="text-center">Total progres</td>
+                    <td colspan="8" class="text-center">Total progres</td>
                     <td>
                         <p class="my-0">{{$tot_progres}}%</p>
                         <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
                             <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
                             </div>
                         </div></td>
-                    <td colspan="2"></td>
+
                 </tr>
             </tbody>
         </table>

@@ -471,7 +471,6 @@
                                                     <th>Total jam</th>
                                                     <th>Max Jam</th>
                                                     <th>Hasil</th>
-                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

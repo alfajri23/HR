@@ -95,7 +95,7 @@ class IzinController extends Controller
         ->where('tipe','!=','cuti')
         ->get();
         return view('content.admin.izin.sakit',compact('izin','user'));   
-}
+    }
 
     public function check_date($date){
         $date_stamp = strtotime(date('Y-m-d', strtotime($date)));
@@ -191,7 +191,8 @@ class IzinController extends Controller
             Notifikasi::create([
                 'nama' => "".$users->nama . " mengajukan ijin, mohon konfirmasi",
                 'status' => 1,
-                'tipe' => 2
+                'tipe' => 2,
+                'filter' => $request->filter,
             ]);
         }
 

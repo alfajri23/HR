@@ -17,6 +17,7 @@ class CreateNotifikasisTable extends Migration
             $table->id();
             $table->string('nama');
             $table->integer('status');
+            $table->string('filter')->nullable(); 
             $table->integer('tipe');
             $table->timestamps();
             $table->softDeletes();

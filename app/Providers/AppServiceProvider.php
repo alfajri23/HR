@@ -34,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
             }else{
                 $noti = Notifikasi::where(['status' => 1,'tipe' => 1])->get();
             }
+
+            $noti = collect($noti);
+            $noti = $noti->groupBy('filter');
             
             $view->with('noti', $noti);
         });

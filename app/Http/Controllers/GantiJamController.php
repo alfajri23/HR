@@ -104,7 +104,8 @@ class GantiJamController extends Controller
             Notifikasi::create([
                 'nama' => "".$users->nama . " telah selesai mengganti jam",
                 'status' => 1,
-                'tipe' => 2
+                'tipe' => 2,
+                'filter' => 'reminder'
             ]);
         }
 

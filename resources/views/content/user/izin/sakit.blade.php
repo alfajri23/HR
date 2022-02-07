@@ -101,6 +101,7 @@
                         <label for="inputEmail4">Tanggal mulai</label>
                         <input type="hidden" class="form-control" id="id" name="id">
                         <input type="date" class="form-control" id="tgl_mulai" name="tgl_mulai">
+                        <input type="hidden" class="form-control" name="filter" value="sakit">
                     </div>
                     <div class="form-group col-md-6" id="inputAkhir" style="display:none">
                         <label for="inputPassword4">Tanggal akhir</label>
