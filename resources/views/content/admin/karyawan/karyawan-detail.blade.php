@@ -9,6 +9,12 @@
     .bl{
         border-left: 1px solid #e8e8e8
     }
+
+    .photo{
+        object-fit: cover;
+        width: 100px !important;
+        height: 100px !important;
+    }
 </style>
         <div class="container-fluid d-flex">
             @php
@@ -48,8 +54,8 @@
                     <ul class="list-unstyled widget-user-list card-body">
                         <li class="media">
                             <div class="d-flex mr-3">
-                                <a href="#" class="user--online thumb-xs">
-                                    <img src="{{asset($data->foto)}}" class="rounded-circle" alt="">
+                                <a class="user--online thumb-xs" style="width:70px;">
+                                    <img src="{{asset($data->foto)}}" class="photo" alt="">
                                 </a>
                             </div>
                             <div class="media-body d-flex justify-content-between">        

@@ -5,6 +5,15 @@
 @endsection
 
 @section('content')
+
+<style>
+    .rounded-circle{
+            object-fit: cover;
+            background-image: cover;
+            width: 45px !important;
+            height:45px !important;
+    }
+</style>
 <div class="container p-5 bg-white">
     @if (Session::has('message'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">

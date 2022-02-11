@@ -50,9 +50,9 @@
                             </button>
                         </span>
                     </div>
-                    @if($jam_total>1)
+                    {{-- @if($jam_total>1) --}}
                     <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#izinModal"><i class="far fa-plus-square"></i>Ganti jam</button>
-                    @endif
+                    {{-- @endif --}}
                     
                     <div class="table-responsive">
                     <table class="table table-bordered">

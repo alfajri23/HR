@@ -311,10 +311,21 @@
                                             <!-- /.media-body -->
                                         </div>
                                         <!-- /.media -->
-                                        <div class="form-group">
-                                            <input type="hidden" class="form-control" value="{{$data->id}}" name="id" id="id" aria-describedby="emailHelp">
-                                            <input type="text" class="form-control" value="{{$data->nama}}" name="nama" id="nama" aria-describedby="emailHelp">
-                                            <label>Nama</label>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="hidden" class="form-control" value="{{$data->id}}" name="id" id="id" aria-describedby="emailHelp">
+                                                    <input type="text" class="form-control" value="{{$data->nama}}" name="nama" id="nama" aria-describedby="emailHelp">
+                                                    <label>Nama</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" name="password" id="nama" aria-describedby="emailHelp">
+                                                    <label>Password</label>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row">

@@ -9,7 +9,18 @@
     @endhasrole
 @endsection
 
+
 @section('content')
+
+<style>
+    .rounded-circle{
+            object-fit: cover;
+            background-image: cover;
+            width: 45px !important;
+            height:45px !important;
+    }
+</style>
+
     <div class="row flex-wrap">
         <div class="col-12 mb-2">
             <h3>{{$bulan}} {{date('Y')}}</h3>

@@ -13,6 +13,7 @@
 
 <style>
     .rounded-circle{
+            object-fit: cover;
             background-image: cover;
             width: 45px !important;
             height:45px !important;
@@ -31,7 +32,7 @@
                             <div class="d-flex mr-3">
                                 <h5 class="mr-2">{{$loop->iteration}}</h5>
                                 <a href="#" class="user--online thumb-xs">
-                                    <img src="{{asset($dt['divisi']->logo)}}" style="object-fit: cover;" class="rounded-circle" alt="">
+                                    <img src="{{asset($dt['divisi']->logo)}}" class="rounded-circle" alt="">
                                 </a>
                             </div>
                             <div class="media-body d-flex justify-content-between">

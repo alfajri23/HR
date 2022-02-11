@@ -103,10 +103,19 @@ class KaryawanController extends Controller
             $file->move($tujuan_upload,$nama_file);
         }
 
+        if(empty($request->password)){
+            $password = $foto->password;
+        }else{
+            $password = bcrypt($request->password);
+        }
+
+        //dd($password);
+
         //dd($request->reminder_kontrak);
 
         $data = User::find($request->id);
         $data->nama = $request->nama; 
+        $data->password = $password; 
         $data->cuti = $request->cuti; 
         $data->nik = $request->nik; //
         $data->pangkat = $request->pangkat;
@@ -248,10 +257,13 @@ class KaryawanController extends Controller
         ->orderBy('updated_at')
         ->get();
 
+        
+
         if(count($track)>0){
             //cek apakah sudah input okr belum
             $dd = $track[0]->week_1;
             $dd = explode(",",$dd);
+            
 
             $attempt = 0;
             foreach($dd as $dt){
@@ -263,6 +275,8 @@ class KaryawanController extends Controller
             $attempt = 0;
         }
 
+        //dd($attempt);
+
 
         $ibadah = ListIbadahUser::where([
             'id_user' => session('id_user'),
@@ -270,13 +284,14 @@ class KaryawanController extends Controller
         ])
         ->whereYear('created_at',date('Y'))
         ->get();
-        //dd($ibadah);
+        
 
         if(count($ibadah)>0){
 
             $ibadah = $ibadah[0]->pekan;
             $ibadah = explode(",",$ibadah);
-            $ibadah = count($ibadah)-1;
+            $ibadah = count($ibadah);
+            //dd($ibadah);
 
         }else{
             $ibadah = 0;

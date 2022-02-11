@@ -10,6 +10,14 @@
 @endsection
 
 @section('content')
+<style>
+    .rounded-circle{
+            object-fit: cover;
+            background-image: cover;
+            width: 45px !important;
+            height:45px !important;
+    }
+</style>
     <div class="row flex-wrap">
         <div class="col-md-6 widget-holder widget-full-height">
             <div class="widget-bg">

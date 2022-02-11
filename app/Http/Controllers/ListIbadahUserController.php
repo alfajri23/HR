@@ -85,7 +85,8 @@ class ListIbadahUserController extends Controller
             $data[0]->save();
         }
 
-        return redirect()->back();
+        return redirect()->route('detailMe');
+        //return redirect()->back();
 
     }
 

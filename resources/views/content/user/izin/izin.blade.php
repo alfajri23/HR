@@ -122,7 +122,7 @@
                 <div class="form-group col-md-12">
                     <label for="inputPassword4">Jenis</label>
                     <input type="text" class="form-control" name="jenis" id="jenis">
-                    <small id="emailHelp" class="form-text text-muted">Sakit ,Izin ,Tugas atau lainnya</small>
+                    <small id="emailHelp" class="form-text text-muted">Izin ,Tugas atau lainnya</small>
                 </div>
 
                 <div class="form-group col-md-12">
