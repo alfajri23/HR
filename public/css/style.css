@@ -9566,7 +9566,10 @@ dd {
 ========================*/
 .main-wrapper {
   padding: 0 1.5625rem 3.75rem;
-  background: #f2f4f8; }
+  /* background: #f2f4f8;  */
+  background: #fff; 
+
+}
   .sidebar-expand .main-wrapper {
     margin-left: 14.375rem; }
   .sidebar-collapse .main-wrapper {
@@ -19222,7 +19225,8 @@ SIDEBAR
       border-top: 1px solid #ddd;
       margin: 0.76923em 0; }
     .side-menu li a {
-      color: #207481 !important;
+      /* color: #207481 !important; */
+      color: #1d3557 !important;
     font-size: 16px !important;
       position: relative;
       display: block;
@@ -19405,9 +19409,12 @@ SIDEBAR
   background: #fff; }
 
 .sidebar-dark .site-sidebar {
-  background: #fff;
+  /* background: #fff; */
+  background: #e8e8e8;
+  
   border-color: rgba(255, 255, 255, 0.2); 
-  box-shadow: 4px -2px 27px 0px rgb(211 211 211 / 75%) !important;}
+  /* box-shadow: 4px -2px 27px 0px rgb(211 211 211 / 75%) !important; */
+}
   .sidebar-dark .site-sidebar .ps-scrollbar-y-rail,
   .sidebar-dark .site-sidebar .ps-scrollbar-x {
     background: transparent !important; }

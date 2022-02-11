@@ -26,7 +26,7 @@
                                 <!-- /.dropdown -->
                                 <div class="text-center">
                                    
-                                    <img class="rounded-circle img-thumbnail" src="{{ asset($data->foto) }}" alt="">
+                                    <img class="" style="width: 90%; object-fit: cover;" src="{{ asset($data->foto) }}" alt="">
                                     
                                 </div>
                                 <h4 class="mt-1"><a href="#">{{$data->nama}}</a> <span class="badge text-uppercase badge-warning align-middle">Pro</span></h4>

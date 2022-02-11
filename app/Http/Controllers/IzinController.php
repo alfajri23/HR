@@ -14,7 +14,7 @@ class IzinController extends Controller
 {
     public function __construct()
     {    
-        $this->middleware('role:admin')->only(['admin']);
+        $this->middleware('role:admin')->only(['admin','admin_sakit']);
     }
 
     public function index(Request $request){

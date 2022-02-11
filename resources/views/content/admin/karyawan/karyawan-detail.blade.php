@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+<style>
+    .bl{
+        border-left: 1px solid #e8e8e8
+    }
+</style>
         <div class="container-fluid d-flex">
             @php
                 $done = 0;
@@ -56,7 +61,7 @@
                                 <span class="btn-group mr-b-20">
                                     <button type="button" class="btn btn-outline-{{$jam > 0 ? 'danger' : 'default'}} ripple">
                                         <p class="mb-0">
-                                            @if($jam < 1)
+                                            @if($jam < 0)
                                                 {{$jam*-1}} jam
                                         </p>
                                         <p class="mb-0">Lebih</p>
@@ -531,9 +536,10 @@
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">Nama</h6>
                                                 <p class="mr-t-0">{{$data->nama}}</p>
+
                                             </div>
                                             
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Username</h6>
                                                 <p class="mr-t-0">{{$data->username}}</p>
                                             </div>
@@ -543,7 +549,7 @@
                                                 <p class="mr-t-0">{{$data->jenkel}}</p>
                                             </div>
                                             
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Alamat</h6>
                                                 <p class="mr-t-0">{{$data->alamat}}</p>
                                             </div>
@@ -553,7 +559,7 @@
                                                 <p class="mr-t-0">{{$data->alamat_ktp}}</p>
                                             </div>
                                             
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Telepon</h6>
                                                 <p class="mr-t-0">{{$data->telepon}}</p>
                                             </div>
@@ -563,7 +569,7 @@
                                                 <p class="mr-t-0">{{$data->telepon_wa}}</p>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Tempat lahir</h6>
                                                 <p class="mr-t-0">{{$data->tmpt_lahir}}</p>
                                             </div>
@@ -573,7 +579,7 @@
                                                 <p class="mr-t-0">{{$data->tgl_lahir}}</p>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Usia</h6>
                                                 <p class="mr-t-0">{{$data->usia}}</p>
                                             </div>
@@ -595,7 +601,7 @@
                                         
                                         <hr class="mr-tb-50">
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Sekolah</h6>
                                                 <p class="mr-t-0">{{$data->sekolah}}</p>
                                             </div>
@@ -605,7 +611,7 @@
                                                 <p class="mr-t-0">{{$data->pendidikan}}</p>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Jurusan</h6>
                                                 <p class="mr-t-0">{{$data->jurusan}}</p>
                                             </div>
@@ -615,7 +621,7 @@
                                                 <p class="mr-t-0">{{$data->rekening}}</p>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Npwp</h6>
                                                 <p class="mr-t-0">{{$data->npwp}}</p>
                                             </div>
@@ -625,7 +631,7 @@
                                                 <p class="mr-t-0">{{$data->bpjs_tk}}</p>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Bpjs kesehatan</h6>
                                                 <p class="mr-t-0">{{$data->bpjs_kes}}</p>
                                             </div>
@@ -664,7 +670,7 @@
                                                     
                                                 </p>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Level</h6>
                                                 <p class="mr-t-0">{{$data->level}}
                                                     
@@ -695,7 +701,7 @@
                                                     
                                                 </p>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Jabatan</h6>
                                                 <p class="mr-t-0">{{$data->jabatan}}</p>
                                             </div>
@@ -725,7 +731,7 @@
                                                     @endswitch
                                                 </p>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 bl">
                                                 <h6 class="text-muted text-uppercase">Habis kontrak</h6>
                                                 <p class="mr-t-0">{{$data->habis_kontrak}}</p>
                                             </div>

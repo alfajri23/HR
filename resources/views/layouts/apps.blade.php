@@ -43,6 +43,11 @@
         }  
     }
 
+    li .fas,.far{
+        /* color: #cf9000; */
+        color: #026b9d;
+    }
+    
     /* .rounded-circle{
             background-image: cover;
             width: 45px !important;

@@ -50,6 +50,12 @@ class CreateUsersTable extends Migration
             $table->integer('id_divisi')->nullable();
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('ijazah')->nullable();
+            $table->string('cv')->nullable();
+            $table->string('sertifikat_1')->nullable();
+            $table->string('sertifikat_2')->nullable();
+            $table->string('sertifikat_3')->nullable();
+            $table->string('sertifikat_4')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

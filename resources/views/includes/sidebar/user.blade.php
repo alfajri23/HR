@@ -9,7 +9,7 @@
             </li>
             <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="fas fa-briefcase fa-lg mr-3"></i>OKR</a>
                 <ul class="list-unstyled sub-menu collapse in ml-5">
-                    <li><a href="{{route('detailMe')}}"><i class="fas fa-calendar-day mr-2"></i>OKR Bulan ini
+                    <li><a href="{{route('detailMe')}}"><i class="fas fa-calendar-day mr-2"></i>Input Okr
                     </li>
                     <li><a href="{{route('trackList')}}"><i class="fas fa-calendar-alt mr-2"></i></i>Riwayat OKR</a>
                     </li>
