@@ -67,6 +67,7 @@ class DashboardController extends Controller
 
     //menampikan rank detail
     public function detail($m){
+        //dd("hallo");
         $divisi = count(Divisi::all());
         $user = count(User::all());
 
@@ -82,6 +83,8 @@ class DashboardController extends Controller
         ->whereYear('created_at',date('Y'))
         ->orderBy('point','desc')
         ->get();
+        
+        //dd($ibadah);
 
         //absensi
         $absensi = Absensi::where('bulan',$m)

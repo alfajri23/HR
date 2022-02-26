@@ -10,6 +10,7 @@ class Keyresult extends Model
 {
     use HasFactory;
     //use SoftDeletes;
+    protected $table = 'keyresults';
 
     protected $guarded = [];
 

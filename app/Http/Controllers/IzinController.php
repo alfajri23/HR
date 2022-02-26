@@ -123,9 +123,10 @@ class IzinController extends Controller
         if(!empty($request->bukti)){
             $nama_file = time()."_".$bukti->getClientOriginalName();
             // isi dengan nama folder tempat kemana file diupload
+            $tujuan_upload_server = public_path('asset/img/izin');
             $tujuan_upload = 'asset/img/izin';
             $files = $tujuan_upload . '/'. $nama_file;
-            $bukti->move($tujuan_upload,$nama_file);  
+            $bukti->move($tujuan_upload_server,$nama_file);  
         }
 
         if($request->hari == 1 ){

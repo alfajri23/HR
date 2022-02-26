@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\KeyResultUser;
-use App\Models\KeyResult;
+use App\Models\Keyresult;
 use App\Models\OkrTracking;
 use App\Models\User;
 
@@ -43,17 +43,20 @@ class KeyResultUserController extends Controller
 
     public function list(){
         $user = User::find(session('id_user'));
+        //dd($user);
         $key = OkrTracking::where('id_user',$user->id)
         ->pluck('kode_key');
+        //dd($key);
 
         $key_result = KeyResult::whereIn('kode',$key)->get();
+        //dd($key_result);
         return view('content.user.key_result_user_list',compact('key_result'));
     }
     public function show($id)
     {
         $user = User::find(session('id_user'));
         //dd($user);
-        $kode_key = KeyResult::find($id);
+        $kode_key = Keyresult::find($id);
         $key = KeyResultUser::where([
             'id_user' => $user->id,
             'kode_key' => $kode_key->kode,
