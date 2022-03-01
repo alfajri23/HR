@@ -34,9 +34,9 @@ class CreateUsersTable extends Migration
             $table->string('pendidikan')->nullable();
             $table->string('jurusan')->nullable();
             $table->string('sekolah')->nullable();
-            $table->integer('npwp')->nullable();
-            $table->integer('bpjs_tk')->nullable();
-            $table->integer('bpjs_kes')->nullable();
+            $table->string('npwp')->nullable();
+            $table->string('bpjs_tk')->nullable();
+            $table->string('bpjs_kes')->nullable();
             $table->string('email')->unique();
             $table->string('telepon')->nullable();
             $table->string('telepon_wa')->nullable();

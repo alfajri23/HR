@@ -74,11 +74,11 @@
                                 
                                 <h5 class="media-heading">
                                     @hasrole('admin')
-                                        <a href="{{route('karyawanDetail',$dt['user']->id)}}">{{$dt['user']->nama}}</a> 
-                                        @endhasrole
-                                        @hasanyrole('user|user_manager')
-                                        <a>{{$dt['user']->nama}}</a> 
-                                        @endhasrole
+                                    <a href="{{route('karyawanDetail',$dt['user']->id)}}">{{$dt['user']->nama}}</a> 
+                                    @endhasrole
+                                    @hasanyrole('user|user_manager')
+                                    <a>{{$dt['user']->nama}}</a> 
+                                    @endhasrole
                                     <small> 
                                         <a>{{$dt['user']->jabatan}}</a> <br>
                                         @switch($dt['user']->divisi->id)

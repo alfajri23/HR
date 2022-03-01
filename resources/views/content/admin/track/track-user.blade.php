@@ -23,30 +23,6 @@
             <a href="{{route('subdivIndex')}}" class="mb-3 btn btn-info btn-sm">Tambah Subdivisi</a>
         @endif
         @forelse ($tracks as $e => $track)  
-        {{-- @php                    //besok dicopas dari detail.php jika data tidak ada gunakan dibawah
-            $done = 0;
-            $progres_tot = 0;
-            foreach ($track as $tr){
-                $progres = 0;
-                $target = $tr->target;
-                $week = explode(",",$tr->week_1);
-                foreach($week as $tr ){
-                    $progres += (int)$tr;
-                }
-                
-                $progres = $progres/$target * 100;
-                if($progres == 100){
-                    $done += 1;
-                } 
-                $progres_tot += $progres; 
-            }
-            if(count($track) == 0){
-                $progres_tot = 0;
-            }else{
-                $progres_tot = $progres_tot/count($track);
-            }
-        @endphp --}}
-
         <h4>{{$e}}</h4>
         <table class="table table-bordered">
             <thead>
@@ -237,8 +213,9 @@
                             <input type="hidden" class="form-control" name="id" id="id" aria-describedby="emailHelp">
                             {{-- <input type="hidden" class="form-control" value="{{date('m')}}" name="bulan" id="bulan"> --}}
                             <input type="hidden" class="form-control" value="{{$user->id}}" name="id_user" id="id_user">
+                            <input type="hidden" value="{{Request::segment(4)}}" name="bulan">
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="exampleFormControlSelect1">Bulan</label>
                             <select class="form-control" id="exampleFormControlSelect1" name="bulan" id="bulan">
                                 <option value="1">Januari</option>
@@ -254,7 +231,7 @@
                                 <option value="11">November</option>
                                 <option value="12">Desember</option>
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Target</label>
                             <input type="number" class="form-control" name="target" id="target">

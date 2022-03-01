@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Livewire\Karyawan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Divisi;
@@ -23,7 +22,7 @@ class KaryawanController extends Controller
     public function __construct()
     {
         //$this->middleware('role:admin')->except(['input_okr','profile','update']);
-        $this->middleware('role:admin')->only(['index','store','destroy','show']);
+        $this->middleware('role:admin')->only(['index','store','destroy']);
         //$this->middleware('role:user_manager')->only(['show']);
         //$this->middleware('role:user')->except(['show']);
     }
@@ -104,6 +103,7 @@ class KaryawanController extends Controller
         }
 
         if(empty($request->password)){
+            $foto = User::find($request->id);
             $password = $foto->password;
         }else{
             $password = bcrypt($request->password);
@@ -218,6 +218,17 @@ class KaryawanController extends Controller
 
         foreach($ganti as $gt){
             $jam = $jam - $gt->jam;
+        }
+
+        if(auth()->user()->hasrole('user_manager')){
+            return view('content.user.karyawan-detail',compact('data','divisi',
+                                                                'bulan','track','tracks',
+                                                                'absen','izin',
+                                                                'lembur','ganti',
+                                                                'jam','ijin',
+                                                                'cuti','track_tahun',
+                                                                'multi'));
+
         }
 
         

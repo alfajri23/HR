@@ -85,6 +85,10 @@ class Track
 
         $data_track = [];
 
+        for($i=0;$i<12;$i++){
+
+        }
+
         foreach($track as $key => $tr){
             //d($tr);
             if($tr[0]['multi'] != null){
