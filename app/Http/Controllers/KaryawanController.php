@@ -96,10 +96,15 @@ class KaryawanController extends Controller
             $files = $foto->foto;
         }else{
             $nama_file = time()."_".$file->getClientOriginalName();
-            // isi dengan nama folder tempat kemana file diupload
+            // isi dengan nama folder tempat kemana file diuploadpublic_path('\img\uploads')
+            $tujuan_upload_server = public_path('asset/img/profile');
             $tujuan_upload = 'asset/img/profile';
+            //dd($tujuan_upload);
             $files = $tujuan_upload . '/'. $nama_file;
-            $file->move($tujuan_upload,$nama_file);
+            $file->move($tujuan_upload_server,$nama_file);
+            // $request->file('file')->store(
+            //     'asset/img/profile', 'public'
+            // );
         }
 
         if(empty($request->password)){
@@ -155,11 +160,13 @@ class KaryawanController extends Controller
 
     public function show($id)
     {
+        
         $multi = null;
         $data = User::find($id);
         $divisi = Divisi::all();
         $bulan = array('1'=>'Januari', '2'=>'Februari', '3'=>'Maret', '4'=>'April', '5'=>'Mei', '6'=>'Juni', '7'=>'Juli', '8'=>'Agustus', '9'=>'September', '10'=>'Oktober', '11'=>'November', '12'=>'Desember');
         $absen = Absensi::where('id_user',$id)->get();
+        
 
         $track = OkrTracking::where('id_user',$id)
         ->where('bulan',date('m'))
@@ -218,6 +225,18 @@ class KaryawanController extends Controller
 
         foreach($ganti as $gt){
             $jam = $jam - $gt->jam;
+        }
+    
+        //dd($tracks);
+        if(auth()->user()->hasrole('user_manager')){
+            return view('content.user.karyawan-detail',compact('data','divisi',
+                                                                'bulan','track','tracks',
+                                                                'absen','izin',
+                                                                'lembur','ganti',
+                                                                'jam','ijin',
+                                                                'cuti','track_tahun',
+                                                                'multi'));
+
         }
 
         if(auth()->user()->hasrole('user_manager')){

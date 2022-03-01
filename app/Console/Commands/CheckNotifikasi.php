@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\User;
 use App\Models\Notifikasi;
+use Illuminate\Support\Facades\Log;
 
 class CheckNotifikasi extends Command
 {
@@ -39,6 +40,8 @@ class CheckNotifikasi extends Command
      */
     public function handle()
     {
+        //dd("hallo");
+        
         $data = User::whereDay('tgl_lahir', date('d'))
             ->whereMonth('tgl_lahir',date('m'))
             ->get();
@@ -74,6 +77,15 @@ class CheckNotifikasi extends Command
                 ]);
             }
         }
+        
+        // Notifikasi::create([
+        //     'nama' => 'hallo',
+        //     'status' => 1,
+        //     'tipe' => 1,
+        //     'filter' => 'reminder'
+        // ]);
+        
+        Log::info('Notofikasi berhasil dijalankan');
 
         return 0;
 

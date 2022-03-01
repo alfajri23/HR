@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,8 +15,9 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('check:notifikasi')->daily();
-        $schedule->command('check:topmount')->daily();
+        $schedule->command('check:notifikasi')->dailyAt('01:00')->timezone('Asia/Jakarta');
+        $schedule->command('check:topmount')->dailyAt('01:00')->timezone('Asia/Jakarta');
+        
     }
 
    
