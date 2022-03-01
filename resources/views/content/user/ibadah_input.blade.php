@@ -15,8 +15,28 @@
         
         
         @if ($status == 1)
-            <h4 class="text-center mb-4">Evaluasi amal harian pekan {{$pekan}}</h4>
-            <a href="{{route('ibadahHistory')}}" class="btn btn-primary btn-input btn-sm mb-2">Riwayat</a>
+            <h4 class="text-center mb-4">Evaluasi amal harian pekan {{$pekan}} <br> Bulan {{$bulan}}</h4>
+            
+            <div class="dropdown">
+                <button class="btn btn-outline-dark btn-sm dropdown-toggle mb-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                    Pilihan bulan
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 1] ) }}">Januari</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 2] ) }}">Februari</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 3] ) }}">Maret</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 4] ) }}">April</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 5] ) }}">Mei</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 6] ) }}">Juni</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 7] ) }}">Juli</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 8] ) }}">Agustus</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 9] ) }}">September</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 1] ) }}">Oktober</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 1] ) }}">November</a>
+                    <a class="dropdown-item" href="{{route('ibadahInput',['bulan'=> 1] ) }}">Desember</a>
+                </div>
+            </div>
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -48,7 +68,10 @@
                 
             </table>
             <span class="clearfix">
-                <button type="submit" class="btn btn-success btn-md float-right">Kirim</button>
+                <div class=" float-right">
+                    <a href="{{route('ibadahHistory')}}" class="btn btn-primary btn-input btn-sm mb-2">Riwayat</a>
+                    <button type="submit" class="btn btn-success btn-md">Kirim</button>
+                </div>
             </span>
                 
             </form>

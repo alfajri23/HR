@@ -482,12 +482,14 @@
                                                     <th>Total jam</th>
                                                     <th>Max Jam</th>
                                                     <th>Hasil</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @php
                                                     $bulan = 1;
                                                 @endphp
+
                                                 @forelse ($absen as $tr )
                                                     @php
                                                         $bulan++;
@@ -498,11 +500,15 @@
                                                     <td>{{$tr->jam_masuk}}</td>
                                                     <td>{{$tr->total_jam}}</td>  
                                                     <td></td>   
-                                                    <td>{{$tr->hasil}}</td>                                                    
+                                                    <td>{{$tr->hasil}}</td>      
+                                                    <td>
+                                                        <a type="submit" class="btn btn-primary btn-sm">Update</a>
+                                                    </td>                                                    
                                                 </tr>
                                                 @empty
                                                     
                                                 @endforelse
+                                                
                                                 <tr>
                                                     <form action="{{route('absenStore')}}" method="POST">
                                                     @csrf
@@ -517,6 +523,7 @@
                                                     <td>
                                                         <input class="form-control" name="tot" type="number" >
                                                     </td>
+                                                    
                                                     <td>
                                                         @if(!empty(session('jam_max')))
                                                             <input class="form-control" value="{{session('jam_max')}}" name="max" type="number" readonly>
@@ -524,6 +531,7 @@
                                                         <input class="form-control" name="max" type="number" >
                                                         @endif
                                                     </td>
+                                                    <td></td>
                                                     <td>
                                                         <button type="submit" class="btn btn-primary btn-sm">Update</button>
                                                     </td>

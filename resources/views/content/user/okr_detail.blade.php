@@ -17,6 +17,7 @@
         margin: 0;
     }
 </style>
+
 <div class="container-fluid bg-white p-3">
     <div class="row">
         <div class="col-2">
@@ -88,7 +89,7 @@
                         ">
                     </td>
                     @else
-                    <td class="text-center">{{number_format($week[$i])}}</td>
+                    <td class="text-center">{{floor(($week[$i]*100))/100}}</td>
                     @endif
                     
                 @endfor
@@ -116,7 +117,10 @@
                     </div>
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    <div class="d-flex flex-column">
+                        <a href="javascript:void(0)" onclick="okrEdit({{$tr->id}})" class="btn btn-success btn-sm">Edit</a>
+                        <button type="submit" class="btn btn-primary btn-sm mt-1">Update</button>
+                    </div>
                 </td>
                 </form>
             </tr>
@@ -207,7 +211,78 @@
 
 </div>
 
+{{-- Edit OKR --}}
+<div class="modal modal-info fade bs-modal-md-primary" id="modalOkr" tabindex="-1" role="dialog" aria-labelledby="myMediumModalLabel" aria-hidden="true" style="display: none">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header text-inverse">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h5 class="modal-title" id="myMediumModalLabel">Edit data pekan</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('trackUpdate')}}" method="POST" id="formObj">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Total</label>
+                        <input type="number" class="form-control" name="total" id="total">
+                        <input type="hidden" class="form-control" name="id" id="id_okr">
+                    </div>
+                    <div id="okrList"></div>
+                    <button type="submit" id="btnOkr" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script>
+
+    $.ajaxSetup({
+	      headers: {
+	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+	          'Authorization': `Bearer {{Session::get('token')}}`
+	      }
+	});
+
+    function okrEdit(id){
+        let inputWeek = ``;
+        let input = '';
+
+        function loop(no,index){
+            input += `
+            <div class="col-12 mb-3">
+            <label for="exampleInputPassword1" class="form-label">Pekan ${index+1}</label>
+            <input class="form-control" name="week_no[]" value="${index}" type="hidden">
+            <input type="text" class="form-control" value="${no}" name="week_val[]">
+            </div>
+            `;
+        }
+
+        $.ajax({
+            type : 'GET',
+            url  : "{{ route('trackShow') }}",
+            data : {
+                id : id
+            },
+            dataType: 'json',
+            success : (data)=>{
+                console.log(data.data);
+                
+                $('#id_okr').val(data.data.id);
+                $('#total').val(data.data.total);
+                let week = data.data.week_1;
+                week = week.split(',');
+                week.forEach(loop);
+                //console.log(input);
+
+                $('#okrList').html(input);
+                $('#modalOkr').modal('show');
+
+            }
+        });
+    }
+
+</script>
 
 
 

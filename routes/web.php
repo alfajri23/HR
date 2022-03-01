@@ -70,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('user/{m}',[Controllers\TrackController::class,'user_track'])->name('trackKaryawan');
             Route::get('riwayat',[Controllers\TrackController::class,'histori_track_user'])->name('trackHistoriUser');
 
+            Route::get('copy',[Controllers\TrackController::class,'copy'])->name('trackCopy');
             Route::get('list',[Controllers\TrackController::class,'list'])->name('trackList');
             Route::post('/add',[Controllers\TrackController::class,'create'])->name('trackStore');
             Route::post('update',[Controllers\TrackController::class,'update'])->name('trackUpdate');

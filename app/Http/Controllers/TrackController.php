@@ -31,6 +31,8 @@ class TrackController extends Controller
         $key = Objective::where('id_divisi',$key)->pluck('kode');
         $key = Keyresult::whereIn('kode_obj',$key)->get();
         $tracks = collect($track);
+
+        //dd($user);
         
         //cek jika track ada
         if(count($tracks) > 1){
@@ -226,6 +228,30 @@ class TrackController extends Controller
             'data' => $data
         ]);
 
+    }
+
+    //Fungsi untuk copy okr
+    public function copy(Request $request){
+        $bulan = $request->bulan;
+        $user = $request->user;
+        $bulan_ini = $request->bulan_ini;
+
+        //dd($bulan);
+
+        $data = OkrTracking::where([
+            'id_user' => $user,
+            'bulan'   => $bulan
+        ])->get();
+
+        foreach($data as $dt){
+            $copy = $dt->replicate();
+            $copy->bulan = $bulan_ini;
+            $copy->week_1 = null;
+            $copy->progres = null;
+            $copy->save();
+        }
+
+        return redirect()->back();
     }
 
     public function destroy($id)

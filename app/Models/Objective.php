@@ -14,7 +14,7 @@ class Objective extends Model
     protected $guarded = [];
 
     public function keyResult(){
-    	return $this->hasMany(Keyresult::class, 'kode_obj', 'kode');
+    	return $this->hasMany(Keyresult::class, 'kode_obj', 'kode')->orderBy('kode', 'ASC');
     }
 
     public function divisi(){

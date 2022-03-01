@@ -10,16 +10,24 @@ use Carbon\Carbon;
 
 class ListIbadahUserController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $data = ListIbadah::all();
-        $ibadah = ListIbadahUser::where('id_user',session('id_user'))->first();
+        $bulan = empty($request->bulan) ? date('m') : $request->bulan;
+        $ibadah = ListIbadahUser::where([
+            'id_user' => session('id_user'),
+            'bulan' => $bulan
+        ])->first();
         
+
         if(empty($ibadah)){
             $pekan = 1;
         }else{
             $pekan = count(explode(",",$ibadah->pekan));
             $pekan++;
         }
+
+        //dd($bulan);
+        $bulan = Track::get_bulan($bulan);
 
         // if(now()->format('l') == "Friday" || now()->format('l') == "Saturday"){
         //     $status = 1;
@@ -29,7 +37,7 @@ class ListIbadahUserController extends Controller
         //     //dd("bad");
         // }
         $status=1;
-        return view('content.user.ibadah_input',compact('data','status','pekan'));
+        return view('content.user.ibadah_input',compact('data','status','pekan','bulan'));
     }
 
     public function store(Request $request){

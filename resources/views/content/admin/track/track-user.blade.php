@@ -17,11 +17,59 @@
     <div class="container-fluid bg-white p-3">
         @hasrole('admin')
         <a href="#" data-toggle="modal" data-target="#modalTrack"
-                                class="mb-3 btn btn-success btn-sm">Tambah Objective </a>
+            class="mb-3 btn btn-success btn-sm">Tambah Objective </a>
+        {{-- Copy OKR --}}
+        <button type="button" class="mb-3 btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+            Copy OKR
+        </button>
+        
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Copy OKR</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{route('trackCopy')}}" method="GET">
+                        @csrf
+                        
+                        <label for="exampleFormControlSelect1">Bulan</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="bulan" id="bulan">
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+
+                        <input type="hidden" name="user" value="{{$user->id}}">
+                        <input type="hidden" name="bulan_ini" value="{{Request::segment(4)}}">
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Copy</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
         @endhasrole
+
         @if($user->multi_okr != 0 )
             <a href="{{route('subdivIndex')}}" class="mb-3 btn btn-info btn-sm">Tambah Subdivisi</a>
         @endif
+
         @forelse ($tracks as $e => $track)  
         <h4>{{$e}}</h4>
         <table class="table table-bordered">
@@ -54,7 +102,7 @@
                     <td>{{$tr->kode_key}}</td>
                     <td>{{$tr->keyResult->nama}}</td>
                     <td class="text-center">{{$tr->bobot}}</td>
-                    <td class="text-center">{{$tr->target}}</td>
+                    <td class="text-center">{{number_format($tr->target)}}</td>
                     <td class="text-center">{{$tr->start}}</td>
                     @php
                         if($tr->week_1 != null){
@@ -70,7 +118,7 @@
                             
                         </td>
                         @else
-                        <td  class="text-center">{{number_format($week[$i])}}</td>
+                        <td  class="text-center">{{floor(($week[$i]*100))/100}}</td>
                         @endif
                     @endfor
                     <td>{{$tr->total}}</td>
@@ -174,9 +222,6 @@
                 </tbody>
             </table>
         @endif
-        
-
-
         
     </div>
 
@@ -290,7 +335,6 @@
 
     $('#modalTrack').on('hidden.bs.modal', function () {
         $('#inputKey').show();
-        console.log("hallo");
     });
 
     function show(){
@@ -318,8 +362,6 @@
             }
         });
     }
-
-
 
     function okrEdit(id){
         let inputWeek = ``;
@@ -355,9 +397,10 @@
                 $('#okrList').html(input);
                 $('#modalOkr').modal('show');
 
-                // $('#inputKey').hide();
             }
         });
     }
+
+    
 </script>
 @endsection 

@@ -8,6 +8,7 @@ use App\Models\User;
 
 class AbsensiController extends Controller
 {
+
     public function store(Request $request){
         if(!empty(session('jam_max'))){
             $max = session('jam_max');
@@ -24,6 +25,8 @@ class AbsensiController extends Controller
         $akhir = substr($request->jam,3);
         $akhir = ((int)$akhir);
         $point= 0;
+
+        //dd($request->jam[1]);
 
         if($request->jam[1] == '8'){
             if($akhir > 0 && $akhir < 10){
@@ -65,6 +68,10 @@ class AbsensiController extends Controller
         return redirect()->back();
         
 
+
+    }
+
+    public function update(Request $request){
 
     }
 }
