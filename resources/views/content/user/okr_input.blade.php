@@ -84,7 +84,7 @@
                             <td>
                                 <input class="form-control" name="id" value="{{$tr->id}}" type="hidden">
                                 <input class="form-control" name="week_no[]" value="{{$i}}" type="hidden">
-                                <input type="text" class="form-control" name="week_val[]" style="
+                                <input type="text"  onkeyup="currencyFormat(this)" class="form-control" name="week_val[]" style="
                                     width: 100px;
                                     padding: 8px 2px;
                                 ">
@@ -221,7 +221,23 @@
 </div>
 
 
+<script>
+    String.prototype.reverse = function() {
+        return this.split("").reverse().join("");
+    }
 
+    window.currencyFormat = function reformatText(input) {
+        var x = input.value;
+        x = x.replace(/,/g, ""); // Strip out all commas
+        x = x.reverse();
+        x = x.replace(/.../g, function(e) {
+            return e + ",";
+        }); // Insert new commas
+        x = x.reverse();
+        x = x.replace(/^,/, ""); // Remove leading comma
+        input.value = x;
+    }
+</script>
 
 
 {{-- <a href="#" class="color-content"><i class="material-icons md-18">settings</i> </a><a href="#" class="color-content"><i class="material-icons md-18">clear</i></a> --}}

@@ -163,6 +163,9 @@ class TrackController extends Controller
     public function update(Request $request){
         $total = empty($request->total) ? null : $request->total;
         $track = OkrTracking::find($request->id);
+
+        //dd($request->week_val);
+        //$nominal    = str_replace(",", "", $request->bayar);
     
         $data_week = $track->week_1;
         $data_week = explode(',',$data_week);
@@ -170,7 +173,13 @@ class TrackController extends Controller
         $data_progres = 0;
         $pekan = 0;
         for($i = 0; $i < count($request->week_no); $i++){
-            $data_week[$request->week_no[$i]] = $request->week_val[$i];
+            if($request->week_val[$i] != null){
+                $data_week[$request->week_no[$i]] = str_replace(",", "", $request->week_val[$i]);
+            }else{
+
+                $data_week[$request->week_no[$i]] = $request->week_val[$i];
+            }
+            
         }
 
         for($y=0 ; $y<count($data_week); $y++){
