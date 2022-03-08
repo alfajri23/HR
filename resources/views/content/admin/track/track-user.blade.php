@@ -279,15 +279,15 @@
                         </div> --}}
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Target</label>
-                            <input type="number" class="form-control" name="target" id="target">
+                            <input type="number" step="0.01" class="form-control" name="target" id="target">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Bobot</label>
-                            <input type="number" class="form-control" name="bobot" id="bobot">
+                            <input type="number" step="0.01" class="form-control" name="bobot" id="bobot">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Start</label>
-                            <input type="number" class="form-control" name="start" id="start">
+                            <input type="number" step="0.01" class="form-control" name="start" id="start">
                         </div>
                         
                         <button type="submit" id="btnOkr" class="btn btn-primary">Tambah</button>

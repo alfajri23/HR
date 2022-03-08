@@ -36,48 +36,10 @@ if (file_exists($maintenance = __DIR__.'/storage/framework/maintenance.php')) {
 |
 */
 
-require __DIR__.'/vendor/autoload.php';
+// require __DIR__.'/vendor/autoload.php';
 
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-|
-| Once we have the application, we can handle the incoming request using
-| the application's HTTP kernel. Then, we will send the response back
-| to this client's browser, allowing them to enjoy our application.
-| $app = require_once __DIR__ . '/../hr/bootstrap/app.php';
-|
-*/
+// $app = require_once __DIR__.'/bootstrap/app.php';
 
-$app = require_once __DIR__.'/bootstrap/app.php';
-
-
-$kernel = $app->make(Kernel::class);
-
-$response = $kernel->handle(
-    $request = Request::capture()
-)->send();
-
-$kernel->terminate($request, $response);
-
-
-//! LOCAL
-
-//require __DIR__.'/../vendor/autoload.php';
-
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-|
-| Once we have the application, we can handle the incoming request using
-| the application's HTTP kernel. Then, we will send the response back
-| to this client's browser, allowing them to enjoy our application.
-|
-*/
-
-// $app = require_once __DIR__.'/../bootstrap/app.php';
 
 // $kernel = $app->make(Kernel::class);
 
@@ -86,3 +48,18 @@ $kernel->terminate($request, $response);
 // )->send();
 
 // $kernel->terminate($request, $response);
+
+
+//! LOCAL
+
+require __DIR__.'/../vendor/autoload.php';
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$kernel = $app->make(Kernel::class);
+
+$response = $kernel->handle(
+    $request = Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);
