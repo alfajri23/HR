@@ -502,7 +502,9 @@
                                                     <td></td>   
                                                     <td>{{$tr->hasil}}</td>      
                                                     <td>
-                                                        <a type="submit" class="btn btn-primary btn-sm">Update</a>
+                                                        <a onclick="editAbsen({{$tr->id}})" class="btn btn-success btn-sm text-white">
+                                                            Edit
+                                                        </a>
                                                     </td>                                                    
                                                 </tr>
                                                 @empty
@@ -1072,6 +1074,43 @@
         
 {{-- </div> --}}
 
+
+{{-- modal absensi edit --}}
+<div class="modal fade" id="modalEditAbsensi" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{route('absenStore')}}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Jam</label>
+                    <input name="jam" type="time" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="hidden" name="id" id="idAbsen">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Total jam</label>
+                    <input name="tot" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Jam max</label>
+                    <input type="text" name="max" value="{{!empty(session('jam_max')) ? session('jam_max') : '' }}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let datas = "{{ $track_tahun }}";
@@ -1118,6 +1157,22 @@
         document.getElementById('myChart'),
         config
     );
+
+    function editAbsen(id){
+        $.ajax({
+            type : 'GET',
+            url  : "{{ route('absenEdit') }}",
+            data : {
+                id : id
+            },
+            dataType: 'json',
+            success : (data)=>{
+                $('#idAbsen').val(data.data.id);
+                
+                $('#modalEditAbsensi').modal('show');
+            }
+        });
+    }
 
 
 

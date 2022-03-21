@@ -16,59 +16,121 @@
     
     <div class="container-fluid bg-white p-3">
         @hasrole('admin')
-        <a href="#" data-toggle="modal" data-target="#modalTrack"
-            class="mb-3 btn btn-success btn-sm">Tambah Objective </a>
-        {{-- Copy OKR --}}
-        <button type="button" class="mb-3 btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
-            Copy OKR
-        </button>
-        
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Copy OKR</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{route('trackCopy')}}" method="GET">
-                        @csrf
-                        
-                        <label for="exampleFormControlSelect1">Bulan</label>
-                        <select class="form-control" id="exampleFormControlSelect1" name="bulan" id="bulan">
-                            <option value="1">Januari</option>
-                            <option value="2">Februari</option>
-                            <option value="3">Maret</option>
-                            <option value="4">April</option>
-                            <option value="5">Mei</option>
-                            <option value="6">Juni</option>
-                            <option value="7">Juli</option>
-                            <option value="8">Agustus</option>
-                            <option value="9">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
 
-                        <input type="hidden" name="user" value="{{$user->id}}">
-                        <input type="hidden" name="bulan_ini" value="{{Request::segment(4)}}">
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Copy</button>
-                    </form>
-                    </div>
+        <div class="d-flex justify-content-between">
+            <div>
+                <a href="#" data-toggle="modal" data-target="#modalTrack"
+                    class="mb-3 btn btn-success btn-sm">Tambah Key Result 
+                </a>
+
+                {{-- Copy OKR --}}
+                <button type="button" class="mb-3 btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                    Copy OKR
+                </button>
+
+                @if($user->multi_okr != 0 )
+                    <a href="{{route('subdivIndex')}}" class="mb-3 btn btn-info btn-sm">Tambah Subdivisi</a>
+                @endif
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalKey">
+                    Tambah keyresult baru
+                </button>
+            </div>
+        </div>
+        
+        
+        <!-- Modal Copy OKR-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Copy OKR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
+                <div class="modal-body">
+                    <form action="{{route('trackCopy')}}" method="GET">
+                    @csrf
+                    
+                    <label for="exampleFormControlSelect1">Bulan</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="bulan" id="bulan">
+                        <option value="1">Januari</option>
+                        <option value="2">Februari</option>
+                        <option value="3">Maret</option>
+                        <option value="4">April</option>
+                        <option value="5">Mei</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">Agustus</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                    </select>
+
+                    <input type="hidden" name="user" value="{{$user->id}}">
+                    <input type="hidden" name="bulan_ini" value="{{Request::segment(4)}}">
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Copy</button>
+                </form>
                 </div>
             </div>
+            </div>
+        </div>
+
+        <!--Modal tambah Key-->
+        <div class="modal modal-info fade bs-modal-md-primary" id="modalKey" tabindex="-1" role="dialog" aria-labelledby="myMediumModalLabel" aria-hidden="true" style="display: none">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header text-inverse">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h5 class="modal-title" id="myMediumModalLabel">Key</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="javascript:void(0)" id="formKey">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Nama</label>
+                                <input type="text" class="form-control" name="nama" id="namas" aria-describedby="emailHelp">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Objective</label>
+                                <select class="form-control" id="addObj" name="kode_obj">
+                                    @foreach ($key as $ky )
+                                        <option value="{{$ky['kode']}}">{{$ky['kode']}} {{$ky['nama']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>  
+
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Kode Key Result</label>
+                                <input type="text" class="form-control" name="kode" id="kode_obj">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Deskripsi</label>
+                                <input type="text" class="form-control" name="deskripsi" id="descs">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+
+
         @endhasrole
 
-        @if($user->multi_okr != 0 )
-            <a href="{{route('subdivIndex')}}" class="mb-3 btn btn-info btn-sm">Tambah Subdivisi</a>
-        @endif
+        
 
         @forelse ($tracks as $e => $track)  
         <h4>{{$e}}</h4>
@@ -76,6 +138,7 @@
             <thead>
                 <tr>
                     <th style="width: 2px">No</th>
+                    <th>Obj</th>
                     <th>Kode</th>
                     <th>Key result</th>
                     <th>Bobot</th>
@@ -99,6 +162,7 @@
                 @foreach ($track as $tr )
                 <tr>
                     <td>{{$loop->iteration}}</td>
+                    <td>{{$tr->keyResult->kode_obj}}</td>
                     <td>{{$tr->kode_key}}</td>
                     <td>{{$tr->keyResult->nama}}</td>
                     <td class="text-center">{{$tr->bobot}}</td>
@@ -142,7 +206,7 @@
                 @endphp
                 @endforeach
                 <tr>
-                    <td colspan="3" class="text-center">Bobot</td>
+                    <td colspan="4" class="text-center">Bobot</td>
                     <td colspan="1"  class="text-center">{{$tot_bobot}}</td>
                     <td colspan="8" class="text-center">Total progres</td>
                     <td colspan="1">
@@ -231,21 +295,31 @@
             <div class="modal-content">
                 <div class="modal-header text-inverse">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h5 class="modal-title" id="myMediumModalLabel">Objective</h5>
+                    <h5 class="modal-title" id="myMediumModalLabel">Key Result</h5>
                 </div>
                 <div class="modal-body">
                     <form action="{{route('trackStore')}}" method="POST" id="formObj">
                         @csrf
-                        <div class="mb-3" id="inputKey">
-                            <label for="exampleInputPassword1" class="form-label">Key result</label>
-                            <select class="form-control" name="key" id="key">
+                        <div class="mb-3" id="objSection">
+                            <label for="exampleInputPassword1" class="form-label">Objective</label>
+                            <select class="form-control" id="selectObj">
                                 @foreach ($key as $ky )
                                     <option value="{{$ky['kode']}}">{{$ky['kode']}} {{$ky['nama']}}</option>
                                 @endforeach
                             </select>
-                        </div>   
+                        </div>  
+
+                        {{-- list key --}}
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Key result</label>
+                            <select class="form-control" name="key" id="keyList">
+
+                            </select>
+                        </div>
+
+                        {{-- menampilkan sub divisi  --}}
                         @if($user->multi_okr != 0 )
-                        <div class="mb-3" id="inputKey">
+                        <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Divisi</label>
                             <select class="form-control" name="multi" id="multi">
                                 @foreach ($subs as $sub)
@@ -254,6 +328,7 @@
                             </select>
                         </div>  
                         @endif    
+
                         <div class="mb-3">
                             <input type="hidden" class="form-control" name="id" id="id" aria-describedby="emailHelp">
                             {{-- <input type="hidden" class="form-control" value="{{date('m')}}" name="bulan" id="bulan"> --}}
@@ -299,7 +374,7 @@
         <!-- /.modal-dialog -->
     </div>
 
-    {{-- Edit OKR --}}
+    {{-- Edit data pekan OKR --}}
     <div class="modal modal-info fade bs-modal-md-primary" id="modalOkr" tabindex="-1" role="dialog" aria-labelledby="myMediumModalLabel" aria-hidden="true" style="display: none">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -332,14 +407,11 @@
 	      }
 	});
 
-
-    $('#modalTrack').on('hidden.bs.modal', function () {
-        $('#inputKey').show();
+    $(document).ready(function(){
+        $('#modalTrack').on('hidden.bs.modal', function (e) {
+            $('#objSection').show();
+        });
     });
-
-    function show(){
-        $('#inputKey').show();
-    }
 
     function trackModalEdit(id){
         $.ajax({
@@ -356,9 +428,11 @@
                 $('#target').val(data.data.target);
                 $('#bobot').val(data.data.bobot);
                 $('#start').val(data.data.start);
-                $('#key').val(data.data.kode_key);
+                $('#keyList').html(`
+                    <option value="${data.data.kode_key}">${data.data.kode_key}</option>
+                `);
                 $('#btnOkr').html("Edit");
-                // $('#inputKey').hide();
+                 $('#objSection').hide();
             }
         });
     }
@@ -400,6 +474,72 @@
             }
         });
     }
+
+
+    //menampilkan key sesuai obj 
+    $('#selectObj').on('change', function() {
+        $.ajax({
+            type : 'GET',
+            url  : "{{ route('keyObj') }}",
+            data : {
+                key : this.value
+            },
+            dataType: 'json',
+            success : (data)=>{
+                let datas = data.data;
+                let keyList = '';
+                datas.forEach((e)=>{
+                    keyList += `
+                        <option value="${e['kode']}">${e['kode']} ${e['nama']}</option>
+                    `;
+                })
+                $('#keyList').html(keyList);
+            }
+        });
+    });
+
+    //untuk menambah key result
+    $('#addObj').on('change', function() {
+        $.ajax({
+            type : 'GET',
+            url  : "{{ route('keyObj') }}",
+            data : {
+                key : this.value
+            },
+            dataType: 'json',
+            success : (data)=>{
+                let datas = data.data;
+
+                //ambil kode terakhir
+                let str = datas.slice(-1)[0].kode;
+                let length = str.length;
+
+                //tambah dengan 1 dibelakang
+                let angkaBaru = parseInt(str[length-1]) + 1;
+
+                //ubah
+                str = str.split('');
+                str[length-1] = angkaBaru;
+                str = str.join('');
+
+                $('#kode_obj').val(str);
+            }
+        });
+    })
+
+    $('#formKey').on('submit',function(){
+		let data = $(this).serialize();
+        console.log(data);
+        $.ajax({
+            type : 'POST',
+            url  : "{{ route('keyStore') }}",
+            data : data,
+            dataType: 'json',
+            success : (data)=>{
+                $('#modalKey').modal('hide');
+            }
+        });
+    });
 
     
 </script>

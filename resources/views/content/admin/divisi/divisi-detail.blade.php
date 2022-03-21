@@ -161,12 +161,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Kode</label>
-                            <input type="text" class="form-control" name="kode" id="kodes">
+                            <label for="exampleInputPassword1" class="form-label">Kode Objective</label>
+                            <input type="text" class="form-control" name="kode_obj" id="kodes" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Kode objecive</label>
-                            <input type="text" class="form-control" name="kode_obj" id="kode_obj">
+                            <label for="exampleInputPassword1" class="form-label">Kode Key Result</label>
+                            <input type="text" class="form-control" name="kode" id="kode_obj">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Deskripsi</label>
@@ -249,19 +249,17 @@
         });
     }
     
+    //Simpan key result
     $('#formKey').on('submit',function(){
 		let data = $(this).serialize();
-        console.log
         $.ajax({
             type : 'POST',
             url  : "{{ route('keyStore') }}",
             data : data,
             dataType: 'json',
             success : (data)=>{
-                console.log(data.code.kode);
                 $('#modalKey').modal('hide');
                 let kot = $("#obj-"+data.code.kode);
-                console.log(kot);
                 $("#obj-"+data.code.kode_obj).load(window.location + " #obj-"+data.code.kode_obj+">*","");
                 $('#formKey').trigger("reset");
             }

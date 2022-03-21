@@ -18,7 +18,8 @@ class MultiOkr
     static public function user($tracks){
         $data_multi = [];
         $tracks = $tracks->groupBy('kode_key');
-        //dd($tracks);
+        
+        
 
         //progres = 0;
         foreach($tracks as $key => $kode){

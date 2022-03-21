@@ -59,7 +59,9 @@ Route::middleware(['auth'])->group(function () {
         Route::middleware('role:admin')->prefix('key')->group(function(){ 
             Route::post('/add',[Controllers\KeyResultController::class,'create'])->name('keyStore');
             Route::get('/get',[Controllers\KeyResultController::class,'show'])->name('keyShow');
-            Route::get('delete',[Controllers\KeyResultController::class,'destroy'])->name('keyDelete');   
+            Route::get('delete',[Controllers\KeyResultController::class,'destroy'])->name('keyDelete');  
+            Route::get('list',[Controllers\KeyResultController::class,'keyByObj'])->name('keyObj');   
+
         });
 
         Route::prefix('track')->group(function(){ 
@@ -80,6 +82,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('absen')->group(function(){ 
             Route::post('store',[Controllers\AbsensiController::class,'store'])->name('absenStore');
+            Route::get('edit',[Controllers\AbsensiController::class,'edit'])->name('absenEdit');
         });
 
         Route::prefix('result')->group(function(){ 

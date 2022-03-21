@@ -37,23 +37,14 @@ class KeyResultController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function keyByObj(Request $request){
+        $data = Keyresult::where('kode_obj',$request->key)->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request)
     {
         $data = Keyresult::find($request->id);

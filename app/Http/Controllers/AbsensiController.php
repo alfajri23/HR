@@ -57,13 +57,26 @@ class AbsensiController extends Controller
         $point = $point+$hasil_tot;
         //dd($point);
 
-        Absensi::create([
-            'id_user' => $request->id_user,
-            'bulan' => $request->bulan,
-            'total_jam' => $request->tot,
-            'jam_masuk' => $request->jam,
-            'hasil' => $point
-        ]);
+        //dd($request->id);
+
+        if($request->id != null){
+
+            Absensi::updateOrCreate(['id'=>$request->id],[
+                'total_jam' => $request->tot,
+                'jam_masuk' => $request->jam,
+                'hasil' => $point
+            ]);
+        }else{
+
+            Absensi::updateOrCreate(['id'=>$request->id],[
+                'id_user' => $request->id_user,
+                'bulan' => $request->bulan,
+                'total_jam' => $request->tot,
+                'jam_masuk' => $request->jam,
+                'hasil' => $point
+            ]);
+        }
+
 
         return redirect()->back();
         
@@ -71,7 +84,10 @@ class AbsensiController extends Controller
 
     }
 
-    public function update(Request $request){
-
+    public function edit(Request $request){
+        $data = Absensi::find($request->id);
+        return response()->json([
+            'data' => $data
+        ]);
     }
 }

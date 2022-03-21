@@ -99,12 +99,8 @@ class KaryawanController extends Controller
             // isi dengan nama folder tempat kemana file diuploadpublic_path('\img\uploads')
             $tujuan_upload_server = public_path('asset/img/profile');
             $tujuan_upload = 'asset/img/profile';
-            //dd($tujuan_upload);
             $files = $tujuan_upload . '/'. $nama_file;
             $file->move($tujuan_upload_server,$nama_file);
-            // $request->file('file')->store(
-            //     'asset/img/profile', 'public'
-            // );
         }
 
         if(empty($request->password)){
@@ -284,54 +280,54 @@ class KaryawanController extends Controller
 
         $track = OkrTracking::where('id_user',session('id_user'))
         ->where('bulan',date('m'))
-        ->orderBy('updated_at')
+        ->orderBy('kode_key')
         ->get();
 
         
+        //* CEK ATTEPMT
+            if(count($track)>0){
+                //cek apakah sudah input okr belum
+                $dd = $track[0]->week_1;
+                $dd = explode(",",$dd);
+                
+                $attempt = 0;
+                foreach($dd as $dt){
+                    if($dt != ""){
+                        $attempt++;
+                    }
+                }
+            }else{
+                $attempt = 0;
+            }
+        //End Attemp
 
-        if(count($track)>0){
-            //cek apakah sudah input okr belum
-            $dd = $track[0]->week_1;
-            $dd = explode(",",$dd);
+        //*IBADAH
+            $ibadah = ListIbadahUser::where([
+                'id_user' => session('id_user'),
+                'bulan'   => date('m')
+            ])
+            ->whereYear('created_at',date('Y'))
+            ->get();
             
 
-            $attempt = 0;
-            foreach($dd as $dt){
-                if($dt != ""){
-                    $attempt++;
-                }
+            if(count($ibadah)>0){
+
+                $ibadah = $ibadah[0]->pekan;
+                $ibadah = explode(",",$ibadah);
+                $ibadah = count($ibadah);
+                //dd($ibadah);
+
+            }else{
+                $ibadah = 0;
             }
-        }else{
-            $attempt = 0;
-        }
 
-        //dd($attempt);
+            if($ibadah < $attempt){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
 
-
-        $ibadah = ListIbadahUser::where([
-            'id_user' => session('id_user'),
-            'bulan'   => date('m')
-        ])
-        ->whereYear('created_at',date('Y'))
-        ->get();
-        
-
-        if(count($ibadah)>0){
-
-            $ibadah = $ibadah[0]->pekan;
-            $ibadah = explode(",",$ibadah);
-            $ibadah = count($ibadah);
-            //dd($ibadah);
-
-        }else{
-            $ibadah = 0;
-        }
-
-        if($ibadah < $attempt){
-            $status = 0;
-        }else{
-            $status = 1;
-        }
+        //End Ibadah
 
         $tracks = collect($track);
         if(count($tracks) > 1){
@@ -339,6 +335,8 @@ class KaryawanController extends Controller
                 $multi = MultiOkr::user($tracks);
             } 
         }
+
+        dd($multi);
         $tracks = $tracks->groupBy('multi');
 
         

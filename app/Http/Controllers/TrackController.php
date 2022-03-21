@@ -23,17 +23,18 @@ class TrackController extends Controller
         $user = User::find($id);
         $track = OkrTracking::where('id_user',$id)
         ->where('bulan',$m)
+        ->orderBy('kode_key')
         ->get();
 
         $multi = null;
-        $bulan = Track::get_bulan($m);
-        $key = $user->divisi->id;
-        $key = Objective::where('id_divisi',$key)->pluck('kode');
-        $key = Keyresult::whereIn('kode_obj',$key)->get();
+        $bulan = Track::get_bulan($m);                              //bulan
+        $key = $user->divisi->id;                                   //id divisi user
+        $key = Objective::where('id_divisi',$key)->get();           //ambil objectives team
+        //$key = Keyresult::whereIn('kode_obj',$key)->get();        //ambil key team
         $tracks = collect($track);
+        // $tracks = $tracks->groupBy('')
+        // dd($tracks);
 
-        //dd($user);
-        
         //cek jika track ada
         if(count($tracks) > 1){
             if($tracks[0]['multi'] != null){
@@ -41,15 +42,15 @@ class TrackController extends Controller
             } 
         }
         $tracks = $tracks->groupBy('multi');
-       
+
         //multiokr
         $subs = Subdivisi::all();
-        
         
         return view('content.admin.track.track-user',compact('user','tracks',
                                                             'key','bulan',
                                                             'multi','subs'));
     }
+    
 
     public function divisi($id)
     {
@@ -80,10 +81,12 @@ class TrackController extends Controller
         $data = User::find(session('id_user'));
         $track = OkrTracking::where('id_user',session('id_user'))
         ->where('bulan',$m)
+        ->orderBy('kode_key')
         ->get();
         $bulan = Track::get_bulan($m);
 
         $multi = null;
+
 
         $tracks = collect($track);
         
@@ -109,7 +112,6 @@ class TrackController extends Controller
         return view('content.user.okr_histori',compact('track_tahun'));
     }
 
-    
     public function create(Request $request)
     {
         $user = User::find($request->id_user);
@@ -176,10 +178,8 @@ class TrackController extends Controller
             if($request->week_val[$i] != null){
                 $data_week[$request->week_no[$i]] = str_replace(",", "", $request->week_val[$i]);
             }else{
-
                 $data_week[$request->week_no[$i]] = $request->week_val[$i];
-            }
-            
+            }  
         }
 
         for($y=0 ; $y<count($data_week); $y++){
@@ -198,9 +198,6 @@ class TrackController extends Controller
         }else{
             $progres = $total/$track->target * $track->bobot;
         }
-
-        
-
         
         $track->total = $total;
         $track->week_1 = $data_week;
