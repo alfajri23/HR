@@ -20,7 +20,7 @@ class Track
         ->where('multi',null)
         ->groupBy('id_user');
 
-        $track_user_multi = $track->where('bulan', $id)
+        $track_user_multi = $track->where('bulan', $id)  //banyak user
         ->where('multi','!=',null)
         ->groupBy('id_user');
   
@@ -28,27 +28,40 @@ class Track
         $progres = 0;
         $user = '';
 
-        //untuk multi okr
         //dd($track_user_multi);
-        foreach($track_user_multi as $k => $tm){
-            //dd($tm[0]->user);
-            $multi = MultiOkr::user($tm);
-            $progres_multi = 0;
-            foreach($multi as $multies){
-                $progres_multi += $multies['progres'];
-            }
 
+        //untuk multi okr
+        foreach($track_user_multi as $k => $tm){  //tm berisi tracknya user
+            //dd($tm);
+            $multi = MultiOkr::users($tm);
             
             $data_pekan[]=[
                 'id_user' => $tm[0]->user->id,
                 'user' => $tm[0]->user,
-                'progres' => $progres_multi,
+                'progres' => $multi,
                 'id_divisi' => $tm[0]->user->id_divisi,
             ];
+            
+            
+            //!LAMA
+                // $progres_multi = 0;
+                // //dd($multi);
+                // foreach($multi as $multies){
+                //     //var_dump($multies);
+                //     $progres_multi += $multies['progres'];
+                // }
+
+                // $data_pekan[]=[
+                //     'id_user' => $tm[0]->user->id,
+                //     'user' => $tm[0]->user,
+                //     'progres' => $progres_multi,
+                //     'id_divisi' => $tm[0]->user->id_divisi,
+                // ];
+            //!LAMA
 
         }
 
-        
+        //dd($data_pekan);
 
         //untuk single okr
         foreach($track_user as $tm){
@@ -58,9 +71,6 @@ class Track
                 $user = $tr;
                 $progres += $tr->progres;
             }
-
-
-
             $data_pekan[]=[
                 'id_user' => $user->user->id,
                 'user' => $user->user,

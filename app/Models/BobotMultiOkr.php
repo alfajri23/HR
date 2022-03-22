@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Subdivisi extends Model
+class BobotMultiOkr extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
     protected $guarded = [];
 
-    public function bobot($m)
+    public function divisi()
     {
-        return $this->hasMany(BobotMultiOkr::class, 'id_sub', 'id')->where('bulan',$m);
+        return $this->belongsTo(Subdivisi::class, 'id_sub', 'id')->where('bulan',$m);
     }
 }

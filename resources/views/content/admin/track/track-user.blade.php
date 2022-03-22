@@ -28,15 +28,24 @@
                     Copy OKR
                 </button>
 
-                @if($user->multi_okr != 0 )
-                    <a href="{{route('subdivIndex')}}" class="mb-3 btn btn-info btn-sm">Tambah Subdivisi</a>
-                @endif
             </div>
 
             <div>
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalKey">
-                    Tambah keyresult baru
-                </button>
+                <div class="dropdown">
+                    <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cog"></i>Setting
+                    </a>
+                  
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      @if($user->multi_okr != 0 )
+                      <a class="dropdown-item" href="{{route('subdivIndex')}}">Tambah Subdivisi</a>
+                      @endif
+                      <a href="" type="button" class="dropdown-item" data-toggle="modal" data-target="#modalKey">
+                        Tambah keyresult baru
+                      </a>
+                    </div>
+                  </div>
+                
             </div>
         </div>
         
@@ -83,7 +92,7 @@
             </div>
         </div>
 
-        <!--Modal tambah Key-->
+        <!--Modal tambah Key ke db-->
         <div class="modal modal-info fade bs-modal-md-primary" id="modalKey" tabindex="-1" role="dialog" aria-labelledby="myMediumModalLabel" aria-hidden="true" style="display: none">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
@@ -126,21 +135,164 @@
             <!-- /.modal-dialog -->
         </div>
 
-
-
         @endhasrole
+
+        {{-- Total kumulatif multi OKR dangan bobot tertentu --}}
+        {{-- @if(!empty($bobotMulti))
+        <div>
+            <h4>Okr Tracking</h4>
+            <table class="table table-bordered" style="width:40%">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col" style="width:15%">Bobot</th>
+                    <th scope="col">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse ($bobotMulti as $bob)
+                  <tr>
+                    <form action="{{route('editMultiBobot')}}" method="post">
+                    @csrf
+                    <th scope="row">{{$loop->iteration}}</th>
+                    <td>
+                        {{$bob->subdivisi}}
+                    </td>
+                    <td>
+                        <div class="show-{{$bob->id}}">{{$bob->bobot}}</div> 
+                        <div class="input-{{$bob->id}}" style="display: none">
+                            <input type="hidden" value="{{$bob->id}}" name="id" class="form-control">
+                            <input type="text" value="{{$bob->bobot}}" name="bobot" class="form-control">
+                        </div> 
+                    </td>
+                    <td style="width:20%">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button onclick="edits({{$bob->id}})" type="button" class="btn btn-success btn-sm">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <a href="{{route('deleteMultiBobot',$bob->id)}}" type="button" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                            <button type="submit" class="btn btn-success btnSave-{{$bob->id}} btn-sm" style="display: none">Save</button>
+                        </div>
+                    </td>
+                    </form>
+                  </tr>
+                      
+                  @empty
+                      
+                  @endforelse
+                  <tr>
+                      <td colspan="2">Total </td>
+                      <td></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        @endif --}}
+
+        {{-- Total kumulatif multi OKR dangan detail --}}
+        @if(!empty($multi))
+        <div>
+            <h5>Okr Tracking</h5>
+            <table class="table table-bordered" style="width:50%">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col" style="width:15%">Bobot</th>
+                    <th scope="col">Hasil</th>
+                    <th scope="col">Total</th>
+                    <th scope="col" style="width:20%">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @php
+                      $totalProgres = 0;
+                  @endphp
+                  @forelse ($multi as $bob)
+                  @php
+                      $totalProgres += $bob['total'];
+                  @endphp
+                  <tr>
+                    <form action="{{route('editMultiBobot')}}" method="post">
+                    @csrf
+                    <th scope="row">{{$loop->iteration}}</th>
+                    <td>
+                        {{$bob['subdivisi']}}
+                    </td>
+                    <td>
+                        <div class="show-{{$bob['id']}}">{{$bob['bobot']}}</div> 
+                        <div class="input-{{$bob['id']}}" style="display: none">
+                            <input type="hidden" value="{{$bob['id']}}" name="id" class="form-control">
+                            <input type="text" value="{{$bob['bobot']}}" name="bobot" class="form-control">
+                        </div> 
+                    </td>
+                    <td>
+                        {{$bob['hasil']}}
+                    </td>
+                    <td>
+                        {{$bob['total']}}
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            @if($bob['id'] != 0)
+                            <button onclick="edits({{$bob['id']}})" type="button" class="btn btn-success btn-sm">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            @else
+                            <a onclick="addBobot('{{$bob['subdivisi']}}')" type="button" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-cog" style="color:white"></i>
+                            </a>
+                            @endif
+                            <a href="{{route('deleteMultiBobot',$bob['id'])}}" type="button" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                            <button type="submit" class="btn btn-success btnSave-{{$bob['id']}} btn-sm" style="display: none">Save</button>
+                        </div>
+                    </td>
+                    </form>
+                  </tr>
+                      
+                  @empty
+                      
+                  @endforelse
+                  <tr>
+                      <td colspan="4">Total </td>
+                      <td>{{$totalProgres}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        @endif
 
         
 
         @forelse ($tracks as $e => $track)  
-        <h4>{{$e}}</h4>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-inline-block">
+
+                <h5>{{$e}}</h5>
+            </div>
+            {{-- @if(!empty($multi))
+            <div class="d-inline-block">
+                <a class="mt-4" style="cursor: pointer" onclick="addBobot('{{$e}}')">
+                    <i class="fas fa-tools"></i>
+                    Setting
+                </a>
+            </div>
+            @endif --}}
+
+        </div>
+
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th style="width: 2px">No</th>
                     <th>Obj</th>
                     <th>Kode</th>
-                    <th>Key result</th>
+                    <th style="width: 25%">Key result</th>
                     <th>Bobot</th>
                     <th>Target</th>
                     <th>Start</th>
@@ -188,10 +340,6 @@
                     <td>{{$tr->total}}</td>
                     <td>
                         <p class="my-0">{{$tr->progres}}%</p>
-                        {{-- <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
-                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr->progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr->progres}}%"><span class="sr-only">{{$tr->progres}}%</span>
-                            </div>
-                        </div> --}}
                     </td>
                     <td>
                         <a href="javascript:void(0)" onclick="okrEdit({{$tr->id}})" class="btn btn-info btn-sm"><i class="fas fa-dot-circle"></i></a>
@@ -225,7 +373,9 @@
 
         @endforelse
 
-        @if (!empty($multi))
+        {{-- TIDAK JADI --}}
+        {{-- jika ada multi --}}
+        {{-- @if (!empty($multi))
             <h4>Total</h4>
             <table class="table table-bordered">
                 <thead>
@@ -281,11 +431,10 @@
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
                                 </div>
                             </div></td>
-                        {{-- <td colspan="1"></td> --}}
                     </tr>
                 </tbody>
             </table>
-        @endif
+        @endif --}}
         
     </div>
 
@@ -327,6 +476,7 @@
                                 @endforeach
                             </select>
                         </div>  
+  
                         @endif    
 
                         <div class="mb-3">
@@ -398,6 +548,38 @@
         </div>
     </div>
 
+    {{-- Edit bobot multi --}}
+    <div class="modal modal-info fade bs-modal-md-primary" id="modalSetBobot" tabindex="-1" role="dialog" aria-labelledby="myMediumModalLabel" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header text-inverse">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h5 class="modal-title" id="myMediumModalLabel">Setting bobot sub divisi</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('storeMultiBobot')}}" method="POST" id="formObj">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Nama</label>
+                            <input type="hidden" class="form-control" name="id" id="id_bobot" readonly>
+                            <input type="text" class="form-control" name="subdivisi" id="namaSub" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Bobot</label>
+                            <input type="number" class="form-control" name="bobot">
+                        </div>
+                        <input type="hidden" class="form-control" value="{{$user->id}}" name="id_user">
+                        <input type="hidden" value="{{Request::segment(4)}}" name="bulan">
+
+
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 <script>
 
     $.ajaxSetup({
@@ -410,6 +592,7 @@
     $(document).ready(function(){
         $('#modalTrack').on('hidden.bs.modal', function (e) {
             $('#objSection').show();
+            
         });
     });
 
@@ -473,6 +656,16 @@
 
             }
         });
+    }
+
+    function addBobot(nama){
+        console.log(nama);
+        $('#namaSub').val(nama);
+        $('#modalSetBobot').modal('show');
+    }
+
+    function editBobot(id){
+
     }
 
 
@@ -540,6 +733,12 @@
             }
         });
     });
+
+    function edits(id){
+        $('.input-'+id).toggle();
+        $('.show-'+id).toggle();
+        $('.btnSave-'+id).toggle();
+    }
 
     
 </script>

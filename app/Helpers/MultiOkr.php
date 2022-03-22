@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 use App\Helpers\Track;
+use App\Models\BobotMultiOkr;
 use App\Models\Keyresult;
 
 
@@ -19,8 +20,6 @@ class MultiOkr
         $data_multi = [];
         $tracks = $tracks->groupBy('kode_key');
         
-        
-
         //progres = 0;
         foreach($tracks as $key => $kode){
            //dd($kode);
@@ -75,4 +74,71 @@ class MultiOkr
         return $data_multi;
 
     }
+
+    //input kalau sudah peruser
+    static public function users($tracks){      //* Menampilkan progres akhir setelah ada bobot persub
+        $data_multi = [];
+        $tracks = $tracks->groupBy('multi');   //dipisah per sub divisi || mysch,mm,jk
+
+        $totalAkhirPersub= 0;
+        foreach ($tracks as $okrsPerSub){               
+            //dd($okrsPerSub);                            //mysch -> 3 okr
+            $total_persub=0;  
+            $bobot_sub = BobotMultiOkr::where([
+                'subdivisi' => $okrsPerSub[0]['multi'],
+                'bulan' => $okrsPerSub[0]['bulan'],
+                'id_user' => $okrsPerSub[0]['id_user'],
+            ])->first();
+            
+            foreach ($okrsPerSub as $okrPerSub){        //looping okr my sch
+                $total_persub += $okrPerSub['progres']; //total progres okr mysch
+            }
+
+            $totalAkhirPersub = $totalAkhirPersub + $total_persub * ( empty($bobot_sub->bobot) ? 0 : $bobot_sub->bobot / 100 );       
+        }
+
+        return $totalAkhirPersub;
+    }
+
+    static public function inputUser($tracks){      //* Menampilkan progres akhir setelah ada bobot persub
+        $data_multi = [];
+        $tracks = $tracks->groupBy('multi');   //dipisah per sub divisi || mysch,mm,jk
+
+        $totalAkhirPersub= 0;
+        foreach ($tracks as $okrsPerSub){               
+            //dd($okrsPerSub);                            //mysch -> 3 okr
+            $total_persub=0; 
+            $nama_persub=0;   
+            $bobot_sub = BobotMultiOkr::where([
+                'subdivisi' => $okrsPerSub[0]['multi'],
+                'bulan' => $okrsPerSub[0]['bulan'],
+                'id_user' => $okrsPerSub[0]['id_user'],
+            ])->first();
+
+            $bobot = empty($bobot_sub->bobot) ? 0 : $bobot_sub->bobot;
+            $id_bobot = empty($bobot_sub->id) ? 0 : $bobot_sub->id;
+
+            //dd(empty($bobot_sub) ? 'ada' : $bobot_sub );
+            
+            foreach ($okrsPerSub as $okrPerSub){        //looping okr my sch
+                $nama_persub = $okrPerSub['multi'];
+                $total_persub += $okrPerSub['progres']; //total progres okr mysch
+            }
+
+            $data_multi[] = [
+                'subdivisi' => $nama_persub,
+                'hasil' => $total_persub,
+                'bobot' => $bobot,
+                'id' => $id_bobot,
+                'total' => $total_persub * ( $bobot / 100 )
+            ];
+
+            $totalAkhirPersub = $totalAkhirPersub + $total_persub * ( $bobot / 100 );       
+        }
+
+        //dd($data_multi);
+
+        return $data_multi;
+    }
+
 }

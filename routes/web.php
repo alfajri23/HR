@@ -167,6 +167,11 @@ Route::middleware(['auth'])->group(function () {
 
     
     Route::get('saya',[Controllers\KaryawanController::class,'input_okr'])->name('detailMe');
+
+    //Bobot multi divisi
+    Route::post('save-bobot',[Controllers\BobotMultiController::class,'store'])->name('storeMultiBobot');
+    Route::post('edit-bobot',[Controllers\BobotMultiController::class,'edit'])->name('editMultiBobot');
+    Route::get('delete-bobot/{id}',[Controllers\BobotMultiController::class,'delete'])->name('deleteMultiBobot');
     
 
 });

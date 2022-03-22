@@ -19,6 +19,8 @@
 </style>
 <div class="container-fluid bg-white p-5">
     @if ($status == 1)
+
+        {{-- header --}}
         <div class="row">
             <div class="col-2">
                 <p>Divisi</p>
@@ -34,6 +36,59 @@
                 <h4 class="mt-0">{{$bulan}}</h4>
             </div>
         </div>
+
+        {{-- Total kumulatif multi OKR dangan detail --}}
+    @if(!empty($multi))
+    <div>
+        <h4>Okr Tracking</h4>
+        <table class="table table-bordered" style="width:40%">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nama</th>
+                <th scope="col" style="width:15%">Bobot</th>
+                <th scope="col">Hasil</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @php
+                  $totalProgres = 0;
+              @endphp
+              @forelse ($multi as $bob)
+              @php
+                  $totalProgres += $bob['total'];
+              @endphp
+              <tr>
+                <form action="{{route('editMultiBobot')}}" method="post">
+                @csrf
+                <th scope="row">{{$loop->iteration}}</th>
+                <td>
+                    {{$bob['subdivisi']}}
+                </td>
+                <td>
+                    <div class="show-{{$bob['id']}}">{{$bob['bobot']}}</div> 
+                </td>
+                <td>
+                    {{$bob['hasil']}}
+                </td>
+                <td>
+                    {{$bob['total']}}
+                </td>
+                </form>
+              </tr>
+                  
+              @empty
+                  
+              @endforelse
+              <tr>
+                  <td colspan="4">Total </td>
+                  <td>{{$totalProgres}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    @endif
 
         @forelse ($tracks as $e => $track)
         <h4>{{$e}}</h4>
@@ -110,10 +165,6 @@
                         </td>
                         <td>
                             <p class="my-0">{{$tr->progres}}%</p>
-                            {{-- <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr->progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr->progres}}%"><span class="sr-only">{{$tr->progres}}%</span>
-                                </div>
-                            </div> --}}
                         </td>
                         <td>
                             <button type="submit" class="btn btn-primary btn-sm">Update</button>
@@ -147,7 +198,8 @@
         @empty
         @endforelse
 
-        @if (!empty($multi))
+        {{-- Tidak Jadi krn revisi --}}
+        {{-- @if (!empty($multi))
             <h4>Total</h4>
             <table class="table table-bordered">
                 <thead>
@@ -207,7 +259,7 @@
                     </tr>
                 </tbody>
             </table>
-        @endif
+        @endif --}}
 
 
     @else

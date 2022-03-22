@@ -11,6 +11,7 @@ use App\Models\OkrTracking;
 use App\Models\KeyResultUser;
 use App\Helpers\Track;
 use App\Helpers\MultiOkr;
+use App\Models\BobotMultiOkr;
 use PhpParser\Node\Expr\AssignOp\Div;
 use Carbon\Carbon;
 use App\Models\Subdivisi;
@@ -33,22 +34,36 @@ class TrackController extends Controller
         //$key = Keyresult::whereIn('kode_obj',$key)->get();        //ambil key team
         $tracks = collect($track);
         // $tracks = $tracks->groupBy('')
-        // dd($tracks);
 
         //cek jika track ada
         if(count($tracks) > 1){
             if($tracks[0]['multi'] != null){
-                $multi = MultiOkr::user($tracks);
+                //$multi = MultiOkr::user($tracks);                  // Yang dulu ( ada track setiap key , tp belum ada bobot persub )
+                //$multi = MultiOkr::users($tracks);                   // Hanya mengembalikan 1 nilai akhir, butuh detailnya
+                $multi = MultiOkr::inputUser($tracks);
             } 
         }
         $tracks = $tracks->groupBy('multi');
+        
+        //bobot multi okr 
+        $bobotMulti = BobotMultiOkr::where([
+            'id_user' => $id,
+            'bulan' => $m
+        ])->get();
+
+        //dd($track);
+        //dd($multi);
+
 
         //multiokr
         $subs = Subdivisi::all();
+        //dd($subs);
         
         return view('content.admin.track.track-user',compact('user','tracks',
                                                             'key','bulan',
-                                                            'multi','subs'));
+                                                            'multi','subs',
+                                                            'bobotMulti'
+                                                        ));
     }
     
 
@@ -93,7 +108,8 @@ class TrackController extends Controller
         //cek jika track ada
         if(count($tracks) > 1){
             if($tracks[0]['multi'] != null){
-                $multi = MultiOkr::user($tracks);
+                //$multi = MultiOkr::user($tracks);  //Dulu
+                $multi = MultiOkr::inputUser($tracks);
             } 
         }
         $tracks = $tracks->groupBy('multi');

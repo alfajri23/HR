@@ -31,7 +31,6 @@ class DashboardController extends Controller
 
         //okr pribadi
         $data_pekan = Track::track(date('m'));
-        //dd($data_pekan);
 
         //okr divisi
         $divisi_data = Track::track_divisi($data_pekan);
@@ -47,9 +46,6 @@ class DashboardController extends Controller
         ->whereYear('created_at',date('Y'))
         ->orderBy('hasil','desc')
         ->get();
-
-
-        
 
         if(auth()->user()->hasrole('admin')){
             return view('content.admin.dashboard',compact('data_pekan','divisi',
@@ -67,7 +63,6 @@ class DashboardController extends Controller
 
     //menampikan rank detail
     public function detail($m){
-        //dd("hallo");
         $divisi = count(Divisi::all());
         $user = count(User::all());
 
@@ -83,8 +78,6 @@ class DashboardController extends Controller
         ->whereYear('created_at',date('Y'))
         ->orderBy('point','desc')
         ->get();
-        
-        //dd($ibadah);
 
         //absensi
         $absensi = Absensi::where('bulan',$m)

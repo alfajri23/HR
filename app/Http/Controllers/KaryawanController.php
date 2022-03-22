@@ -173,7 +173,7 @@ class KaryawanController extends Controller
         //cek jika track ada
         if(count($tracks) > 1){
             if($tracks[0]['multi'] != null){
-                $multi = MultiOkr::user($tracks);
+                $multi = MultiOkr::user($tracks);       //dulu
             } 
         }
         $tracks = $tracks->groupBy('multi');
@@ -332,11 +332,12 @@ class KaryawanController extends Controller
         $tracks = collect($track);
         if(count($tracks) > 1){
             if($tracks[0]['multi'] != null){
-                $multi = MultiOkr::user($tracks);
+                //$multi = MultiOkr::user($tracks);       //dulu
+                $multi = MultiOkr::inputUser($tracks);
             } 
         }
 
-        dd($multi);
+        //dd($multi);
         $tracks = $tracks->groupBy('multi');
 
         
