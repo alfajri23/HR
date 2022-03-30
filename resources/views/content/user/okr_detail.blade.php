@@ -113,10 +113,32 @@
             @php
                 $tot_progres = 0;
                 $tot_bobot = 0;
+                $dtBefore = '';
+                $nomor_obj = 1;
             @endphp
             @foreach ($track as $tr )
+            @if ($dtBefore != $tr->keyResult->kode_obj)
             <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{$nomor_obj++}}</td>
+                <td class="font-weight-bold">{{$tr->keyResult->kode_obj}}</td>
+                <td class="font-weight-bold">{{$tr->keyResult->objective->nama}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @else
+            @endif
+
+            <tr>
+                <td></td>
                 <td>{{$tr->kode_key}}</td>
                 <td>{{$tr->keyResult->nama}}</td>
                 <td class="text-center">{{$tr->bobot}}</td>

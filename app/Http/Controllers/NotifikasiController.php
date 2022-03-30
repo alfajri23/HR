@@ -18,4 +18,9 @@ class NotifikasiController extends Controller
         ]);
 
     }
+
+    public function index(){
+        $data = Notifikasi::latest()->get();
+        return view('content.admin.notifikasi.notifikasi',compact('data'));
+    }
 }

@@ -44,19 +44,20 @@
                             </header>
                             @forelse ($not as $n)
                             <li id="listNoti-{{$n->id}}">
-                                <a href="#" class="media">
-                                    <span class="d-flex"><i class="far fa-bell" style="color: gold"></i> </span>
-                                    <span class="media-body">
+                                <div class="media">
+                                    <div class="d-flex mr-2 mt-2"><i class="far fa-bell" style="color: gold"></i> </div>
+                                    <div class="media-body">
                                         {{-- <span class="media-heading">{{$n->nama}}</span>  --}}
                                         <small style="color: ghostwhite">{{now()}}</small> 
-                                        <span class="card-header">{{$n->nama}}</span>
+                                        <p class="card-header">{{$n->nama}}</p>
                                         @hasrole('admin')
-                                        <small>
+                                        <div>
                                             <button onclick="baca({{$n->id}})" class="btn btn-primary btn-sm">Tandai baca</button>
-                                        </small> 
+                                            <a href="{{route('karyawanDetail',$n->id_user)}}" class="btn btn-info btn-sm py-1 px-2 text-white">Detail</a>
+                                        </div> 
                                         @endhasrole
-                                    </span>
-                                </a>
+                                    </div>
+                                </div>
                             </li>
                             @empty
                                 
@@ -67,6 +68,11 @@
                             
                         @endforelse
                     </ul>
+                    @hasrole('admin')
+                    <div>
+                        <a class="text-center" href="{{route('notiIndex')}}">Baca Selengkapnya</a>
+                    </div>
+                    @endhasrole
                 </div>
             </div>
         </li>

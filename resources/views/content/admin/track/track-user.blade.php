@@ -242,6 +242,7 @@
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                             @else
+                            
                             <a onclick="addBobot('{{$bob['subdivisi']}}')" type="button" class="btn btn-secondary btn-sm">
                                 <i class="fas fa-cog" style="color:white"></i>
                             </a>
@@ -275,22 +276,14 @@
 
                 <h5>{{$e}}</h5>
             </div>
-            {{-- @if(!empty($multi))
-            <div class="d-inline-block">
-                <a class="mt-4" style="cursor: pointer" onclick="addBobot('{{$e}}')">
-                    <i class="fas fa-tools"></i>
-                    Setting
-                </a>
-            </div>
-            @endif --}}
-
+         
         </div>
 
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th style="width: 2px">No</th>
-                    <th>Obj</th>
+                    {{-- <th>Obj</th> --}}
                     <th>Kode</th>
                     <th style="width: 25%">Key result</th>
                     <th>Bobot</th>
@@ -310,11 +303,33 @@
                 @php
                     $tot_progres = 0;
                     $tot_bobot = 0;
+                    $dtBefore = '';
+                    $nomor_obj = 1;
                 @endphp
-                @foreach ($track as $tr )
+
+                @foreach ($track as  $tr )
+                @if ($dtBefore != $tr->keyResult->kode_obj)
                 <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$tr->keyResult->kode_obj}}</td>
+                    <td>{{$nomor_obj++}}</td>
+                    <td class="font-weight-bold">{{$tr->keyResult->kode_obj}}</td>
+                    <td class="font-weight-bold">{{$tr->keyResult->objective->nama}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @else
+                @endif
+
+                <tr>
+                    <td></td>
                     <td>{{$tr->kode_key}}</td>
                     <td>{{$tr->keyResult->nama}}</td>
                     <td class="text-center">{{$tr->bobot}}</td>
@@ -348,10 +363,13 @@
                     </td>
                     
                 </tr>
+
                 @php
+                    $dtBefore = $tr->keyResult->kode_obj;
                     $tot_bobot += $tr->bobot;
                     $tot_progres += $tr->progres;
                 @endphp
+
                 @endforeach
                 <tr>
                     <td colspan="4" class="text-center">Bobot</td>

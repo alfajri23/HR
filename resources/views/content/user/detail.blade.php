@@ -284,9 +284,32 @@
                                                     @endswitch
                                                 </p>
                                             </div>
+
                                             
                                         </div>
+
                                         <hr class="border-0 mr-tb-50">
+
+                                        <h4>File</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">Ijazah</h6>
+                                                <a class="mr-t-0" href="{{ asset($data->ijazah) }}">Download</a>
+                                            </div>
+                                            @forelse ($sertifikat as $st)
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">{{$st->nama}}</h6>
+                                                <a href="{{ asset($st->file) }}" class="mr-t-0">Download</a>
+                                                <a href="{{route('karyawanSertifDelete',$st->id)}}" class="mr-t-0 ml-2">
+                                                    <i class="fas fa-trash" style="color:red"></i>
+                                                </a>
+                                            </div>
+                                            @empty
+                                                
+                                            @endforelse 
+                                        </div>
+
+
                                     </div>
                                 </div>
                                 <!-- End Detail -->
@@ -325,6 +348,20 @@
                                                     <input type="password" class="form-control" name="password" id="nama" aria-describedby="emailHelp">
                                                     <label>Password</label>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="file" class="form-control" name="ijazah" id="logo">
+                                                    <label for="exampleInputFile">Upload ijazah</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                                    Sertifikat
+                                                </button>
                                             </div>
                                         </div>
 
@@ -590,6 +627,45 @@
         </div>
         
 {{-- </div> --}}
+
+<!-- Modal sertifikat -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Upload sertifikat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <form class="form-material pt-3" action="{{route('karyawanSertifStore')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="text" name="nama"  class="form-control form-control">
+                        <label>Nama</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" value="{{$data->id}}" name="id" id="id" >
+                        <input type="file" class="form-control" name="sertifikat" id="logo">
+                        <label for="exampleInputFile">Upload Sertifikat</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+        </div>
+    </div>
+</div>
 
 
 @endsection

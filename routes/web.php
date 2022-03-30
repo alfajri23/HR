@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/add',[Controllers\KaryawanController::class,'store'])->name('karyawanStore');
             Route::post('/update',[Controllers\KaryawanController::class,'update'])->name('karyawanUpdate');
             Route::get('/delete/{id}',[Controllers\KaryawanController::class,'destroy'])->name('karyawanDelete');
+            Route::post('/sertifikat',[Controllers\UserSertifikatController::class,'store'])->name('karyawanSertifStore');
+            Route::get('/sertifikat-delete/{id}',[Controllers\UserSertifikatController::class,'delete'])->name('karyawanSertifDelete');
         });
 
         Route::middleware('role:admin')->prefix('divisi')->group(function(){
@@ -136,6 +138,7 @@ Route::middleware(['auth'])->group(function () {
 
         //notifikasi
         Route::get('list',[Controllers\NotifikasiController::class,'baca'])->name('notiBaca');
+        Route::get('all',[Controllers\NotifikasiController::class,'index'])->name('notiIndex');
 
 
         //ibadah master

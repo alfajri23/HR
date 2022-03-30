@@ -43,6 +43,7 @@ class TrackController extends Controller
                 $multi = MultiOkr::inputUser($tracks);
             } 
         }
+        //dd($tracks);
         $tracks = $tracks->groupBy('multi');
         
         //bobot multi okr 
@@ -58,6 +59,8 @@ class TrackController extends Controller
         //multiokr
         $subs = Subdivisi::all();
         //dd($subs);
+
+        //dd($tracks);
         
         return view('content.admin.track.track-user',compact('user','tracks',
                                                             'key','bulan',

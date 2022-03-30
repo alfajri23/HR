@@ -16,6 +16,7 @@ use App\Models\ListIbadahUser;
 use App\Helpers\MultiOkr;
 use App\Models\Keyresult;
 use App\Models\Objective;
+use App\Models\UserSertifikat;
 
 class KaryawanController extends Controller
 {
@@ -34,6 +35,7 @@ class KaryawanController extends Controller
         ->where('id_divisi','!=',null)
         ->get();
         $divisi = Divisi::all();
+        
         return view('content.admin.karyawan.karyawan',compact('user','divisi'));
     }
 
@@ -87,36 +89,39 @@ class KaryawanController extends Controller
 
         $this->validate($request, [
 			'file' => 'file|image|mimes:jpeg,png,jpg|max:2048',
+            'ijazah' => 'file|mimes:pdf|max:2048',
 		]);
 		// menyimpan data file yang diupload ke variabel $file
-		$file = $request->file('file');
 
-        if(empty($request->file)){
-            $foto = User::find($request->id);
-            $files = $foto->foto;
-        }else{
+        $data = User::find($request->id);
+
+        if(!empty($request->file)){
+            $file = $request->file('file');
             $nama_file = time()."_".$file->getClientOriginalName();
-            // isi dengan nama folder tempat kemana file diuploadpublic_path('\img\uploads')
             $tujuan_upload_server = public_path('asset/img/profile');
             $tujuan_upload = 'asset/img/profile';
             $files = $tujuan_upload . '/'. $nama_file;
             $file->move($tujuan_upload_server,$nama_file);
+            $data->foto = $files;
         }
 
-        if(empty($request->password)){
-            $foto = User::find($request->id);
-            $password = $foto->password;
-        }else{
-            $password = bcrypt($request->password);
+        //ijazah
+        if(!empty($request->ijazah)){
+            $ijazah = $request->file('ijazah');
+            $nama_file = time()."_".$ijazah->getClientOriginalName();
+            $tujuan_upload_server = public_path('asset/ijazah');
+            $tujuan_upload = 'asset/ijazah';
+            $files = $tujuan_upload . '/'. $nama_file;
+            $ijazah->move($tujuan_upload_server,$nama_file);
+            $data->ijazah = $files;
         }
 
-        //dd($password);
+        if(!empty($request->password)){
+            $data->password = bcrypt($request->password);
+        }
 
-        //dd($request->reminder_kontrak);
 
-        $data = User::find($request->id);
         $data->nama = $request->nama; 
-        $data->password = $password; 
         $data->cuti = $request->cuti; 
         $data->nik = $request->nik; //
         $data->pangkat = $request->pangkat;
@@ -132,7 +137,6 @@ class KaryawanController extends Controller
         $data->id_divisi = $request->id_divisi;
         $data->alamat = $request->alamat;
         $data->alamat_ktp = $request->alamat_ktp;
-        $data->foto = $files;
         $data->habis_kontrak = $request->habis_kontrak; 
         $data->reminder_habis_kontrak = $request->reminder_habis_kontrak; 
         $data->tmpt_lahir = $request->tmpt_lahir; 
@@ -222,6 +226,8 @@ class KaryawanController extends Controller
         foreach($ganti as $gt){
             $jam = $jam - $gt->jam;
         }
+
+        $sertifikat = UserSertifikat::where('id_user',$id)->get();
     
         //dd($tracks);
         if(auth()->user()->hasrole('user_manager')){
@@ -231,7 +237,7 @@ class KaryawanController extends Controller
                                                                 'lembur','ganti',
                                                                 'jam','ijin',
                                                                 'cuti','track_tahun',
-                                                                'multi'));
+                                                                'multi','sertifikat'));
 
         }
 
@@ -242,7 +248,7 @@ class KaryawanController extends Controller
                                                                 'lembur','ganti',
                                                                 'jam','ijin',
                                                                 'cuti','track_tahun',
-                                                                'multi'));
+                                                                'multi','sertifikat'));
 
         }
 
@@ -253,7 +259,7 @@ class KaryawanController extends Controller
                                                                     'lembur','ganti',
                                                                     'jam','ijin',
                                                                     'cuti','track_tahun',
-                                                                    'multi'));
+                                                                    'multi','sertifikat'));
         
 
     }
@@ -264,9 +270,10 @@ class KaryawanController extends Controller
         ->where('bulan',date('m'))
         ->get();
         $divisi = Divisi::all();
+        $sertifikat = UserSertifikat::where('id_user',session('id_user'))->get();
         $bulan = array('1'=>'Januari', '2'=>'Februari', '3'=>'Maret', '4'=>'April', '5'=>'Mei', '6'=>'Juni', '7'=>'Juli', '8'=>'Agustus', '9'=>'September', '10'=>'Oktober', '11'=>'November', '12'=>'Desember');
 
-        return view('content.user.detail',compact('data','bulan','track','divisi'));
+        return view('content.user.detail',compact('data','bulan','track','divisi','sertifikat'));
 
 
     }

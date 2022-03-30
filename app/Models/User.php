@@ -71,6 +71,11 @@ class User extends Authenticatable
         return $this->hasMany(LemburKerja::class, 'id_user', 'id');
     }
 
+    public function sertifikat()
+    {
+        return $this->hasMany(User::class, 'id_user', 'id');
+    }
+
 
 
 

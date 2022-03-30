@@ -48,7 +48,6 @@ class CheckNotifikasi extends Command
 
         $datas = User::where('reminder_habis_kontrak', now()->format('Y-m-d'))->get();
 
-        //dd($datas);
 
         if(count($datas) > 0){
             $pesan = '';
@@ -59,7 +58,8 @@ class CheckNotifikasi extends Command
                     'nama' => $pesan,
                     'status' => 1,
                     'tipe' => 2,
-                    'filter' => 'reminder'
+                    'filter' => 'reminder',
+                    'id_user' => $dt->id
                 ]);
             }
         }
@@ -73,7 +73,8 @@ class CheckNotifikasi extends Command
                     'nama' => $pesan,
                     'status' => 1,
                     'tipe' => 1,
-                    'filter' => 'reminder'
+                    'filter' => 'reminder',
+                    'id_user' => $dt->id
                 ]);
             }
         }
