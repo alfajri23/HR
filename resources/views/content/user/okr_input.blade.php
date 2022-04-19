@@ -18,9 +18,8 @@
     }
 </style>
 <div class="container-fluid bg-white p-5">
-    @if ($status == 1)
 
-        {{-- header --}}
+    @if ($status == 1)
         <div class="row">
             <div class="col-2">
                 <p>Divisi</p>
@@ -37,58 +36,59 @@
             </div>
         </div>
 
+        <div id="okrInput" >
         {{-- Total kumulatif multi OKR dangan detail --}}
-    @if(!empty($multi))
-    <div>
-        <h4>Okr Tracking</h4>
-        <table class="table table-bordered" style="width:40%">
-            <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">Nama</th>
-                <th scope="col" style="width:15%">Bobot</th>
-                <th scope="col">Hasil</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              @php
-                  $totalProgres = 0;
-              @endphp
-              @forelse ($multi as $bob)
-              @php
-                  $totalProgres += $bob['total'];
-              @endphp
-              <tr>
-                <form action="{{route('editMultiBobot')}}" method="post">
-                @csrf
-                <th scope="row">{{$loop->iteration}}</th>
-                <td>
-                    {{$bob['subdivisi']}}
-                </td>
-                <td>
-                    <div class="show-{{$bob['id']}}">{{$bob['bobot']}}</div> 
-                </td>
-                <td>
-                    {{$bob['hasil']}}
-                </td>
-                <td>
-                    {{$bob['total']}}
-                </td>
-                </form>
-              </tr>
-                  
-              @empty
-                  
-              @endforelse
-              <tr>
-                  <td colspan="4">Total </td>
-                  <td>{{$totalProgres}}</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-    @endif
+        @if(!empty($multi))
+        <div>
+            <h4>Okr Tracking</h4>
+            <table class="table table-bordered" style="width:40%">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col" style="width:15%">Bobot</th>
+                    <th scope="col">Hasil</th>
+                    <th scope="col">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $totalProgres = 0;
+                @endphp
+                @forelse ($multi as $bob)
+                @php
+                    $totalProgres += $bob['total'];
+                @endphp
+                <tr>
+                    <form action="{{route('editMultiBobot')}}" method="post">
+                    @csrf
+                    <th scope="row">{{$loop->iteration}}</th>
+                    <td>
+                        {{$bob['subdivisi']}}
+                    </td>
+                    <td>
+                        <div class="show-{{$bob['id']}}">{{$bob['bobot']}}</div> 
+                    </td>
+                    <td>
+                        {{$bob['hasil']}}
+                    </td>
+                    <td>
+                        {{$bob['total']}}
+                    </td>
+                    </form>
+                </tr>
+                    
+                @empty
+                    
+                @endforelse
+                <tr>
+                    <td colspan="4">Total </td>
+                    <td>{{$totalProgres}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        @endif
 
         @forelse ($tracks as $e => $track)
         <h4>{{$e}}</h4>
@@ -121,7 +121,7 @@
                     @endphp
                     @forelse ($track as $tr )
                     @if ($dtBefore != $tr->keyResult->kode_obj)
-                    <tr>
+                    <tr style="background-color:aliceblue">
                         <td>{{$nomor_obj++}}</td>
                         <td class="font-weight-bold">{{$tr->keyResult->kode_obj}}</td>
                         <td class="font-weight-bold">{{$tr->keyResult->objective->nama}}</td>
@@ -161,9 +161,10 @@
                             <td>
                                 <input class="form-control" name="id" value="{{$tr->id}}" type="hidden">
                                 <input class="form-control" name="week_no[]" value="{{$i}}" type="hidden">
-                                <input type="text"  onkeyup="currencyFormat(this)" class="form-control" name="week_val[]" style="
+                                <input type="text" onkeyup="currencyFormat(this)" class="form-control" name="week_val[]" style="
                                     width: 100px;
                                     padding: 8px 2px;
+                                    border: 1px solid black;
                                 ">
                             </td>
                             @else
@@ -176,12 +177,14 @@
                             <input type="number" class="form-control" name="total" style="
                                     width: 100px;
                                     padding: 8px 2px;
+                                    border: 1px solid black;
                             ">
                             <small id="emailHelp" class="form-text text-muted">Isi terakhir</small>
                             @else
                             <input type="number" class="form-control" name="total" value="{{$tr->total}}" readonly style="
                                     width: 100px;
                                     padding: 8px 2px;
+                                    border: 1px solid black;
                             ">
                             @endif
                         </td>
@@ -218,71 +221,11 @@
             </table>
         </div>
         @empty
+        <div class="row justify-content-end">
+            <img src="https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=740" alt="">
+        </div>
         @endforelse
-
-        {{-- Tidak Jadi krn revisi --}}
-        {{-- @if (!empty($multi))
-            <h4>Total</h4>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 2px">No</th>
-                        <th>Kode</th>
-                        <th style="width: 300px;">Key result</th>
-                        <th>Pekan 1</th>
-                        <th>Pekan 2</th>
-                        <th>Pekan 3</th>
-                        <th>Pekan 4</th>
-                        <th>Pekan 5</th>
-                        <th>Progres</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $tot_progres = 0;
-                    @endphp
-                    @foreach ($multi as $tr )
-                    <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$tr['kode_key']}}</td>
-                        <td>{{$tr['nama']}}</td>
-                        @for($i = 0; $i < count($tr['data_pekan']); $i++)
-                            @if (empty($tr['data_pekan'][$i]))
-                            <td>
-                                
-                            </td>
-                            @else
-                            <td class="text-center">{{number_format($tr['data_pekan'][$i])}}</td>
-                            @endif
-                            
-                        @endfor
-                        <td>
-                            <p class="my-0">{{$tr['progres']}}%</p>
-                            <div class="progress" data-toggle="tooltip" title="{{$tr['progres']}}%">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr['progres']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr['progres']}}%"><span class="sr-only">{{$tr['progres']}}%</span>
-                                </div>
-                            </div>
-                        </td>
-                        @php
-                    
-                            $tot_progres += $tr['progres'];
-                        @endphp
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="8" class="text-center">Total progres</td>
-                        <td colspan="1">
-                            <p class="my-0">{{$tot_progres}}%</p>
-                            <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        @endif --}}
-
+        </div>
 
     @else
         <div class="row flex-column align-items-center">
@@ -291,11 +234,30 @@
         </div>
         
     @endif
+
+    {{-- button next prev --}}
+    <div class="row justify-content-between">
+        @if(date('m') != 1)
+        <a href="{{route('trackKaryawan',['m' => date('m')-1])}}" type="button" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-alt-circle-left"></i>
+            Prev
+        </a>
+        @endif
+
+        @if(date('m') != 12)
+        <a href="{{route('trackKaryawan',['m' => date('m')+1])}}" type="button" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-alt-circle-right"></i>
+            Next
+        </a>
+        @endif
+    </div>
+
     
 </div>
 
 
 <script>
+
     String.prototype.reverse = function() {
         return this.split("").reverse().join("");
     }
@@ -313,7 +275,5 @@
     }
 </script>
 
-
-{{-- <a href="#" class="color-content"><i class="material-icons md-18">settings</i> </a><a href="#" class="color-content"><i class="material-icons md-18">clear</i></a> --}}
 
 @endsection

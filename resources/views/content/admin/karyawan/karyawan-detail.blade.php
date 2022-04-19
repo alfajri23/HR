@@ -767,6 +767,10 @@
                                                 <h6 class="text-muted text-uppercase">Ijazah</h6>
                                                 <a class="mr-t-0" href="{{ asset($data->ijazah) }}">Download</a>
                                             </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted text-uppercase">KTP</h6>
+                                                <a class="mr-t-0" href="{{ asset($data->ktp) }}">Download</a>
+                                            </div>
                                             @forelse ($sertifikat as $st)
                                             <div class="col-md-6">
                                                 <h6 class="text-muted text-uppercase">{{$st->nama}}</h6>
@@ -805,13 +809,19 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <input type="file" class="form-control" name="ijazah" id="logo">
                                                     <label for="exampleInputFile">Upload ijazah</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="file" class="form-control" name="ktp" id="logo">
+                                                    <label for="exampleInputFile">Upload ktp</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                                                     Sertifikat
                                                 </button>

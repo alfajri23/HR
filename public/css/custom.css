@@ -1,5 +1,12 @@
 body{
 	height: 100vh;
+	/* transform: scale(1.0); */
+	/* transform-origin: 0 0; */
+}
+
+#okrInput{
+	transform: scale(0.85); 
+	transform-origin: 0 0;
 }
 
 #app{

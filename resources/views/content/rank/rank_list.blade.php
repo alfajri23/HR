@@ -14,6 +14,13 @@
     .card:hover{
         background-color: aliceblue;
     }
+
+    #img{
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+    
 </style>
 <h4>Ranking</h4>
 <div class="row">
@@ -34,9 +41,10 @@
                     <h6></h6>
                     @else
                     <div href="#" class="user--online thumb-xs">
-                        <img src="{{asset($top[$i - 1]->user->foto)}}" class="rounded-circle" alt="">
+                        <img src="{{asset($top[$i - 1]->user->foto)}}" id="img" class="rounded-circle" alt="">
                     </div>
-                    <h6 class="mb-0 mt-1">{{$top[$i - 1]->user->nama}} <i class="fas fa-medal fa-lg" style="color: gold"></i></h6>
+                    <h6 class="mb-0 mt-1" style="font-size:10px">{{$top[$i - 1]->user->nama}} 
+                        <i class="fas fa-medal fa-lg" style="color: gold"></i></h6>
                     @endif
                 </span>
                 

@@ -43,7 +43,6 @@ class TrackController extends Controller
                 $multi = MultiOkr::inputUser($tracks);
             } 
         }
-        //dd($tracks);
         $tracks = $tracks->groupBy('multi');
         
         //bobot multi okr 
@@ -185,32 +184,41 @@ class TrackController extends Controller
         $total = empty($request->total) ? null : $request->total;
         $track = OkrTracking::find($request->id);
 
+        //dd($request);
+
         //dd($request->week_val);
         //$nominal    = str_replace(",", "", $request->bayar);
-    
+        
         $data_week = $track->week_1;
         $data_week = explode(',',$data_week);
         $progres = 0;
         $data_progres = 0;
         $pekan = 0;
-        for($i = 0; $i < count($request->week_no); $i++){
-            if($request->week_val[$i] != null){
-                $data_week[$request->week_no[$i]] = str_replace(",", "", $request->week_val[$i]);
-            }else{
-                $data_week[$request->week_no[$i]] = $request->week_val[$i];
-            }  
-        }
 
-        for($y=0 ; $y<count($data_week); $y++){
-            if($data_week[$y] == null){
-                $data_progres = $data_week[$y-1];
-                break;
-            }else{
-                $data_progres = $data_week[$y];
+        if($data_week[0] != ""){
+
+            for($i = 0; $i < count($request->week_no); $i++){
+                if($request->week_val[$i] != null){
+                    $data_week[$request->week_no[$i]] = str_replace(",", "", $request->week_val[$i]);
+                }else{
+                    $data_week[$request->week_no[$i]] = $request->week_val[$i];
+                }  
             }
-        }
 
-        $data_week = implode(",",$data_week);
+            for($y=0 ; $y<count($data_week); $y++){
+                if($data_week[$y] == null){
+                    $data_progres = $data_week[$y-1];
+                    break;
+                }else{
+                    $data_progres = $data_week[$y];
+                }
+            }
+
+            $data_week = implode(",",$data_week);
+
+        }else{
+            $data_week = null;
+        }
 
         if(empty($total)){
             $progres = $data_progres/$track->target * $track->bobot;

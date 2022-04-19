@@ -26,16 +26,14 @@ class AbsensiController extends Controller
         $akhir = ((int)$akhir);
         $point= 0;
 
-        //dd($request->jam[1]);
-
         if($request->jam[1] == '8'){
             if($akhir > 0 && $akhir < 10){
                 $point = 40;
-            }elseif($akhir > 10 && $akhir < 20){
+            }elseif($akhir >= 10 && $akhir < 20){
                 $point = 30;
-            }elseif($akhir > 20 && $akhir < 30){
+            }elseif($akhir >= 20 && $akhir < 30){
                 $point = 20;
-            }elseif($akhir > 30){
+            }elseif($akhir >= 30){
                 $point = 10;
             }elseif($akhir == 0){
                 $point = 50;
@@ -43,21 +41,17 @@ class AbsensiController extends Controller
         }else{
             if($akhir <= 59 && $akhir > 50){
                 $point = 50;
-            }elseif($akhir < 50 && $akhir >=40){
+            }elseif($akhir <= 50 && $akhir >=40){
                 $point = 60;
-            }elseif($akhir < 40 && $akhir >=30){
+            }elseif($akhir <= 40 && $akhir >=30){
                 $point = 70;
-            }elseif($akhir < 30 && $akhir >=20){
+            }elseif($akhir <= 30 && $akhir >=20){
                 $point = 80;
             }
         }
 
-        //dd($request->bulan);
-
         $point = $point+$hasil_tot;
-        //dd($point);
-
-        //dd($request->id);
+        
 
         if($request->id != null){
 
@@ -76,12 +70,7 @@ class AbsensiController extends Controller
                 'hasil' => $point
             ]);
         }
-
-
         return redirect()->back();
-        
-
-
     }
 
     public function edit(Request $request){

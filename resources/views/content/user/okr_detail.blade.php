@@ -35,255 +35,216 @@
         </div>
     </div>
 
-    {{-- Total kumulatif multi OKR dangan detail --}}
-    @if(!empty($multi))
-    <div>
-        <h4>Okr Tracking</h4>
-        <table class="table table-bordered" style="width:40%">
-            <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">Nama</th>
-                <th scope="col" style="width:15%">Bobot</th>
-                <th scope="col">Hasil</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              @php
-                  $totalProgres = 0;
-              @endphp
-              @forelse ($multi as $bob)
-              @php
-                  $totalProgres += $bob['total'];
-              @endphp
-              <tr>
-                <form action="{{route('editMultiBobot')}}" method="post">
-                @csrf
-                <th scope="row">{{$loop->iteration}}</th>
-                <td>
-                    {{$bob['subdivisi']}}
-                </td>
-                <td>
-                    <div class="show-{{$bob['id']}}">{{$bob['bobot']}}</div> 
-                </td>
-                <td>
-                    {{$bob['hasil']}}
-                </td>
-                <td>
-                    {{$bob['total']}}
-                </td>
-                </form>
-              </tr>
-                  
-              @empty
-                  
-              @endforelse
-              <tr>
-                  <td colspan="4">Total </td>
-                  <td>{{$totalProgres}}</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-    @endif
-    
-    @forelse ($tracks as $e => $track)
-    <h4>{{$e}}</h4>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th style="width: 2px">No</th>
-                <th>Kode</th>
-                <th>Key result</th>
-                <th>Bobot</th>
-                <th>Target</th>
-                <th>Start</th>
-                <th>Pekan 1</th>
-                <th>Pekan 2</th>
-                <th>Pekan 3</th>
-                <th>Pekan 4</th>
-                <th>Pekan 5</th>
-                <th>Total</th>
-                <th>Progres</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $tot_progres = 0;
-                $tot_bobot = 0;
-                $dtBefore = '';
-                $nomor_obj = 1;
-            @endphp
-            @foreach ($track as $tr )
-            @if ($dtBefore != $tr->keyResult->kode_obj)
-            <tr>
-                <td>{{$nomor_obj++}}</td>
-                <td class="font-weight-bold">{{$tr->keyResult->kode_obj}}</td>
-                <td class="font-weight-bold">{{$tr->keyResult->objective->nama}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            @else
-            @endif
-
-            <tr>
-                <td></td>
-                <td>{{$tr->kode_key}}</td>
-                <td>{{$tr->keyResult->nama}}</td>
-                <td class="text-center">{{$tr->bobot}}</td>
-                <td class="text-center">{{number_format($tr->target)}}</td>
-                <td class="text-center">{{$tr->start}}</td>
+    <div id="okrInput">
+        {{-- Total kumulatif multi OKR dangan detail --}}
+        @if(!empty($multi))
+        <div>
+            <h4>Okr Tracking</h4>
+            <table class="table table-bordered" style="width:40%">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col" style="width:15%">Bobot</th>
+                    <th scope="col">Hasil</th>
+                    <th scope="col">Total</th>
+                </tr>
+                </thead>
+                <tbody>
                 @php
-                    if($tr->week_1 != null){
-                        $week = explode(",",$tr->week_1);
-                    }else {
-                        $week = [];
-                    }  
+                    $totalProgres = 0;
                 @endphp
-                <form action="{{route('trackUpdate')}}" method="POST">
+                @forelse ($multi as $bob)
+                @php
+                    $totalProgres += $bob['total'];
+                @endphp
+                <tr>
+                    <form action="{{route('editMultiBobot')}}" method="post">
                     @csrf
-                @for($i = 0; $i < 5; $i++)
-                    @if (empty($week[$i]))
+                    <th scope="row">{{$loop->iteration}}</th>
                     <td>
-                        <input class="form-control" name="id" value="{{$tr->id}}" type="hidden">
-                        <input class="form-control" name="week_no[]" value="{{$i}}" type="hidden">
-                        <input type="text" class="form-control" name="week_val[]" style="
-                            width: 100px;
-                            padding: 8px 2px;
-                        ">
+                        {{$bob['subdivisi']}}
                     </td>
-                    @else
-                    <td class="text-center">{{floor(($week[$i]*100))/100}}</td>
-                    @endif
+                    <td>
+                        <div class="show-{{$bob['id']}}">{{$bob['bobot']}}</div> 
+                    </td>
+                    <td>
+                        {{$bob['hasil']}}
+                    </td>
+                    <td>
+                        {{$bob['total']}}
+                    </td>
+                    </form>
+                </tr>
                     
-                @endfor
-                {{-- total --}}
-                <td>
-                    @if (empty($tr->total))
-                    <input type="number" class="form-control" name="total" style="
-                            width: 100px;
-                            padding: 8px 2px;
-                    ">
-                    <small id="emailHelp" class="form-text text-muted">Isi terakhir</small>
-                    @else
-                    <input type="number" class="form-control" name="total" value="{{$tr->total}}" readonly style="
-                            width: 100px;
-                            padding: 8px 2px;
-                    ">
-                    @endif
+                @empty
                     
-                </td>
-                <td>
-                    <p class="my-0">{{$tr->progres}}%</p>
-                    <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr->progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr->progres}}%"><span class="sr-only">{{$tr->progres}}%</span>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex flex-column">
-                        <a href="javascript:void(0)" onclick="okrEdit({{$tr->id}})" class="btn btn-success btn-sm">Edit</a>
-                        <button type="submit" class="btn btn-primary btn-sm mt-1">Update</button>
-                    </div>
-                </td>
-                </form>
-            </tr>
-            @php
-                $tot_progres += $tr->progres;
-                $tot_bobot += $tr->bobot;
-            @endphp
-            @endforeach
-            <tr>
-                <td colspan="3" class="text-center">Bobot</td>
-                <td colspan="1">{{$tot_bobot}}</td>
-                <td colspan="8" class="text-center">Total progres</td>
-                <td colspan="1">
-                    <p class="my-0">{{$tot_progres}}%</p>
-                    <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
-                        </div>
-                    </div>
-                </td>
-                <td colspan="1"></td>
-            </tr>
-        </tbody>
-    </table>
-    @empty    
-    @endforelse
-
-    {{-- TIDAK JADI --}}
-    {{-- @if (!empty($multi))
-        <h4>Total</h4>
+                @endforelse
+                <tr>
+                    <td colspan="4">Total </td>
+                    <td>{{$totalProgres}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        @endif
+        
+        @forelse ($tracks as $e => $track)
+        <h4>{{$e}}</h4>
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th style="width: 2px">No</th>
                     <th>Kode</th>
-                    <th style="width: 300px;">Key result</th>
+                    <th>Key result</th>
+                    <th>Bobot</th>
+                    <th>Target</th>
+                    <th>Start</th>
                     <th>Pekan 1</th>
                     <th>Pekan 2</th>
                     <th>Pekan 3</th>
                     <th>Pekan 4</th>
                     <th>Pekan 5</th>
+                    <th>Total</th>
                     <th>Progres</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                     $tot_progres = 0;
+                    $tot_bobot = 0;
+                    $dtBefore = '';
+                    $nomor_obj = 1;
                 @endphp
-                @foreach ($multi as $tr )
+                @foreach ($track as $tr )
+                @if ($dtBefore != $tr->keyResult->kode_obj)
+                <tr style="background-color:aliceblue">
+                    <td>{{$nomor_obj++}}</td>
+                    <td class="font-weight-bold">{{$tr->keyResult->kode_obj}}</td>
+                    <td class="font-weight-bold">{{$tr->keyResult->objective->nama}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @else
+                @endif
+
                 <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$tr['kode_key']}}</td>
-                    <td>{{$tr['nama']}}</td>
-                    @for($i = 0; $i < count($tr['data_pekan']); $i++)
-                        @if (empty($tr['data_pekan'][$i]))
+                    <td></td>
+                    <td>{{$tr->kode_key}}</td>
+                    <td>{{$tr->keyResult->nama}}</td>
+                    <td class="text-center">{{$tr->bobot}}</td>
+                    <td class="text-center">{{number_format($tr->target)}}</td>
+                    <td class="text-center">{{$tr->start}}</td>
+                    @php
+                        if($tr->week_1 != null){
+                            $week = explode(",",$tr->week_1);
+                        }else {
+                            $week = [];
+                        }  
+                    @endphp
+                    <form action="{{route('trackUpdate')}}" method="POST">
+                        @csrf
+                    @for($i = 0; $i < 5; $i++)
+                        @if (empty($week[$i]))
                         <td>
-                            
+                            <input class="form-control" name="id" value="{{$tr->id}}" type="hidden">
+                            <input class="form-control" name="week_no[]" value="{{$i}}" type="hidden">
+                            <input type="text" onkeyup="currencyFormat(this)" class="form-control" name="week_val[]" style="
+                                width: 100px;
+                                padding: 8px 2px;
+                                border: 1px solid black;
+                            " placeholder="isi">
                         </td>
                         @else
-                        <td class="text-center">{{number_format($tr['data_pekan'][$i])}}</td>
+                        <td class="text-center">{{floor(($week[$i]*100))/100}}</td>
                         @endif
                         
                     @endfor
+                    {{-- total --}}
                     <td>
-                        <p class="my-0">{{$tr['progres']}}%</p>
-                        <div class="progress" data-toggle="tooltip" title="{{$tr['progres']}}%">
-                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr['progres']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr['progres']}}%"><span class="sr-only">{{$tr['progres']}}%</span>
+                        @if (empty($tr->total))
+                        <input type="number" class="form-control" name="total" style="
+                                width: 100px;
+                                padding: 8px 2px;
+                                border: 1px solid black;
+                        " placeholder="isi">
+                        <small id="emailHelp" class="form-text text-muted">Isi terakhir</small>
+                        @else
+                        <input type="number" class="form-control" name="total" value="{{$tr->total}}" readonly style="
+                                width: 100px;
+                                padding: 8px 2px;
+                                border: 1px solid black;
+                        ">
+                        @endif
+                        
+                    </td>
+                    <td>
+                        <p class="my-0">{{$tr->progres}}%</p>
+                        <div class="progress" data-toggle="tooltip" title="{{$tr->progres}}%">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr->progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr->progres}}%"><span class="sr-only">{{$tr->progres}}%</span>
                             </div>
                         </div>
                     </td>
-                    @php
-                
-                        $tot_progres += $tr['progres'];
-                    @endphp
+                    <td>
+                        <div class="d-flex flex-column">
+                            <a href="javascript:void(0)" onclick="okrEdit({{$tr->id}})" class="btn btn-success btn-sm">Edit</a>
+                            <button type="submit" class="btn btn-primary btn-sm mt-1">Update</button>
+                        </div>
+                    </td>
+                    </form>
                 </tr>
+                @php
+                    $tot_progres += $tr->progres;
+                    $tot_bobot += $tr->bobot;
+                @endphp
                 @endforeach
                 <tr>
+                    <td colspan="3" class="text-center">Bobot</td>
+                    <td colspan="1">{{$tot_bobot}}</td>
                     <td colspan="8" class="text-center">Total progres</td>
-                    <td>
+                    <td colspan="1">
                         <p class="my-0">{{$tot_progres}}%</p>
                         <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
                             <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
                             </div>
-                        </div></td>
-
+                        </div>
+                    </td>
+                    <td colspan="1"></td>
                 </tr>
             </tbody>
         </table>
-    @endif --}}
+        @empty    
+        <div class="row justify-content-end">
+            <img src="https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=740" alt="">
+        </div>
+        @endforelse
+    </div>
+
+    <div class="row justify-content-between">
+        @if(Request::segment(3) != 1)
+        <a href="{{route('trackKaryawan',['m' => Request::segment(3)-1])}}" type="button" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-alt-circle-left"></i>
+            Prev
+        </a>
+        @endif
+
+        @if(Request::segment(3) != 12)
+        <a href="{{route('trackKaryawan',['m' => Request::segment(3)+1])}}" type="button" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-alt-circle-right"></i>
+            Next
+        </a>
+        @endif
+    </div>
 
 </div>
 
@@ -312,6 +273,22 @@
 </div>
 
 <script>
+
+    String.prototype.reverse = function() {
+        return this.split("").reverse().join("");
+    }
+
+    window.currencyFormat = function reformatText(input) {
+        var x = input.value;
+        x = x.replace(/,/g, ""); // Strip out all commas
+        x = x.reverse();
+        x = x.replace(/.../g, function(e) {
+            return e + ",";
+        }); // Insert new commas
+        x = x.reverse();
+        x = x.replace(/^,/, ""); // Remove leading comma
+        input.value = x;
+    }
 
     $.ajaxSetup({
 	      headers: {
@@ -357,6 +334,8 @@
             }
         });
     }
+
+    
 
 </script>
 

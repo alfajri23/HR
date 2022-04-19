@@ -40,7 +40,6 @@ class CheckNotifikasi extends Command
      */
     public function handle()
     {
-        //dd("hallo");
         
         $data = User::whereDay('tgl_lahir', date('d'))
             ->whereMonth('tgl_lahir',date('m'))
@@ -76,15 +75,13 @@ class CheckNotifikasi extends Command
                     'filter' => 'reminder',
                     'id_user' => $dt->id
                 ]);
+
+                $user = User::find($dt->id);
+                $user->usia = $user->usia + 1;
+                $user->save();
             }
         }
         
-        // Notifikasi::create([
-        //     'nama' => 'hallo',
-        //     'status' => 1,
-        //     'tipe' => 1,
-        //     'filter' => 'reminder'
-        // ]);
         
         Log::info('Notofikasi berhasil dijalankan');
 

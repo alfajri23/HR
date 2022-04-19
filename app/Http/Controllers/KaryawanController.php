@@ -87,14 +87,18 @@ class KaryawanController extends Controller
 
     public function update(Request $request){
 
+        //dd("hallo");
         $this->validate($request, [
 			'file' => 'file|image|mimes:jpeg,png,jpg|max:2048',
+            'ktp' => 'file|mimes:pdf|max:2048',
+            // 'ktp' => 'file|image|mimes:jpeg,png,jpg,pdf|max:2048',
             'ijazah' => 'file|mimes:pdf|max:2048',
 		]);
 		// menyimpan data file yang diupload ke variabel $file
 
         $data = User::find($request->id);
 
+        //image
         if(!empty($request->file)){
             $file = $request->file('file');
             $nama_file = time()."_".$file->getClientOriginalName();
@@ -103,6 +107,18 @@ class KaryawanController extends Controller
             $files = $tujuan_upload . '/'. $nama_file;
             $file->move($tujuan_upload_server,$nama_file);
             $data->foto = $files;
+        }
+        
+        //ktp
+        //dd($request->ktp);
+        if(!empty($request->ktp)){
+            $ktp = $request->file('ktp');
+            $nama_file = time()."_".$ktp->getClientOriginalName();
+            $tujuan_upload_server = public_path('asset/ktp');
+            $tujuan_upload = 'asset/ktp';
+            $files = $tujuan_upload . '/'. $nama_file;
+            $ktp->move($tujuan_upload_server,$nama_file);
+            $data->ktp = $files;
         }
 
         //ijazah
@@ -344,7 +360,6 @@ class KaryawanController extends Controller
             } 
         }
 
-        //dd($multi);
         $tracks = $tracks->groupBy('multi');
 
         
