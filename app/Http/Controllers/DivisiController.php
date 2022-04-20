@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Divisi;
 use App\Models\User;
 use App\Models\Objective;
+use Illuminate\Support\Facades\Validator;
 
 class DivisiController extends Controller
 {
@@ -30,31 +31,34 @@ class DivisiController extends Controller
      */
     public function create(Request $request)
     {
-        
-        $this->validate($request, [
-			'file' => 'file|image|mimes:jpeg,png,jpg|max:2048',
-		]);
-		// menyimpan data file yang diupload ke variabel $file
-		$file = $request->file('file');
+        $validator = Validator::make($request->all(), [
+            'file' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-        if(empty($request->file)){
-            $foto = Divisi::find($request->id);
-            $files = $foto->logo;
-        }else{
-            $nama_file = time()."_".$file->getClientOriginalName();
-            // isi dengan nama folder tempat kemana file diupload
-            $tujuan_upload = 'asset/img/divisi';
-            $files = $tujuan_upload . '/'. $nama_file;
-            $file->move($tujuan_upload,$nama_file);
+        if ($validator->fails()) {
+            return redirect()->back();
+            dd($validator->messages()->first()); 
         }
 
-        //dd($files);
-
-    	Divisi::updateOrCreate(['id' => $request->id],[
-    		'nama' => $request->nama,
+        $datas = [
+            'nama' => $request->nama,
     		'deskripsi' => $request->deskripsi,
     		'id_manager' => $request->id_manager,
-    		'logo'		=> $files,
+        ];
+        
+
+        if(!empty($request->file)){
+            $file = $request->file('file');
+            $nama_file = time()."_".$file->getClientOriginalName();
+            $tujuan_upload_server = public_path('asset/img/divisi');
+            $tujuan_upload = 'asset/img/divisi';
+            $files = $tujuan_upload . '/'. $nama_file;
+            $file->move($tujuan_upload_server,$nama_file);
+            $datas['logo'] = $files;
+        }
+
+    	Divisi::updateOrCreate(['id' => $request->id],[
+    		
     	]);
     	
     	return redirect()->back();

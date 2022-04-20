@@ -51,15 +51,7 @@ class TrackController extends Controller
             'bulan' => $m
         ])->get();
 
-        //dd($track);
-        //dd($multi);
-
-
-        //multiokr
         $subs = Subdivisi::all();
-        //dd($subs);
-
-        //dd($tracks);
         
         return view('content.admin.track.track-user',compact('user','tracks',
                                                             'key','bulan',
