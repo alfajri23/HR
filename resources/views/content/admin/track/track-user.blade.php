@@ -134,63 +134,7 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
-
         @endhasrole
-
-        {{-- Total kumulatif multi OKR dangan bobot tertentu --}}
-        {{-- @if(!empty($bobotMulti))
-        <div>
-            <h4>Okr Tracking</h4>
-            <table class="table table-bordered" style="width:40%">
-                <thead>
-                  <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col" style="width:15%">Bobot</th>
-                    <th scope="col">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @forelse ($bobotMulti as $bob)
-                  <tr>
-                    <form action="{{route('editMultiBobot')}}" method="post">
-                    @csrf
-                    <th scope="row">{{$loop->iteration}}</th>
-                    <td>
-                        {{$bob->subdivisi}}
-                    </td>
-                    <td>
-                        <div class="show-{{$bob->id}}">{{$bob->bobot}}</div> 
-                        <div class="input-{{$bob->id}}" style="display: none">
-                            <input type="hidden" value="{{$bob->id}}" name="id" class="form-control">
-                            <input type="text" value="{{$bob->bobot}}" name="bobot" class="form-control">
-                        </div> 
-                    </td>
-                    <td style="width:20%">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button onclick="edits({{$bob->id}})" type="button" class="btn btn-success btn-sm">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <a href="{{route('deleteMultiBobot',$bob->id)}}" type="button" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                            <button type="submit" class="btn btn-success btnSave-{{$bob->id}} btn-sm" style="display: none">Save</button>
-                        </div>
-                    </td>
-                    </form>
-                  </tr>
-                      
-                  @empty
-                      
-                  @endforelse
-                  <tr>
-                      <td colspan="2">Total </td>
-                      <td></td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-        @endif --}}
 
         {{-- Total kumulatif multi OKR dangan detail --}}
         @if(!empty($multi))
@@ -391,69 +335,6 @@
 
         @endforelse
 
-        {{-- TIDAK JADI --}}
-        {{-- jika ada multi --}}
-        {{-- @if (!empty($multi))
-            <h4>Total</h4>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 2px">No</th>
-                        <th>Kode</th>
-                        <th style="width: 300px;">Key result</th>
-                        <th>Pekan 1</th>
-                        <th>Pekan 2</th>
-                        <th>Pekan 3</th>
-                        <th>Pekan 4</th>
-                        <th>Pekan 5</th>
-                        <th>Progres</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $tot_progres = 0;
-                    @endphp
-                    @foreach ($multi as $tr )
-                    <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$tr['kode_key']}}</td>
-                        <td>{{$tr['nama']}}</td>
-                        @for($i = 0; $i < count($tr['data_pekan']); $i++)
-                            @if (empty($tr['data_pekan'][$i]))
-                            <td>
-                                
-                            </td>
-                            @else
-                            <td class="text-center">{{number_format($tr['data_pekan'][$i])}}</td>
-                            @endif
-                            
-                        @endfor
-                        <td>
-                            <p class="my-0">{{$tr['progres']}}%</p>
-                            <div class="progress" data-toggle="tooltip" title="{{$tr['progres']}}%">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tr['progres']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tr['progres']}}%"><span class="sr-only">{{$tr['progres']}}%</span>
-                                </div>
-                            </div>
-                        </td>
-                        @php
-                
-                            $tot_progres += $tr['progres'];
-                        @endphp
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="8" class="text-center">Total progres</td>
-                        <td colspan="1">
-                            <p class="my-0">{{$tot_progres}}%</p>
-                            <div class="progress" data-toggle="tooltip" title="{{$tot_progres}}%">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{$tot_progres}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$tot_progres}}%"><span class="sr-only">{{$tot_progres}}%</span>
-                                </div>
-                            </div></td>
-                    </tr>
-                </tbody>
-            </table>
-        @endif --}}
-        
     </div>
 
     <!--Modal OKR-->
@@ -470,6 +351,7 @@
                         <div class="mb-3" id="objSection">
                             <label for="exampleInputPassword1" class="form-label">Objective</label>
                             <select class="form-control" id="selectObj">
+                                <option>Pilih Objective</option>
                                 @foreach ($key as $ky )
                                     <option value="{{$ky['kode']}}">{{$ky['kode']}} {{$ky['nama']}}</option>
                                 @endforeach

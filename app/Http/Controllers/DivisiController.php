@@ -57,9 +57,7 @@ class DivisiController extends Controller
             $datas['logo'] = $files;
         }
 
-    	Divisi::updateOrCreate(['id' => $request->id],[
-    		
-    	]);
+    	Divisi::updateOrCreate(['id' => $request->id],$datas);
     	
     	return redirect()->back();
     }

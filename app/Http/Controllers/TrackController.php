@@ -30,7 +30,10 @@ class TrackController extends Controller
         $multi = null;
         $bulan = Track::get_bulan($m);                              //bulan
         $key = $user->divisi->id;                                   //id divisi user
-        $key = Objective::where('id_divisi',$key)->get();           //ambil objectives team
+        $key = Objective::where('id_divisi',$key)
+        ->orderBy('kode')
+        ->get();           
+        //ambil objectives team
         //$key = Keyresult::whereIn('kode_obj',$key)->get();        //ambil key team
         $tracks = collect($track);
         // $tracks = $tracks->groupBy('')
@@ -187,7 +190,7 @@ class TrackController extends Controller
         $data_progres = 0;
         $pekan = 0;
 
-        if($data_week[0] != ""){
+        if($request->week_val[0] != ""){
 
             for($i = 0; $i < count($request->week_no); $i++){
                 if($request->week_val[$i] != null){

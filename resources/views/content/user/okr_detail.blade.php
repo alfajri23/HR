@@ -326,7 +326,6 @@
                 let week = data.data.week_1;
                 week = week.split(',');
                 week.forEach(loop);
-                //console.log(input);
 
                 $('#okrList').html(input);
                 $('#modalOkr').modal('show');

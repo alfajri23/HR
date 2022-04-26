@@ -38,7 +38,9 @@ class KeyResultController extends Controller
     }
 
     public function keyByObj(Request $request){
-        $data = Keyresult::where('kode_obj',$request->key)->get();
+        $data = Keyresult::where('kode_obj',$request->key)
+        ->orderBy('kode')
+        ->get();
 
         return response()->json([
             'data' => $data
