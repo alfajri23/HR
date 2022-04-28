@@ -179,7 +179,7 @@ class TrackController extends Controller
         $total = empty($request->total) ? null : $request->total;
         $track = OkrTracking::find($request->id);
 
-        //dd($request);
+        //dd($request->week_val);
 
         //dd($request->week_val);
         //$nominal    = str_replace(",", "", $request->bayar);
@@ -215,11 +215,16 @@ class TrackController extends Controller
             $data_week = null;
         }
 
+        //dd($data_week);
+        //dd($data_progres);
+
         if(empty($total)){
             $progres = $data_progres/$track->target * $track->bobot;
         }else{
             $progres = $total/$track->target * $track->bobot;
         }
+
+        //dd($progres);
         
         $track->total = $total;
         $track->week_1 = $data_week;

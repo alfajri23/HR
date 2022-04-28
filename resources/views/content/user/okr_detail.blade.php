@@ -16,6 +16,9 @@
     p{
         margin: 0;
     }
+    tr>th{
+        text-align: center;
+    }
 </style>
 
 <div class="container-fluid bg-white p-3">
@@ -148,28 +151,44 @@
                     @php
                         if($tr->week_1 != null){
                             $week = explode(",",$tr->week_1);
+                            //dd($week);
                         }else {
                             $week = [];
                         }  
                     @endphp
                     <form action="{{route('trackUpdate')}}" method="POST">
                         @csrf
-                    @for($i = 0; $i < 5; $i++)
-                        @if (empty($week[$i]))
-                        <td>
-                            <input class="form-control" name="id" value="{{$tr->id}}" type="hidden">
-                            <input class="form-control" name="week_no[]" value="{{$i}}" type="hidden">
-                            <input type="text" onkeyup="currencyFormat(this)" class="form-control" name="week_val[]" style="
-                                width: 100px;
-                                padding: 8px 2px;
-                                border: 1px solid black;
-                            " placeholder="isi">
-                        </td>
-                        @else
-                        <td class="text-center">{{floor(($week[$i]*100))/100}}</td>
-                        @endif
-                        
-                    @endfor
+                    @if(count($week) <= 0)
+                        @for($i = 0; $i < 5; $i++)
+                            <td>
+                                <input class="form-control" name="id" value="{{$tr->id}}" type="hidden">
+                                <input class="form-control" name="week_no[]" value="{{$i}}" type="hidden">
+                                <input type="text" onkeyup="currencyFormat(this)" class="form-control" name="week_val[]" style="
+                                    width: 100px;
+                                    padding: 8px 2px;
+                                    border: 1px solid black;
+                                " placeholder="isi">
+                            </td>
+                        @endfor
+                    @else
+                        @for($i = 0; $i < 5; $i++)
+                            @if ($week[$i] == null) 
+                                <td>
+                                    <input class="form-control" name="id" value="{{$tr->id}}" type="hidden">
+                                    <input class="form-control" name="week_no[]" value="{{$i}}" type="hidden">
+                                    <input type="text" onkeyup="currencyFormat(this)" class="form-control" name="week_val[]" style="
+                                        width: 100px;
+                                        padding: 8px 2px;
+                                        border: 1px solid black;
+                                    " placeholder="isi">
+                                </td>
+                            @else
+                            <td class="text-center">{{$week[$i] == 0 ? 0 : floor(($week[$i]*100))/100}}</td>
+                            @endif   
+                        @endfor
+                    @endif
+
+
                     {{-- total --}}
                     <td>
                         @if (empty($tr->total))
