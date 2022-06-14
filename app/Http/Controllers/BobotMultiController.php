@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BobotMultiOkr;
+use App\Models\OkrTracking;
 
 class BobotMultiController extends Controller
 {
@@ -36,7 +37,17 @@ class BobotMultiController extends Controller
     }
 
     public function delete($id){
-        $data = BobotMultiOkr::find($id)->delete();
+        $data = BobotMultiOkr::find($id);
+
+        $okr = OkrTracking::where([
+            'id_user' => $data->id_user,
+            'bulan' => $data->bulan,
+            'multi' => $data->subdivisi
+        ])->get();
+
+        $okr->delete();
+        $data->delete();
+
         return redirect()->back();
     }
 }

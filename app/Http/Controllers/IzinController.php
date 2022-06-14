@@ -191,6 +191,7 @@ class IzinController extends Controller
 
             Notifikasi::create([
                 'nama' => "".$users->nama . " mengajukan ijin, mohon konfirmasi",
+                'id_user' => $user,
                 'status' => 1,
                 'tipe' => 2,
                 'filter' => $request->filter,
