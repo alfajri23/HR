@@ -17,7 +17,7 @@ class AbsensiController extends Controller
         //     session()->put('jam_max',$max);
         // }
 
-        $max = session('jam_max');
+        $max = $request->max;
         
         $hasil_tot = $request->tot/$max*50;
         $hasil_jam = 0;
