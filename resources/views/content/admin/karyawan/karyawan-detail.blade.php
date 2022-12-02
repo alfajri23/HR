@@ -527,11 +527,7 @@
                                                     </td>
                                                     
                                                     <td>
-                                                        @if(!empty(session('jam_max')))
-                                                            <input class="form-control" value="{{session('jam_max')}}" name="max" type="number" readonly>
-                                                        @else
-                                                        <input class="form-control" name="max" type="number" >
-                                                        @endif
+                                                        <input class="form-control" name="max" type="number" >  
                                                     </td>
                                                     <td></td>
                                                     <td>
@@ -1147,7 +1143,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Jam max</label>
-                    <input type="text" name="max" value="{{!empty(session('jam_max')) ? session('jam_max') : '' }}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" name="max" value="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                 </div>
         </div>
         <div class="modal-footer">

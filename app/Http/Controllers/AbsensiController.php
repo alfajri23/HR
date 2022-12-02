@@ -10,12 +10,14 @@ class AbsensiController extends Controller
 {
 
     public function store(Request $request){
-        if(!empty(session('jam_max'))){
-            $max = session('jam_max');
-        }else{
-            $max = $request->max;
-            session()->put('jam_max',$max);
-        }
+        // if(!empty(session('jam_max'))){
+        //     $max = session('jam_max');
+        // }else{
+        //     $max = $request->max;
+        //     session()->put('jam_max',$max);
+        // }
+
+        $max = session('jam_max');
         
         $hasil_tot = $request->tot/$max*50;
         $hasil_jam = 0;
